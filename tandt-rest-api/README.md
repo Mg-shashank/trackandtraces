@@ -74,13 +74,13 @@ Fabric network. The instructions below will auto-generate a connection profile.
 Generate the connection profile using the script below and check that the connection profile contains 
 URL endpoints for the peer, ordering service and CA, an 'mspid', a 'caName', and that the admin username and password
 match those you entered when creating the Fabric network. If they do not match, edit the connection profile
-and update them. The connection profile can be found here: `~/trackandtrace/tmp/connection-profile/ngo-connection-profile.yaml`
+and update them. The connection profile can be found here: `~/trackandtrace/tmp/connection-profile/tandt-connection-profile.yaml`
 
 ```
 cd ~/trackandtrace/tandt-rest-api/connection-profile
 ./gen-connection-profile.sh
 cd ~/trackandtrace/tmp/connection-profile/
-cat ngo-connection-profile.yaml
+cat tandt-connection-profile.yaml
 ls -lR
 ```
 
@@ -210,7 +210,7 @@ After saving the changes, run the script:
 
 ```
 cd ~/trackandtrace/tandt-rest-api
-./ngo-load-workshop.sh
+./tandt-load-workshop.sh
 ```
 
 # Testing
