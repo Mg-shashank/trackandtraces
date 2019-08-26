@@ -573,7 +573,7 @@ let Chaincode = class {
     console.log('============= START : queryAllNGOs ===========');
     console.log('##### queryAllNGOs arguments: ' + JSON.stringify(args));
  
-    let queryString = '{"selector": {"docType": "ngo"}}';
+    let queryString = '{"selector": {"docType": "tandt"}}';
     return queryByString(stub, queryString);
   }
 

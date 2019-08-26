@@ -100,7 +100,7 @@ config.json should look something like this:
     "host":"localhost",
     "port":"3000",
     "channelName":"mychannel",
-    "chaincodeName":"ngo",
+    "chaincodeName":"tandt",
     "eventWaitTime":"30000",
     "peers":[
         "peer1"
@@ -108,7 +108,7 @@ config.json should look something like this:
     "admins":[
        {
           "username":"admin",
-          "secret":"Adminpwd1!"
+          "secret":"Brillio2019!"
        }
     ]
  }

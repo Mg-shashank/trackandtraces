@@ -249,7 +249,7 @@ Check the docs in the db:
 ```
 curl couchdb0:5984/mychannel_ngo/_all_docs
 curl -X POST 'http://couchdb0:5984/mychannel_ngo/_find' -H 'Content-Type: application/json' --data '{"selector": {"docType": "donor"}}'
-curl -X POST 'http://couchdb0:5984/mychannel_ngo/_find' -H 'Content-Type: application/json' --data '{"selector": {"docType": "donation", "ngo":"1234"}}'
+curl -X POST 'http://couchdb0:5984/mychannel_ngo/_find' -H 'Content-Type: application/json' --data '{"selector": {"docType": "donation", "tandt":"1234"}}'
 ```
 
 ## Cleanup

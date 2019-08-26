@@ -13,7 +13,7 @@
 
 # Sample connection profile for an Amazon Managed Blockchain Fabric network
 
-name: "ngo"
+name: "tandt"
 x-type: "hlfv1"
 description: "NGO Network"
 version: "1.0"
