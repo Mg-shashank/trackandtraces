@@ -1,0 +1,262 @@
+body {
+  /* margin-left: 25%;
+  margin-right: 20%;
+  margin-top: 2%; */
+  display: block; 
+  /* background-color: black; */
+}
+
+label {
+  display: inline-block; 
+}
+ 
+input {
+  width: 220px;
+  padding: 5px;
+  font-size: 13px; 
+}  
+       
+button {
+  font-size: 16px; 
+  padding: 5px;
+}
+ 
+h1, h2 {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+th, td {
+  border: 1px solid black;
+}
+
+h2 {
+  color:black;
+  font-size: 32px;
+}
+
+h3 {
+  font-weight: normal;
+  color: black;
+  font-size: 25px;
+}
+
+.black {
+  color: black;
+}
+
+#balance {
+  color: black;
+}
+
+
+.hint {
+  color: white;
+}
+
+.btn-primary {
+  background-color: #221e22;
+  border-color: lightgray;
+}.btn-primary:hover,.btn-primary:focus, .btn-primary:active {
+  background-color: gray !important; color: black;font-weight: bold; } 
+
+.submitBtn {
+    background-color: #221e22;
+    color: white; 
+  }
+ 
+.themeColor {
+  background-color: lightgray !important;
+  color: lightgray !important;
+}
+
+ /*style the box which holds the text of the information window*/  
+ .gm-style .gm-style-iw {
+  background-color: #252525 !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 230px !important;
+  padding-top: 1px;
+  display: block !important;
+}   
+
+
+.gm-style .gm-style-iw-d  {
+  overflow: hidden !important;
+  max-height: 500px !important;
+  max-width: 360px !important;
+}
+
+.gm-style .gm-style-iw-c  { 
+  max-width: 360px !important;
+}
+
+/* style the annoying little arrow at the bottom */
+.gm-style div div div div div div div div div {
+  background-color: #252525 !important;
+  padding: 0; 
+  margin: 0;   
+  top: 0;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  font-size: 14px; 
+}
+ 
+/*style the link*/
+.gm-style div div div div div div div div a {
+  color: #f1f1f1;
+  font-weight: bold;
+}
+
+fieldset { 
+  border:1px solid orange;
+  padding: 8px;
+  margin-top: 2px;
+}
+
+legend {
+  padding: 0.2em 0.5em;
+  border:1px solid orange;
+  color: White;
+  margin-bottom: 0px;
+  font-size:90%;
+  text-align:right;
+  }
+
+  a:hover,a:focus{
+    outline: none;
+    text-decoration: none;
+  }
+
+  .tab .nav-tabs li{
+    text-align: center;
+    margin-right: 3px;
+  }
+  .tab .nav-tabs li a{
+    font-size: 16px; 
+    color: black; 
+    background: #eee; 
+    border: none; 
+    position: relative;
+    transition: all 0.5s ease 0s; 
+  }
+  .tab .nav-tabs li.active a,
+  .tab .nav-tabs li a:hover{
+    background:gray;
+    color: black;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .tab .tab-content{
+    font-size: 13px;
+    color: black; 
+    font-weight: bold;
+    padding: 10px;
+    border: 3px solid gray; 
+  }
+  .tab .tab-content h3{
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 0;
+  }
+  @media only screen and (max-width: 480px){
+    .tab .nav-tabs li{ width: 100%; }
+  } 
+
+  .btn { 
+    font-size: 15px;
+  }
+ 
+  .panel-default {
+    border-color:black;
+  }
+
+.tabSeq .navSeq-tabs{
+    border-bottom:0px; 
+}
+.tabSeq .navSeq-tabs li{
+    border-right:1px solid #ddd;
+    display: inline-block;
+} 
+.tabSeq .navSeq-tabs li:last-child{  
+    border-right:0px solid #ddd;
+}
+.tabSeq .navSeq-tabs li:first-child a{
+    border-left:1px solid #ddd;
+}
+.tabSeq .navSeq-tabs li a {
+    color: #868686;
+    background:#fff;
+    border-radius:0; 
+    font-size:15px;
+    margin-right:-1px;
+    padding: 6.5px 30px;
+    border-top:1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+} 
+/* .navSeq-tabs li:first-child a{ 
+    border-radius: 5px 0 0 5px;
+} */ 
+.navSeq-tabs li:last-child a{
+    border-radius: 0 5px 5px 0;
+    border-right:1px solid #d3d3d3;
+}
+.tabSeq .navSeq-tabs li a:hover{
+    background:#eee;
+}
+.tabSeq .navSeq-tabs li a:hover:before{
+    border-left: 15px solid #eee;
+}
+.tabSeq .navSeq-tabs li.active a:after,
+.tabSeq .navSeq-tabs li a:after{
+    content:"";
+    border-left: 17px solid black;
+    border-top: 17px solid transparent;
+    border-bottom: 17px solid transparent; 
+    position: absolute;
+    top: 0px;
+    right: -17px;
+    z-index:1;
+}  
+.tabSeq .navSeq-tabs li a:after{
+    border-left: 17px solid #d3d3d3;
+}
+.tabSeq .navSeq-tabs li.active a:before{
+    border-left: 15px solid #fecb2f;
+}
+.tabSeq .navSeq-tabs li a:before{
+    border-bottom: 15px solid rgba(0, 0, 0, 0);
+    border-left: 15px solid #fff;  
+    border-top: 15px solid rgba(0, 0, 0, 0);
+    content: ""; 
+    position: absolute;
+    right: -15px;
+    top: 2px;
+    z-index: 2;   
+}     
+.tabSeq .navSeq-tabs li.active > a,
+.tabSeq .navSeq-tabs > li.active > a:focus,
+.tabSeq .navSeq-tabs > li.active > a:hover {
+    border: none;
+    color:black;
+    background:#fecb2f; 
+    border-top:1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;    
+}       
+.tabSeq .navSeq-tabs li:last-child.active a:after,
+.tabSeq .navSeq-tabs li:last-child a:after{ 
+    border: none;  
+}
+.tabSeq .navSeq-tabs li:last-child a:after,
+.tabSeq .navSeq-tabs li:last-child a:hover:before,
+.tabSeq .navSeq-tabs li:last-child.active a:before,
+.tabSeq .navSeq-tabs li:last-child a:before{
+    border-left: none;  
+}     
+  

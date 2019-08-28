@@ -641,7 +641,7 @@ async function dummySpend() {
 (function loop() {
     var rand = Math.round(Math.random() * (20000 - 5000)) + 5000;
     setTimeout(function() {
-		dummySpend();
+		// dummySpend();
         loop();  
     }, rand);
 }());

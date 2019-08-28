@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Supply Chain</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgSxsOtpIrIE_AI2KRDr6SKC1ivFHF8T0"></script>
+  <meta name="google-signin-client_id"
+    content="135173683160-vb0m9hfc4mha5sfca2oecmfb7unsd511.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/client:platform.js?onload=SCM.renderButton" async defer></script>
+
+  <script src="/javascripts/scm.js"></script>
+
+  <!-- http://localhost:8081/ -->
+  <!-- Client ID Palani Account : 135173683160-vb0m9hfc4mha5sfca2oecmfb7unsd511.apps.googleusercontent.com -->
+  <!-- Client Sceret : 8OIC_3_EUTjiW6up5y92bzNp -->
+
+  <!-- http://localhost:8080/ AIzaSyC0NIxj0JYWKGhCMgnLUOewS9WKk4NJzOA-->
+  <!-- Client ID : 1077811212377-jihjunkld207lc1e947rveik8omvvit8.apps.googleusercontent.com -->
+  <!-- Client Sceret : yKhkprOfzmaLxlNfI3bbrpVN AIzaSyCDsEMPRGSMGIfDIDCPnL_EHs3lYYSOFZc-->
+
+  <!-- http://localhost:8081/ -->
+  <!-- Client ID : 809968361011-1c1ffjd67fkj18d17sioqlfaondclfjq.apps.googleusercontent.com -->
+  <!-- Client Sceret : l6Hv33SuwpHE3juN36PbVD-H -->
+
+  <!-- http://localhost:8082/ -->
+  <!-- Client ID : 601355188248-nv1327h6ne125f26metsc1vsb9b3mcrq.apps.googleusercontent.com -->
+  <!-- Client Secret : jMfPmp48CNHNjeIKIv8Rkrq3 -->
+
+  <!-- http://brilliobc.eastus.cloudapp.azure.com:8083/ -->
+  <!-- Client ID : 1077811212377-au8p2ls283t7ttua1s8qcj749ltj61nc.apps.googleusercontent.com -->
+  <!-- Client Secret : bR2cQSp3QhEt9Hj24mBfrk9i -->
+</head>
+
+<body>
+  <nav class="navbar navbar-inverse" style="background-color:black">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h2 style="color:lightgray;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">TRACK N TRACE</h2>
+        <!-- <a class="navbar-brand" href="#"><img src="/images/SupplyChainLogo.png" class="img-responsive" alt="Energy Icon" style="width:450px;margin-top:-13px;"></a> -->
+        <label style="color:lightgray; margin-top: 42px;margin-left: 10px;">POWERED BY BLOCKCHAIN</label>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <div id="userContent"
+          style="color:lightgray;margin-top: 8px;margin-right: 15px;font-size:15px;font-weight:bold;"></div>
+        <div id="gSignIn" class="g-signin2" style=" margin-top: 15px; margin-right: 15px;margin-bottom: 12px;"></div>
+        <div style=" float:right;"><a id="gSignOut" href="#" class="glyphicon glyphicon-log-in"
+            style="margin-top: 10px;font-weight:bold;margin-right: 15px;margin-bottom: 10px;color:lightgray;display:none;"
+            onclick="App.signOut();"> SignOut </a></div>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="unAuthorizedDiv" style="margin:25px;">
+    <!-- <h2 class="Black" style="border-bottom: 3px #e01149 solid;padding:10px;">For Great Deals And Opportunity To Whisper</h2> -->
+    <div><img src="/images/SupplyChain_1.png" class="img-responsive" alt="Energy Icon"></div>
+  </div>
+
+  <div id="authorizedDiv" style="display:none;" class="container">
+    <div class="row">
+      <div class="btn-group btn-group-justified">
+        <a data-toggle="tab" href="#home" class="btn btn-primary">Home</a>
+        <a data-toggle="tab" id="achMenu" href="#initTab" class="btn btn-primary"
+          onclick="App.populateBatches()">Batches</a>
+        <!-- <a data-toggle="tab" href="#locations" class="btn btn-primary" onclick="App.initializeLocations()" >Location Trail</a> -->
+        <a data-toggle="tab" href="#Summary" class="btn btn-primary" onclick="App.populateSummaryDetails()">Summary</a>
+      </div>
+      <div class="tab-content">
+        <div id="home" class="tab-pane fade in active" style="height:450px;">
+          <h3 class="black" style="border-bottom: 2px lightgrey solid;padding:5px;width:45%">Blockchain Technology</h3>
+          <p style="font-size: 120%;color:Black;">Blockchain technology offers greater transparency and a single source
+            of truth for for participants using supply chain networks. Intelligent track and trace of orders, goods and
+            delays via blockchain could expedite the sending and receipt of goods.
+            Today’s supply chains produce multiple data points often times resulting in thousands of daily transactions
+            that need to be validated and confirmed.</p>
+          <p style="font-size: 120%;color:Black;">While all this "big data" data presents opportunities, it can also be
+            incredibly difficult to manage, especially if that data isn’t properly validated by all parties. The lack of
+            validation can expose organizations to risk, especially if they are trying to track supply chain goods that
+            are regulated by law. For supply chain tracking, blockchain technology offers some unique benefits.</p>
+          <p style="font-size: 120%;color:Black;">
+            <b>Traceability:</b> Full audit tail of data throughout the supply chain
+          </p>
+          <p style="font-size: 120%;color:Black;">
+            <b>Compliance:</b> Single, timestamped, tamper-proof source of data
+          </p>
+          <p style="font-size: 120%;color:Black;">
+            <b>Flexibility:</b> Real-time rule-based verification of multi-party confirmations
+          </p>
+          <p style="font-size: 120%;color:Black;">
+            <b>Reliable transactions: </b> Trusted digital signature based peer to peer interactions
+          </p>
+        </div>
+        <div id="initTab" class="tab-pane fade" style="height:450px;">
+          <div id="batches">
+            <div class="tab" role="tabpanel" style="margin-top:20px;">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#Batch" aria-controls="home" role="tab"
+                    data-toggle="tab" onclick="App.populateBatches()">Batches</a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="Batch">
+                  <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" style="background-color: #221e22;color:white">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Register Batch</a>
+                        </h4>
+                      </div>
+                      <div id="collapse1" class="panel-collapse collapse in">
+                        <div id="regGridCol" style="padding:12px;padding-bottom:0px;background-color: #221e2221;">
+                          <div id="reg" style="width:100%;display: inline-block;">
+                            <div style="margin-bottom:12px;text-align-last: left;">
+                              <div style="margin:5px;display: inline-block;margin-left: 15px;">
+                                <label>Batch Name : </label>
+                                <input type="text" id="txtBatchName"></input>
+                              </div>
+                              <div style="margin:5px;width:60%;display: inline-block;">
+                                <label>Batch Items : </label>
+                                <input type="text" id="txtBatchItems" style="width: 81%;"></input>
+                              </div>
+                              <button class="submitBtn" style="width:85px;padding-left: 15px;margin-left:-42px;"
+                                id="btnPowergrid" onclick="App.CreateBatch()">Create</button>
+                              <img id="imgLoading" src="/images/loading.gif" class="img-responsive" alt="Loading.."
+                                style="display:none;width:4%;">
+                            </div>
+                            <div>
+                              <label id="batchStatus" style="width:100%;color:red;margin-left:340px;"></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading" style="background-color: #221e22;color:white">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"
+                            onclick="App.populateBatches()">Batch List</a>
+                        </h4>
+                      </div>
+                      <div id="collapse2" class="panel-collapse collapse">
+                        <div id="viewTrialscol" style="padding:10px;background-color: #221e2221;">
+                          <div id="dvBatchTable"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="locations">
+            <div class="tab" role="tabpanel" style="margin-top:20px;">
+              <!-- Nav tabs -->
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#locations" aria-controls="home" role="tab"
+                    data-toggle="tab" onclick="App.initializeLocations()">Location Trail</a></li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="locations">
+                  <div class="panel-group" id="accordion2">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" style="background-color: #221e22;color:white">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion2" href="#collapse3">Log Trail</a>
+                        </h4>
+                      </div>
+                      <div id="collapse3" class="panel-collapse collapse in">
+                        <div id="regGridCol" style="padding:12px;padding-bottom:0px;background-color: #221e2221;">
+                          <div id="reg" style="width:100%;display: inline-block;">
+                            <div style="margin-bottom:12px;text-align-last: left;">
+                              <div style="margin:5px;width:25%;display: inline-block;margin-left: 70px;">
+                                <label>Batch : </label>
+                                <select id="ddbatches" style="padding:5px;width: 80%;"></select>
+                              </div>
+                              <div style="margin:5px;width:63%;display: inline-block;margin-left: 40px;">
+                                <label>Secret Code : </label>
+                                <input type="text" id="txtLocSecretCode" style="width:82%;"></input>
+                              </div>
+                            </div>
+                            <div style="margin-bottom:12px;text-align-last: left;">
+                              <div style="margin-bottom:12px;width:34%;display: inline-block;">
+                                <label> Current Location : </label>
+                                <select id="ddLocations" style="padding:5px;width:59%;">
+                                </select>
+                              </div>
+                              <div style="margin:5px;width:57%;display: inline-block;margin-left:50px;">
+                                <label>Secret : </label>
+                                <textarea id="txtLocSecret" cols="79" rows="2"></textarea>
+                              </div>
+                            </div>
+                            <div style="float: right;width: 78px;">
+                              <button class="submitBtn" style="width:112px;margin-left:-90px;" id="btnCreateLoc"
+                                onclick="App.CreateLocation()">Log Details</button>
+                              <img id="imgLoadingLoc" src="/images/loading.gif" class="img-responsive" alt="Loading.."
+                                style="display:none;width:45%;">
+                            </div>
+                            <div>
+                              <label id="LogStatus" style="width:100%;color:red;margin-left:400px;"></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel panel-default">
+                      <div class="panel-heading" style="background-color: #221e22;color:white">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion2" href="#collapse4"
+                            onclick="App.populateBatches()">View Secret</a>
+                        </h4>
+                      </div>
+                      <div id="collapse4" class="panel-collapse collapse">
+                        <div id="regGridCol" style="padding:12px;padding-bottom:0px;background-color: #221e2221;">
+                          <div id="reg" style="width:100%;display: inline-block;">
+                            <div style="margin-bottom:12px;text-align-last: left;">
+                              <div style="margin:5px;width:25%;display: inline-block;margin-left: 75px;">
+                                <label>Select Batch : </label>
+                                <select id="ddViewbatches" style="padding:5px;width: 67%;"></select>
+                              </div>
+                              <div style="margin-bottom:12px;width:34%;display: inline-block;">
+                                <label>Select Location : </label>
+                                <select id="ddViewLocations" style="padding:5px;width:59%;">
+                                </select>
+                              </div>
+                            </div>
+                            <div style="margin-bottom:12px;text-align-last: left;">
+                              <div style="margin:5px;width:62%;margin-left: 40px;">
+                                <label>Enter Secret Code : </label>
+                                <input type="text" id="txtViewLocSecretCode" style="width:77%;"></input>
+                              </div>
+                              <div style="margin:5px;width:100%;margin-left:54px;margin-top:15px;">
+                                <label id="lblSecretMsg">Secret Message : </label>
+                              </div>
+                            </div>
+                            <div style="float: right;">
+                              <button class="submitBtn" style="width:112px;padding-left: 10px;margin-right:57px;"
+                                id="btnCreateLoc" onclick="App.getSecret()">View Secret</button>
+                            </div>
+                            <div>
+                              <label id="LogStatus" style="width:100%;color:red;margin-left:400px;"></label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="Summary" class="tab-pane fade" style="height:450px;">
+          <div id="divMap" style="height:450px;width:100%;"></div>
+          <div
+            style="width:100%;display:inline-block;vertical-align:top;border :thin solid black;background-color:#2e495e">
+            <label id="totalTrans" style="width:33%;margin-top:5px;margin-left:5px;color:white;"></label>
+            <label id="totalbatches" style="width:33%;color:white;"></label>
+            <label id="totaltrails" style="width:30%;color:white;"></label>
+          </div>
+        </div>
+        <div>
+          <span id="status"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>
