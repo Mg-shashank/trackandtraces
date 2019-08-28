@@ -22,6 +22,11 @@ var hfc = require('fabric-client');
 hfc.setLogger(logger);
 
 async function getClientForOrg (userorg, username) {
+	
+	if(!(userorg)) {
+		userorg="Org1";
+	} 
+
 	logger.info('============ START getClientForOrg for org %s and user %s', userorg, username);
     let config = '../tmp/connection-profile/tandt-connection-profile.yaml';
     let orgLower = userorg.toLowerCase();
