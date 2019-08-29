@@ -19,21 +19,32 @@ window.App = {
     self.renderButton();
   },
 
-  renderButton : function renderButton() {
-    gapi.signin2.render('gSignIn', { 
-        'onsuccess': this.onSuccess,
-        'onfailure': this.onFailure
-    });
+  signIn: function() {
+    var e = document.getElementById("loginType");
+    var strUser = e.options[e.selectedIndex].value;
+    console.log('Signing in as : ' + strUser);
+    localStorage.setItem('loggedInUserDetails', strUser);
+    location.reload();
   },
 
-  onSuccess: function onSuccess(googleUser) {
-    if(googleUser.isSignedIn() ==false) return;
+  renderButton : function renderButton() {
+    var self = this;
+    var loggedInObject = localStorage.getItem('loggedInUserDetails');
+    console.log(loggedInObject);
+    if (loggedInObject == ''){
+       self.onFailure();     
+    } else {
+       self.onSuccess();
+    }
+  },
 
-    var profile = googleUser.getBasicProfile();
+  onSuccess: function onSuccess() {
 
-    var profileHTML = "Welcome " + profile.getName() + " ! " ;
+    var profile = localStorage.getItem('loggedInUserDetails');
+
+    var profileHTML = "Welcome " + profile + " ! " ;
     
-    isAdmin = profile.getName().includes("Admin");
+    isAdmin = profile.includes("admin");
 
     document.getElementById("userContent").innerHTML= profileHTML;  
     document.getElementById('unAuthorizedDiv').style.display = 'none';
@@ -42,16 +53,18 @@ window.App = {
     document.getElementById('gSignOut').style.display = 'block';
 
     if(isAdmin) {
+      console.log("Admin logged in!!!")
       document.getElementById('batches').style.display = 'block'; 
       document.getElementById('locations').style.display = 'none'; 
       document.getElementById('achMenu').innerHTML  = 'Onboard Batches';  
     }
     else {
+     console.log('Not an Admin !')
       document.getElementById('batches').style.display = 'none'; 
       document.getElementById('locations').style.display = 'block'; 
       document.getElementById('achMenu').innerHTML  = 'Location Trial'; 
     }
-
+    
   },
 
   onFailure: function onFailure(error) {
@@ -64,14 +77,19 @@ window.App = {
   }, 
 
   signOut: function signOut() {
-      var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function () {
+      localStorage.setItem('loggedInUserDetails', '');
+      var loggedInObject = localStorage.getItem('loggedInUserDetails');
+      if (loggedInObject == null){        
         document.getElementById("userContent").innerHTML = " ";
         document.getElementById('unAuthorizedDiv').style.display = 'block';
         document.getElementById('authorizedDiv').style.display = 'none'; 
         document.getElementById('gSignIn').style.display = 'block';
         document.getElementById('gSignOut').style.display = 'none';
-      });
+      }
+      else {
+        console.log('User was not logged out.')
+      }
+      location.reload();
   },
 
   initialize : function initialize() {  

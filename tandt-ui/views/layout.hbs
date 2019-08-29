@@ -11,8 +11,9 @@
 
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgSxsOtpIrIE_AI2KRDr6SKC1ivFHF8T0"></script>
+<meta name="google-site-verification" content="NObG__CJmO_JdMlVfAxNFK8hqwm_4UPRbRsopDTnjfo" />
   <meta name="google-signin-client_id"
-    content="135173683160-vb0m9hfc4mha5sfca2oecmfb7unsd511.apps.googleusercontent.com">
+    content="135173683160-7d4oc343143ngusem2knqu07nkq2aajl.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/client:platform.js?onload=SCM.renderButton" async defer></script>
 
   <script src="/javascripts/scm.js"></script>
@@ -44,12 +45,19 @@
       <div class="navbar-header">
         <h2 style="color:lightgray;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">TRACK N TRACE</h2>
         <!-- <a class="navbar-brand" href="#"><img src="/images/SupplyChainLogo.png" class="img-responsive" alt="Energy Icon" style="width:450px;margin-top:-13px;"></a> -->
-        <label style="color:lightgray; margin-top: 42px;margin-left: 10px;">POWERED BY BLOCKCHAIN</label>
+        <label style="color:lightgray; margin-top: 42px;margin-left: 10px;">POWERED BY AWS MANAGED BLOCKCHAIN</label>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <div id="userContent"
           style="color:lightgray;margin-top: 8px;margin-right: 15px;font-size:15px;font-weight:bold;"></div>
-        <div id="gSignIn" class="g-signin2" style=" margin-top: 15px; margin-right: 15px;margin-bottom: 12px;"></div>
+        <!-- div id="gSignIn" class="g-signin2" style=" margin-top: 15px; margin-right: 15px;margin-bottom: 12px;"></div -->
+        <div id="gSignIn" class="signi-area" style=" margin-top: 15px; margin-right: 15px;margin-bottom: 12px;">
+              <select id="loginType" style="height: 30px; margin-right: 10px;">
+                   <option value="admin">Login as Super Admin </option>
+                   <option value="supplier">Login as Supplier </option>
+              </select>
+              <button id="loginBtn" type="button" onClick="App.signIn()" style="float:right;padding: 3px 20px;">Login</button>
+        </div>
         <div style=" float:right;"><a id="gSignOut" href="#" class="glyphicon glyphicon-log-in"
             style="margin-top: 10px;font-weight:bold;margin-right: 15px;margin-bottom: 10px;color:lightgray;display:none;"
             onclick="App.signOut();"> SignOut </a></div>
