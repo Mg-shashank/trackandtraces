@@ -998,5 +998,79 @@ let Chaincode = class {
       }
     }
   }
+
+  /************************************************************************************************
+   * 
+   * Batch functions 
+   * 
+   ************************************************************************************************/
+
+  /**
+   * Creates a new Batch
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "ngoRegistrationNumber":"6322",
+   *    "ngoName":"Pets In Need",
+   *    "ngoDescription":"We help pets in need",
+   *    "address":"1 Pet street",
+   *    "contactNumber":"82372837",
+   *    "contactEmail":"pets@petco.com"
+   * }
+   */
+  async createBatch(stub, args) {
+    console.log('============= START : createBatch ===========');
+    console.log('##### createBatch arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'tandt' + json['ngoRegistrationNumber'];
+    json['docType'] = 'tandt';
+
+    console.log('##### createBatch payload: ' + JSON.stringify(json));
+
+    // Check if the Batch already exists
+    let batchQuery = await stub.getState(key);
+    if (batchQuery.toString()) {
+      throw new Error('##### createBatch - This Batch already exists: ' + json['ngoRegistrationNumber']);
+    }
+
+    await stub.putState(key, Buffer.from(JSON.stringify(json)));
+    console.log('============= END : createBatch ===========');
+  }
+
+  /**
+   * Retrieves a specfic batch
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryBatch(stub, args) {
+    console.log('============= START : queryBatch ===========');
+    console.log('##### queryBatch arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'tandt' + json['ngoRegistrationNumber'];
+    console.log('##### queryBatch key: ' + key);
+
+    return queryByKey(stub, key);
+  }
+
+  /**
+   * Retrieves all batches
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryAllBatches(stub, args) {
+    console.log('============= START : queryAllBatches ===========');
+    console.log('##### queryAllBatches arguments: ' + JSON.stringify(args));
+ 
+    let queryString = '{"selector": {"docType": "tandt"}}';
+    return queryByString(stub, queryString);
+  }
+
 }
 shim.start(new Chaincode());
