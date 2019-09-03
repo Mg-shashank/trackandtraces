@@ -660,24 +660,22 @@ app.use(function(error, req, res, next) {
 
  // POST Batch
  app.post('/create', awaitHandler(async (req, res) => {
+	logger.info('================ POST on Batch');
+	var args = req.body;
+	var fcn = "createBatch";
 	username = req.body.username;
 	orgName = req.body.orgName;
-	logger.info('##### End point : /users');
-	logger.info('##### POST on Users- username : ' + username);
-	logger.info('##### POST on Users - userorg  : ' + orgName);
+	
+    logger.info('##### POST on Ratings - username : ' + username);
+	logger.info('##### POST on Ratings - userOrg : ' + orgName);
+	logger.info('##### POST on Ratings - channelName : ' + channelName);
+	logger.info('##### POST on Ratings - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on Ratings - fcn : ' + fcn);
+	logger.info('##### POST on Ratings - args : ' + JSON.stringify(args));
+	logger.info('##### POST on Ratings - peers : ' + peers);
 
-	var fcn = "createBatch";
-
-    // logger.info('##### POST on Ratings - username : ' + username);
-	// logger.info('##### POST on Ratings - userOrg : ' + orgName);
-	// logger.info('##### POST on Ratings - channelName : ' + channelName);
-	// logger.info('##### POST on Ratings - chaincodeName : ' + chaincodeName);
-	// logger.info('##### POST on Ratings - fcn : ' + fcn);
-	// logger.info('##### POST on Ratings - args : ' + JSON.stringify(args));
-	// logger.info('##### POST on Ratings - peers : ' + peers);
-
-	// let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
-	let message = "{message:\"success\"}";
+	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+	// let message = "{message:\"success\"}";
 	res.send(message);
 }));
 
