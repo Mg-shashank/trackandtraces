@@ -660,25 +660,23 @@ app.use(function(error, req, res, next) {
 
  // POST Batch
  app.post('/create', awaitHandler(async (req, res) => {
+	logger.info('================ POST on Donor');
+	var args = req.body;
+	var fcn = "createBatch";
+
 	username = req.body.username;
 	orgName = req.body.orgName;
-	logger.info('##### End point : /create');
-	logger.info('##### POST on Users- username : ' + username);
-	logger.info('##### POST on Users - userorg  : ' + orgName);
-	let response = await connection.getRegisteredUser(username, orgName, true);
-	logger.info('##### POST on Users - returned from registering the username %s for organization %s', username, orgName);
-    logger.info('##### POST on Users - getRegisteredUser response secret %s', response.secret);
-    logger.info('##### POST on Users - getRegisteredUser response secret %s', response.message);
-    if (response && typeof response !== 'string') {
-        logger.info('##### POST on Users - Successfully registered the username %s for organization %s', username, orgName);
-		logger.info('##### POST on Users - getRegisteredUser response %s', response);
-		// Now that we have a username & org, we can start the block listener
-		await blockListener.startBlockListener(channelName, username, orgName, wss);
-		res.json(response);
-	} else {
-		logger.error('##### POST on Users - Failed to register the username %s for organization %s with::%s', username, orgName, response);
-		res.json({success: false, message: response});
-	}
+
+    logger.info('##### POST on Donor - username : ' + username);
+	logger.info('##### POST on Donor - userOrg : ' + orgName);
+	logger.info('##### POST on Donor - channelName : ' + channelName);
+	logger.info('##### POST on Donor - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on Donor - fcn : ' + fcn);
+	logger.info('##### POST on Donor - args : ' + JSON.stringify(args));
+	logger.info('##### POST on Donor - peers : ' + peers);
+
+	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+	res.send(message);
 }));
 
 // GET Batch

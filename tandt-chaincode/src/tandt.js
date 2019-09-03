@@ -1023,7 +1023,7 @@ let Chaincode = class {
     console.log('============= START : createBatch ===========');
     console.log('##### createBatch arguments: ' + JSON.stringify(args));
 
-    // args is passed as a JSON string
+    // args is passed as a JSON string 
     let json = JSON.parse(args);
     let key = 'tandt' + json['ngoRegistrationNumber'];
     json['docType'] = 'tandt';
