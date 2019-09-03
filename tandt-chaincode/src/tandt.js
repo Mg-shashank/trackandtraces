@@ -1025,18 +1025,18 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'donor' + json['donorUserName'];
-    json['docType'] = 'donor';
+    let key = 'batch' + json['donorUserName'];
+    json['docType'] = 'batch';
 
     console.log('##### createBatch payload: ' + JSON.stringify(json));
 
     // Check if the donor already exists
-    let donorQuery = await stub.getState(key);
-    if (donorQuery.toString()) {
-      throw new Error('##### createBatch - This donor already exists: ' + json['donorUserName']);
-    }
+    // let donorQuery = await stub.getState(key);
+    // if (donorQuery.toString()) {
+    //   throw new Error('##### createBatch - This donor already exists: ' + json['donorUserName']);
+    // }
 
-    await stub.putState(key, Buffer.from(JSON.stringify(json)));
+    // await stub.putState(key, Buffer.from(JSON.stringify(json)));
     console.log('============= END : createBatch ===========');
   }
 
