@@ -140,6 +140,28 @@ app.post('/users', awaitHandler(async (req, res) => {
 }));
 
 /************************************************************************************
+ * Track and Trace methods
+ ************************************************************************************/
+
+ // POST Batch
+ app.post('/create', awaitHandler(async (req, res) => {
+	logger.info('================ POST on Donor');
+	var args = req.body;
+	var fcn = "createBatch";
+
+    logger.info('##### POST on Donor - username : ' + username);
+	logger.info('##### POST on Donor - userOrg : ' + orgName);
+	logger.info('##### POST on Donor - channelName : ' + channelName);
+	logger.info('##### POST on Donor - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on Donor - fcn : ' + fcn);
+	logger.info('##### POST on Donor - args : ' + JSON.stringify(args));
+	logger.info('##### POST on Donor - peers : ' + peers);
+
+	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+	res.send(message);
+}));
+
+/************************************************************************************
  * Donor methods
  ************************************************************************************/
 
@@ -654,27 +676,7 @@ app.use(function(error, req, res, next) {
 	res.status(500).json({ error: error.toString() });
 });
 
-/************************************************************************************
- * Track and Trace methods
- ************************************************************************************/
 
- // POST Batch
- app.post('/create', awaitHandler(async (req, res) => {
-	logger.info('================ POST on Donor');
-	var args = req.body;
-	var fcn = "createBatch";
-
-    logger.info('##### POST on Donor - username : ' + username);
-	logger.info('##### POST on Donor - userOrg : ' + orgName);
-	logger.info('##### POST on Donor - channelName : ' + channelName);
-	logger.info('##### POST on Donor - chaincodeName : ' + chaincodeName);
-	logger.info('##### POST on Donor - fcn : ' + fcn);
-	logger.info('##### POST on Donor - args : ' + JSON.stringify(args));
-	logger.info('##### POST on Donor - peers : ' + peers);
-
-	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
-	res.send(message);
-}));
 
 // GET Batch
 app.get('/batches', awaitHandler(async (req, res) => {
