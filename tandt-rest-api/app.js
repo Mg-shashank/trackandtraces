@@ -695,8 +695,8 @@ app.get('/batches', awaitHandler(async (req, res) => {
 	logger.info('##### GET on Spend - args : ' + JSON.stringify(args));
 	logger.info('##### GET on Spend - peers : ' + peers);
 
-	// let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
-	let message = "{message:\"success\"}";
+	let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+	// let message = "{message:\"success\"}";
  	res.send(message);
 }));
 
