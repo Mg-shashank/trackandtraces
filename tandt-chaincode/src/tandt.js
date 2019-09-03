@@ -434,6 +434,48 @@ let Chaincode = class {
     console.log('============= END : Initialize Ledger ===========');
   }
 
+
+  /************************************************************************************************
+   * 
+   * Batch functions 
+   * 
+   ************************************************************************************************/
+
+  /**
+   * Creates a new Batch
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "ngoRegistrationNumber":"6322",
+   *    "ngoName":"Pets In Need",
+   *    "ngoDescription":"We help pets in need",
+   *    "address":"1 Pet street",
+   *    "contactNumber":"82372837",
+   *    "contactEmail":"pets@petco.com"
+   * }
+   */
+  async createBatch(stub, args) {
+    console.log('============= START : createBatch ===========');
+    console.log('##### createBatch arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'batch' + json['donorUserName'];
+    json['docType'] = 'batch';
+
+    console.log('##### createBatch payload: ' + JSON.stringify(json));
+
+    // Check if the donor already exists
+    // let donorQuery = await stub.getState(key);
+    // if (donorQuery.toString()) {
+    //   throw new Error('##### createBatch - This donor already exists: ' + json['donorUserName']);
+    // }
+
+    // await stub.putState(key, Buffer.from(JSON.stringify(json)));
+    console.log('============= END : createBatch ===========');
+  }
+
   /************************************************************************************************
    * 
    * Donor functions 
@@ -999,46 +1041,6 @@ let Chaincode = class {
     }
   }
 
-  /************************************************************************************************
-   * 
-   * Batch functions 
-   * 
-   ************************************************************************************************/
-
-  /**
-   * Creates a new Batch
-   * 
-   * @param {*} stub 
-   * @param {*} args - JSON as follows:
-   * {
-   *    "ngoRegistrationNumber":"6322",
-   *    "ngoName":"Pets In Need",
-   *    "ngoDescription":"We help pets in need",
-   *    "address":"1 Pet street",
-   *    "contactNumber":"82372837",
-   *    "contactEmail":"pets@petco.com"
-   * }
-   */
-  async createBatch(stub, args) {
-    console.log('============= START : createBatch ===========');
-    console.log('##### createBatch arguments: ' + JSON.stringify(args));
-
-    // args is passed as a JSON string
-    let json = JSON.parse(args);
-    let key = 'batch' + json['donorUserName'];
-    json['docType'] = 'batch';
-
-    console.log('##### createBatch payload: ' + JSON.stringify(json));
-
-    // Check if the donor already exists
-    // let donorQuery = await stub.getState(key);
-    // if (donorQuery.toString()) {
-    //   throw new Error('##### createBatch - This donor already exists: ' + json['donorUserName']);
-    // }
-
-    // await stub.putState(key, Buffer.from(JSON.stringify(json)));
-    console.log('============= END : createBatch ===========');
-  }
 
   /**
    * Retrieves a specfic batch
