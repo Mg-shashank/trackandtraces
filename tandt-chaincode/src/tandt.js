@@ -1023,17 +1023,17 @@ let Chaincode = class {
     console.log('============= START : createBatch ===========');
     console.log('##### createBatch arguments: ' + JSON.stringify(args));
 
-    // args is passed as a JSON string 
+    // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'tandt' + json['ngoRegistrationNumber'];
-    json['docType'] = 'tandt';
+    let key = 'donor' + json['donorUserName'];
+    json['docType'] = 'donor';
 
     console.log('##### createBatch payload: ' + JSON.stringify(json));
 
-    // Check if the Batch already exists
-    let batchQuery = await stub.getState(key);
-    if (batchQuery.toString()) {
-      throw new Error('##### createBatch - This Batch already exists: ' + json['ngoRegistrationNumber']);
+    // Check if the donor already exists
+    let donorQuery = await stub.getState(key);
+    if (donorQuery.toString()) {
+      throw new Error('##### createBatch - This donor already exists: ' + json['donorUserName']);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));

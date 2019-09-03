@@ -664,9 +664,6 @@ app.use(function(error, req, res, next) {
 	var args = req.body;
 	var fcn = "createBatch";
 
-	username = req.body.username;
-	orgName = req.body.orgName;
-
     logger.info('##### POST on Donor - username : ' + username);
 	logger.info('##### POST on Donor - userOrg : ' + orgName);
 	logger.info('##### POST on Donor - channelName : ' + channelName);
