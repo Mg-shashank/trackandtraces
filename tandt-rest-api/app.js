@@ -161,6 +161,45 @@ app.post('/users', awaitHandler(async (req, res) => {
 	res.send(message);
 }));
 
+
+// GET Batch
+app.get('/batches', awaitHandler(async (req, res) => {
+	logger.info('================ GET on Batches');
+	let args = {};
+	let fcn = "queryAllBatches";
+
+    logger.info('##### GET on Batch - username : ' + username);
+	logger.info('##### GET on Batch - userOrg : ' + orgName);
+	logger.info('##### GET on Batch - channelName : ' + channelName);
+	logger.info('##### GET on Batch - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on Batch - fcn : ' + fcn);
+	logger.info('##### GET on Batch - args : ' + JSON.stringify(args));
+	logger.info('##### GET on Batch - peers : ' + peers);
+
+	let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
+
+// GET a specific Batch
+app.get('/batch/:batchId', awaitHandler(async (req, res) => {
+	logger.info('================ GET on Batch by ID');
+	logger.info('Batch ID : ' + req.params);
+	let args = req.params;
+	let fcn = "queryBatch";
+
+    logger.info('##### GET on Spend - username : ' + username);
+	logger.info('##### GET on Spend - userOrg : ' + orgName);
+	logger.info('##### GET on Spend - channelName : ' + channelName);
+	logger.info('##### GET on Spend - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on Spend - fcn : ' + fcn);
+	logger.info('##### GET on Spend - args : ' + JSON.stringify(args));
+	logger.info('##### GET on Spend - peers : ' + peers);
+
+	// let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+	let message = "{message:\"success\"}";
+ 	res.send(message);
+}));
+
 /************************************************************************************
  * Donor methods
  ************************************************************************************/
@@ -675,44 +714,3 @@ async function dummySpend() {
 app.use(function(error, req, res, next) {
 	res.status(500).json({ error: error.toString() });
 });
-
-
-
-// GET Batch
-app.get('/batches', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Batches');
-	let args = {};
-	let fcn = "queryAllBatches";
-
-    logger.info('##### GET on Spend - username : ' + username);
-	logger.info('##### GET on Spend - userOrg : ' + orgName);
-	logger.info('##### GET on Spend - channelName : ' + channelName);
-	logger.info('##### GET on Spend - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Spend - fcn : ' + fcn);
-	logger.info('##### GET on Spend - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Spend - peers : ' + peers);
-
-	let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
-	// let message = "{message:\"success\"}";
- 	res.send(message);
-}));
-
-// GET a specific Batch
-app.get('/batch/:batchId', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Batch by ID');
-	logger.info('Batch ID : ' + req.params);
-	let args = req.params;
-	let fcn = "queryBatch";
-
-    logger.info('##### GET on Spend - username : ' + username);
-	logger.info('##### GET on Spend - userOrg : ' + orgName);
-	logger.info('##### GET on Spend - channelName : ' + channelName);
-	logger.info('##### GET on Spend - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Spend - fcn : ' + fcn);
-	logger.info('##### GET on Spend - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Spend - peers : ' + peers);
-
-	// let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
-	let message = "{message:\"success\"}";
- 	res.send(message);
-}));
