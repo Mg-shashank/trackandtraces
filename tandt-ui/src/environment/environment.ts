@@ -4,7 +4,7 @@ export const environment={
 	port:'',
 	dbhost:'',
 	dbport:'',
-	api_url:'',
+	api_url:'http://trackandt-Blockcha-GOV2BHTGCFDU-2122750619.us-east-1.elb.amazonaws.com/',
 	test:'',
-	socket_url:''
+	socket_url:'ws://trackandt-Blockcha-GOV2BHTGCFDU-2122750619.us-east-1.elb.amazonaws.com'
 };
