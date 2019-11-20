@@ -13,9 +13,9 @@
 
 # Sample connection profile for an Amazon Managed Blockchain Fabric network
 
-name: "tandt"
+name: "trackandtrace"
 x-type: "hlfv1"
-description: "NGO Network"
+description: ""
 version: "1.0"
 
 channels:
@@ -31,29 +31,29 @@ channels:
 
 organizations:
   Org1:
-    mspid: m-B7YYBFY4GREBZLPCO2SUS4GP3I
+    mspid: m-T6HCMLB4CREATLZ4UW7N2F3YJQ
     peers:
-      - nd-4MHB4EKFCRF7VBHXZE2ZU4F6GY
+      - nd-R3DD33Z6YFH2FKER52QVZMII4I
     certificateAuthorities:
       - ca-org1
 
 orderers:
   orderer.com:
-    url: grpcs://orderer.n-WDG36TTUD5HEJORZUPF4REKMBI.managedblockchain.us-east-1.amazonaws.com:30001
+    url: grpcs://orderer.n-AKXDYO5C7NBVNEBAJS6EBHSPOU.managedblockchain.us-east-1.amazonaws.com:30001
     tlsCACerts:
       path: /home/ec2-user/managedblockchain-tls-chain.pem
 
 peers:
   nd-4MHB4EKFCRF7VBHXZE2ZU4F6GY:
-    url: grpcs://nd-4MHB4EKFCRF7VBHXZE2ZU4F6GY.m-B7YYBFY4GREBZLPCO2SUS4GP3I.n-WDG36TTUD5HEJORZUPF4REKMBI.managedblockchain.us-east-1.amazonaws.com:30003
+    url: grpcs://nd-R3DD33Z6YFH2FKER52QVZMII4I.m-T6HCMLB4CREATLZ4UW7N2F3YJQ.n-AKXDYO5C7NBVNEBAJS6EBHSPOU.managedblockchain.us-east-1.amazonaws.com:30003
     grpcOptions:
-      ssl-target-name-override: nd-4MHB4EKFCRF7VBHXZE2ZU4F6GY
+      ssl-target-name-override: nd-R3DD33Z6YFH2FKER52QVZMII4I
     tlsCACerts:
       path: /home/ec2-user/managedblockchain-tls-chain.pem
 
 certificateAuthorities:
   ca-org1:
-    url: https://ca.m-B7YYBFY4GREBZLPCO2SUS4GP3I.n-WDG36TTUD5HEJORZUPF4REKMBI.managedblockchain.us-east-1.amazonaws.com:30002
+    url: https://ca.m-T6HCMLB4CREATLZ4UW7N2F3YJQ.n-AKXDYO5C7NBVNEBAJS6EBHSPOU.managedblockchain.us-east-1.amazonaws.com:30002
     httpOptions:
       verify: false
     tlsCACerts:
@@ -61,4 +61,4 @@ certificateAuthorities:
     registrar:
       - enrollId: admin
         enrollSecret: adminpwd
-    caName: m-B7YYBFY4GREBZLPCO2SUS4GP3I
+    caName: m-T6HCMLB4CREATLZ4UW7N2F3YJQ
