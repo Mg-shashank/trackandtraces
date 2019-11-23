@@ -10,10 +10,10 @@
 ################################################################################
 Organizations:
     - &Org1
-        Name: <REPLACE WITH MEMBER_ID> 
+        Name: m-GRHD3LDRVNHLTMUYISXKDYD4FQ 
 
         # ID to load the MSP definition as
-        ID: <REPLACE WITH MEMBER_ID>
+        ID: m-GRHD3LDRVNHLTMUYISXKDYD4FQ
 
         MSPDir: /opt/home/admin-msp
 
