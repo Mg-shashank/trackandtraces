@@ -184,6 +184,24 @@ window.App = {
 
     this.populatebatchesDD();
   },
+    
+  CreateBatches :  function() {
+  /*  $.post( "test.php", { name: "John", time: "2pm" })
+  .done(function( data ) {
+    alert( "Data Loaded: " + data );
+  }); */
+  var request = $ajax({
+    url:"ajax.php",
+    type:"GET",
+    dataType:"html"
+  });
+  request.done(function(){
+    console.log("MESSAGE FROM API")
+  });
+  request.fail(function(){
+    alert("request failed")
+  });
+},
 
   CreateBatch :  function() {  
     var self = this; 
