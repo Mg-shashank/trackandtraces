@@ -143,6 +143,16 @@ app.post('/users', awaitHandler(async (req, res) => {
  * Track and Trace methods
  ************************************************************************************/
 
+/*************************************************************************************/
+app.post('/dummyendpoint',awaitHandler(async(req,res)=>{
+	logger.info('################################################################');
+	logger.info('#################Message from front end #########################');
+	logger.info('#########################################');
+	let message = 'Message from backend';
+	res.send(message);
+}));
+/*************************************************************************************/
+
  // POST Batch
  app.post('/create-batch', awaitHandler(async (req, res) => {
 	logger.info('================ POST on Donor');
