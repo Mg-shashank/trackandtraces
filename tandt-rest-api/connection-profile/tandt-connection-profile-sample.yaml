@@ -23,7 +23,7 @@ channels:
     orderers:
       - orderer.com
     peers:
-      nd-WOD2TSFELBBNVEZCHMEXS4GRWU:
+      nd-B3G6X23XNBFZTF2KL55V4PZHBY:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -33,7 +33,7 @@ organizations:
   Org1:
     mspid: m-ENX52YM44BBN5HNCFQOKHK62BM
     peers:
-      - nd-WOD2TSFELBBNVEZCHMEXS4GRWU
+      - nd-B3G6X23XNBFZTF2KL55V4PZHBY
     certificateAuthorities:
       - ca-org1
 
@@ -45,9 +45,9 @@ orderers:
 
 peers:
   nd-WOD2TSFELBBNVEZCHMEXS4GRWU:
-    url: grpcs://nd-WOD2TSFELBBNVEZCHMEXS4GRWU.m-ENX52YM44BBN5HNCFQOKHK62BM.n-PD44BQCSMNCFBJLQHEYW4UMXUQ.managedblockchain.us-east-1.amazonaws.com:30003
+    url: grpcs://nd-B3G6X23XNBFZTF2KL55V4PZHBY.m-ENX52YM44BBN5HNCFQOKHK62BM.n-PD44BQCSMNCFBJLQHEYW4UMXUQ.managedblockchain.us-east-1.amazonaws.com:30003
     grpcOptions:
-      ssl-target-name-override: nd-R3DD33Z6YFH2FKER52QVZMII4I
+      ssl-target-name-override: nd-B3G6X23XNBFZTF2KL55V4PZHBY
     tlsCACerts:
       path: /home/ec2-user/managedblockchain-tls-chain.pem
 
