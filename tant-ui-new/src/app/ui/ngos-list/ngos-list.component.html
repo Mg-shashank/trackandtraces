@@ -18,10 +18,10 @@
 <div class="container h-9 extra-margin-top">
     <div class="row mb-2">
         <div class="col">
-            <h5 class="font-weight-light">Order details goes here.</h5>
+            <h5 class="font-weight-light">Distributors List</h5>
         </div>
     </div>
-    <!-- div class="row">
+    <div class="row">
         <div class="col-sm-4 h-95 display-inline-grid">
             <div class="shadow-sm donors-list container-dynamic-height">
                 <div *ngFor="let ngo of ngolist; let i = index" [class]="selectedNGO.id===ngo.id?'active':''" (click)="onNGOSelect(ngo)">
@@ -32,9 +32,9 @@
                     </div>
                     <div>
                         <h5 class="m-0 font-weight-normal">{{ngo.ngo_name}}</h5>
-                        <p class="m-0 mt-1">Total donations: {{ngo.ngo_donations | currency:'USD':'symbol':'1.2-2'}}
+                        <p class="m-0 mt-1">Total orders: {{ngo.ngo_donations | currency:'USD':'symbol':'1.2-2'}}
                             USD</p>
-                        <p class="m-0 mt-1">My donation: {{ngo.ngo_user_donations | currency:'USD':'symbol':'1.2-2'}}
+                        <p class="m-0 mt-1">Current orders: {{ngo.ngo_user_donations | currency:'USD':'symbol':'1.2-2'}}
                             USD</p>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                     <span>Total Projects</span><span><strong>{{selectedNGO.ngo_projects}}</strong></span>
                                 </li>
                                 <li class="d-flex flex-column justify-content-center border-left align-items-center p-1 text-nowrap pl-2 pr-2">
-                                    <span>Total no.of donors</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedNGO.ngo_Donors}}</a></span>
+                                    <span>Total no.of devices</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedNGO.ngo_Donors}}</a></span>
                                 </li>
                             </ul>
                         </div>
@@ -109,7 +109,7 @@
                                             required</div>
                                     </div>
                                     <a class="btn btn-warning ml-2 text-white" (click)='onDonate()' role="button">
-                                        Donate<i *ngIf="loading" class='fa fa-circle-o-notch fa-spin ml-2 '> </i>
+                                        Order<i *ngIf="loading" class='fa fa-circle-o-notch fa-spin ml-2 '> </i>
                                     </a>
                                 </div>
                             </form>
@@ -165,7 +165,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header border-0 pt-2 pb-2">
-                <h4 class="modal-title text-center">Donor's contribution </h4>
+                <h4 class="modal-title text-center">Total Orders </h4>
 
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-toggle="modal"
                     data-target="#funds-utilized">
@@ -174,6 +174,8 @@
             </div>
             <div class='wrapper' style="text-align: center">
                 <div #graphcontainer> </div>
+                <!-- <i *ngIf="show_graph" class='fa fa-circle-o-notch fa-spin'>
+                </i> -->
             </div>
         </div>
     </div>
@@ -195,7 +197,7 @@
                         <thead class="bg-dark text-white">
                             <tr>
                                 <th class="font-weight-normal pl-4">#</th>
-                                <th class="font-weight-normal">Donor name</th>
+                                <th class="font-weight-normal">Item name</th>
                                 <th class="text-right font-weight-normal  pr-4">Amount</th>
                             </tr>
                         </thead>
@@ -241,4 +243,4 @@
             </div>
         </div>
     </div>
-</div -->
+</div>

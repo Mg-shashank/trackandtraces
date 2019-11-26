@@ -30,9 +30,9 @@
                         <thead>
                             <tr>
                                 <th class="pl-0 border-top-0">#</th>
-                                <th class="font-weight-normal text-nowrap border-top-0">Non-profit organization</th>
+                                <th class="font-weight-normal text-nowrap border-top-0">Vendor</th>
                                 <th class="font-weight-normal border-top-0">No. of projects</th>
-                                <th class="font-weight-normal text-nowrap border-top-0">Donated on</th>
+                                <th class="font-weight-normal text-nowrap border-top-0">Ordered on</th>
                                 <th class="font-weight-normal text-nowrap border-top-0 text-right">My Orders</th>
                             </tr>
                         </thead>
@@ -53,10 +53,10 @@
             <div class="d-flex flex-row justify-content-between align-items-center card p-3 rounded-0 mb-3">
                 <div class="icon-circle m-0 bg-primary"><i class="fa fa-dollar"></i></div>
                 <div class="flex-fill ml-2 mr-2">
-                    <p class="m-0 p-0 text-muted">Your total donations:</p>
+                    <p class="m-0 p-0 text-muted">Your total orders:</p>
                     <h3 class="m-0 p-0"> {{total_donation | currency:'USD':'symbol':'1.2-2'}}</h3>
                 </div>
-                <div><a class="btn btn-warning" role="button" routerLink="/ngolist">Donate</a></div>
+                <div><a class="btn btn-warning" role="button" routerLink="/ngolist">Order</a></div>
             </div>
             <div class="d-flex flex-row justify-content-between align-items-center card p-3 rounded-0 mb-3">
                 <div class="icon-circle m-0 bg-light-green bg-jungle"><i class="fa fa-calendar"></i></div>
@@ -73,7 +73,7 @@
                     <ul class="list-unstyled m-0">
                         <li class="d-flex align-items-center mt-2 mb-2">
                             <i class="fa fa-chevron-right" aria-hidden="true"></i>&nbsp;&nbsp;
-                            <a routerLink="/ngolist">View all non-profit organizations</a>
+                            <a routerLink="/ngolist">View all vendors</a>
                         </li>
 
                     </ul>
