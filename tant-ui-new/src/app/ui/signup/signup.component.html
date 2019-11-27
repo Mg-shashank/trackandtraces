@@ -43,14 +43,6 @@
                                         <div *ngIf="user.email.errors.email">Invalid Email address</div>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                 <select class="form-control form-control-sm" autofocus="">
-                                 <option value="Manufacturers">Manufacturers</option>
-                                 <option value="Service Provider">Service Provider</option>
-                                 <option value="Distributor">Distributor</option>
-                                 <option value="select" selected>SELECT</option>
-                               </select>
-                             </div>
                                 <div *ngIf="error" class="text-danger text-sm-left">
                                     <p>{{error}}</p>
                                 </div>
