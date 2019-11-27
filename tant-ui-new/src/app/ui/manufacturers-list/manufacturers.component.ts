@@ -8,8 +8,8 @@ import { DonateService, DashboardService, NgoService } from 'src/app/services';
 
 @Component({
   selector: 'app-manufacturers-list',
-  templateUrl: './manufacturers-list.component.html',
-  styleUrls: ['./manufacturers-list.component.scss']
+  templateUrl: './manufacturers.component.html',
+  styleUrls: ['./manufacturers.component.scss']
 })
 
 export class ManufacturerListComponent implements OnInit {
