@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ManufacturerComponent } from './manufacturers-list.component';
+import { ManufacturerComponent } from './manufacturers.component';
 
 describe('ManufacturerComponent', () => {
   let component: ManufacturerComponent;
