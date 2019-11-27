@@ -34,6 +34,8 @@
                                 <th class="font-weight-normal border-top-0">No. of projects</th>
                                 <th class="font-weight-normal text-nowrap border-top-0">Ordered on</th>
                                 <th class="font-weight-normal text-nowrap border-top-0 text-right">My Orders</th>
+                                <th class="font-weight-normal text-nowrap border-top-0 text-right">Order Id</th>
+                                <th class="font-weight-normal text-nowrap border-top-0 text-right">Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,6 +45,7 @@
                                 <td>20</td>
                                 <td>{{userDonation.date | date: 'MM/dd/yyyy'}}</td>
                                 <td class="text-right">{{userDonation.amount | currency:'USD':'symbol':'1.2-2'}}</td>
+                                <td class="text-right">{{}}</td>
                             </tr>
                         </tbody>
                     </table>
