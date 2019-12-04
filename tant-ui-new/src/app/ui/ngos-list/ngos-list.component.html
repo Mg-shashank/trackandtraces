@@ -1,20 +1,3 @@
-<!––
-/*
-# Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License").
-# You may not use this file except in compliance with the License.
-# A copy of the License is located at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# or in the "license" file accompanying this file. This file is distributed
-# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
-# express or implied. See the License for the specific language governing
-# permissions and limitations under the License.
-#
-*/
-––>
 <div class="container h-9 extra-margin-top">
     <div class="row mb-2">
         <div class="col">
@@ -35,7 +18,8 @@
                         <p class="m-0 mt-1">Total orders: {{ngo.ngo_donations | currency:'USD':'symbol':'1.2-2'}}
                             USD</p>
                         <p class="m-0 mt-1">Current orders: {{ngo.ngo_user_donations | currency:'USD':'symbol':'1.2-2'}}
-                            USD</p>
+							USD</p>
+							
                     </div>
                 </div>
             </div>
@@ -94,24 +78,29 @@
                     </button>
 
                     <div class="clear-both pt-3 pb-3">
-                        <h4 class="border-bottom">About</h4>
-                        <div class="about-content pr-4">
-                            <p class="about-content">{{selectedNGO.ngo_about}}</p>
-                        </div>
+                        <h4 class="border-bottom">Create batch</h4>
+                      
                         <div class="mt-5">
-                            <form class="justify-content-start align-items-center" [formGroup]="donateForm">
-                                <div class="form-group d-inline-flex m-0">
-                                    <input class="form-control font-size-1rem w-50" type="number" formControlName="donationAmount"
-                                        placeholder="$ 150.00">
-                                    <div *ngIf="submitted && donation.donationAmount.errors" class="invalid-feedback"
-                                        [ngClass]="{ 'is-invalid': submitted && donation.donationAmount.errors}">
-                                        <div *ngIf="donation.donationAmount.errors.required">Donatoion amount is
-                                            required</div>
-                                    </div>
-                                    <a class="btn btn-warning ml-2 text-white" (click)='onDonate()' role="button">
-                                        Order<i *ngIf="loading" class='fa fa-circle-o-notch fa-spin ml-2 '> </i>
-                                    </a>
+							<form [formGroup]="batchForm">
+                                <div>
+                                    <h3 class="text-muted text-center mb-3">Create new Batches</h3>
                                 </div>
+
+                                <div class="form-group">
+                                    <input type="number" formControlName="batchId" class="form-control form-control-sm"
+                                        placeholder="Batch ID" autofocus="" [ngClass]="{ 'is-invalid': submitted}" />
+                                  
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" formControlName="batchName" class="form-control form-control-sm"
+                                        placeholder="Batch name" autofocus="" [ngClass]="{ 'is-invalid': submitted}" />
+                                </div>
+
+                                <div class="form-group d-flex justify-content-center" (click)="createABatch()">
+									<a class="btn btn-warning text-white rounded-0 pl-5 pr-5" role="button">CREATE
+                                        <i *ngIf="loading" class='fa fa-circle-o-notch fa-spin'> </i>
+                                    </a></div>
                             </form>
                         </div>
                     </div>
