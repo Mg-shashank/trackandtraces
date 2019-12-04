@@ -19,7 +19,8 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { SessionService, UtilsService } from 'src/app/services/shared';
-import { DonateService, DashboardService, NgoService } from 'src/app/services';
+import { DonateService, DashboardService, NgoService} from 'src/app/services';
+
 import { RatingService } from '../components/rating/rating.component';
 import { DonorchartComponent } from '../components/donorchart/donorchart.component';
 
@@ -35,7 +36,7 @@ export class NgosListComponent implements OnInit {
   ngolist: Array<Ngo> = [];
   ngoProjects: Array<Project> = null;
   selectedNGO: Ngo = new Ngo();
-  donateForm: FormGroup = null;
+  batchForm: FormGroup = null;
   submitted = false;
   error: String = null;
   ngoRating = 0;
@@ -70,33 +71,6 @@ export class NgosListComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-    this.ngoService.getNGOs().subscribe(data => {
-      this.ngolist = data;
-      this.ngolist.forEach(element => {
-        this.setRatings(element);
-        this.getNGOFundsDetails(element);
-        this.getNGOSpendData(element);
-        this.ngoMap.set(element.id, element);
-      });
-      this.selectedNGO = this.ngolist.length > 0 ? this.ngoMap.get(this.ngolist[0].id) : new Ngo();
-      setTimeout(() => {
-        const ngo_data = UtilsService.mapToJson(this.ngoMap);
-        SessionService.setValue('ngos', ngo_data);
-      }, 1000);
-      // set height dynimically
-      UtilsService.onHeightChange('.container-dynamic-height', 20);
-
-    },
-      err => {
-        console.error(err);
-      }
-    );
-    this.donateForm = this.formBuilder.group({
-      donationAmount: new FormControl('', [Validators.required])
-    });
-
-  }
 
   getNGOFundsDetails(ngo: Ngo) {
     this.dashboardService.getDonationsByNGO(ngo.id).subscribe(ngo_data => {
@@ -176,26 +150,17 @@ export class NgosListComponent implements OnInit {
     return;
   }
 
-  get donation() { return this.donateForm.controls; }
 
-  onDonate() {
+
+  createABatch() {
     if (this.loading) { return; }
     this.loading = true;
     this.submitted = true;
-    if (this.donateForm.invalid) {
+    if (this.batchForm.invalid) {
       return;
     }
-    this.donateService.makeDonation(this.selectedNGO.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.donationAmount)
-      .subscribe(
-        data => {
-          this.router.navigate([`donate/${data.donationId}`]);
-        },
-        err => {
-          this.loading = false;
-          console.error(err);
-          this.error = 'Something wrong with the donation. Will update you soon on this.';
-        }
-      );
+    const b = this.batchForm.value;
+    this.donateService.makeBatch(b);
   }
 
   getSpendData(spend_Id, totalamount) {
