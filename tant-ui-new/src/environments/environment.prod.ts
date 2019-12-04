@@ -19,7 +19,7 @@ export const environment = {
   port: '',
   dbhost: '',
   dbport: '',
-  api_url: 'http://Fabric-ELB-205962472.us-west-2.elb.amazonaws.com/',
+  api_url: 'http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/',
   test: 'test',
-  socket_url: 'ws://Fabric-ELB-205962472.us-west-2.elb.amazonaws.com'
+  socket_url: 'ws://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com'
 };
