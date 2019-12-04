@@ -17,6 +17,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './shared';
 import { Donate } from '../models';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +25,12 @@ export class DonateService {
 
   constructor(private apiService: ApiService) { }
 
+  makeBatch(batchdata) {
+    const batch = {
+      batchId:batchdata.batchId, 
+      batchName:batchdata.batchName};
+    return this.apiService.post(`batch`, batch);
+  }
   makeDonation(ngoName: string, DonorUserName: string, donationAmount: number) {
     const donate = new Donate().set(donationAmount, DonorUserName, ngoName);
     donate.donationDate = new Date().toISOString();
