@@ -6,7 +6,7 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 @Component({
   selector: 'app-batch',
   templateUrl: './batch.component.html',
-  styleUrls: ['./batch.component.scss']
+  
 })
 export class BatchListComponent implements OnInit {
   batchForm: FormGroup;
