@@ -6,7 +6,7 @@ import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms'
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss']
+
 })
 export class OrderListComponent implements OnInit {
   orderForm: FormGroup;
