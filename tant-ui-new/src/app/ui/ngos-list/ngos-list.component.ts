@@ -92,7 +92,7 @@ export class NgosListComponent implements OnInit {
         console.error(err);
       }
     );
-    this.donateForm = this.formBuilder.group({
+    this.batchForm = this.formBuilder.group({
       donationAmount: new FormControl('', [Validators.required])
     });
 
@@ -177,7 +177,7 @@ export class NgosListComponent implements OnInit {
   }
   
 
-  get donation() { return this.donateForm.controls; }
+  get donation() { return this.batchForm.controls; }
 
     createABatch() {
     if (this.loading) { return; }
