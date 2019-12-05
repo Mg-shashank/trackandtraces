@@ -1,0 +1,41 @@
+<div class="h-100 login-bg">
+    <div class="container h-100">
+        <div class="row h-100">
+
+            <div class="col d-flex justify-content-center align-items-center pb-5">
+                <div>
+                    <div class="card rounded-0 login-wrapper pl-5 pr-5 pt-4 pb-4">
+                        <div>
+                            <form [formGroup]="orderForm">
+                                <div>
+                                    <h3 class="text-muted text-center mb-3">Create Order</h3>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" formControlName="OrderId" class="form-control form-control-sm"
+                                        placeholder="Order Id" autofocus=""/>
+                                        <input type="text" formControlName="OrderName" class="form-control form-control-sm"
+                                        placeholder="Item Name" autofocus=""/>
+                                        <input type="text" formControlName="Quantity" class="form-control form-control-sm"
+                                        placeholder="Quantity" autofocus=""/>
+                                    
+                                </div>
+
+                                <div class="form-group d-flex justify-content-center">
+
+                                    <a class="btn btn-warning text-white rounded-0 pl-5 pr-5" (click)="order()">Place Order
+                                        <i *ngIf="loading" class='fa fa-circle-o-notch fa-spin'></i>
+
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+           
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
