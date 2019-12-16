@@ -7,6 +7,8 @@ import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
 import createorder from "../pages/createorder/createorder";
+import orderdetails from "../pages/orderdetails/orderdetails";
+import trackorder from "../pages/trackorder/trackorder";
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
 import config from "../config";
 
@@ -45,6 +47,8 @@ export default function App() {
         <PublicRoute path="/landingPage" component={landingPage} />
         <PublicRoute path="/dashboard" component={dashboard} />
         <PublicRoute path="/createorder" component={createorder} />
+        <PublicRoute path="/orderdetails" component={orderdetails} />
+        <PublicRoute path="/trackorder" component={trackorder} />
         <Route component={Error} />
       </Switch>
     </HashRouter>
