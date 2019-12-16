@@ -8,6 +8,7 @@ import { useLayoutState } from "../../context/LayoutContext";
 import Default from "../../pages/default/Default";
 import Report from "../../pages/report/Report";
 import landingPage from "../../pages/landingPage/landingPage";
+import dashboard from "../../pages/dashboard/dashboard";
 import SettlementReport from "../../pages/settlementReport/SettlementReport";
 import TradedReport from "../../pages/tradedReport/TradedReport";
 import TransHistory from "../../pages/transHistory/TransHistory";
@@ -36,6 +37,7 @@ function Layout(props) {
               <Route path="/app/transHistory" component={TransHistory} />
               <Route path="/app/errorTrans" component={ErrorTrans} />
               <Route path="/app/landingPage" component={landingPage} />
+              <Route path="/app/dashboard" component={dashboard} />
             </Switch>
           </div>
         </>

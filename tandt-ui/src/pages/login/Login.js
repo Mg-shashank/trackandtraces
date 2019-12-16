@@ -3,8 +3,6 @@ import { Grid, CircularProgress, Typography, Button, TextField, Fade } from "@ma
 import { withRouter } from "react-router-dom";
 import useStyles from "./styles";
 import logo from "./blogo.png";
-// import ReactWOW from 'react-wow'
-
 import { useUserDispatch, loginUser } from "../../context/UserContext";
 
 function Login(props) {
@@ -17,24 +15,13 @@ function Login(props) {
   var [isLoading, setIsLoading] = useState(false);
   var [error, setError] = useState(null);
   var [loginValue, setLoginValue] = useState("");
-  var [passwordValue] = useState("");
+  var [passwordValue, setPasswordValue] = useState("");
 
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
-        <span className="animated zoomIn"><img src={logo} alt="logo" className={classes.logotypeImage} /></span>
-        
-        <p className="text animated zoomInLeft" >Smart Trading Platform 
-            <span className="rightAlign">Powered by DAML</span>
-     
-         <span className="barclay">Barclays</span> DerivHack 2019</p>
-        
-        {/* <Typography className={classes.logotypeText}></Typography> */}
+        <img src={logo} alt="logo" className={classes.logotypeImage} />
       </div>
-      
-
-      
-     
       <div className={classes.formContainer}>
         <div className={classes.form}>
             <React.Fragment>
@@ -66,10 +53,36 @@ function Login(props) {
                   }
                 }}
                 margin="normal"
-                placeholder="Please enter the party name"
+                placeholder="Email Adress"
                 type="email"
                 fullWidth
-                className="animated zoomIn"
+              />
+              <TextField
+                id="password"
+                InputProps={{
+                  classes: {
+                    underline: classes.textFieldUnderline,
+                    input: classes.textField,
+                  },
+                }}
+                value={passwordValue}
+                onChange={e => setPasswordValue(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === "Enter") {
+                    loginUser(
+                      userDispatch,
+                      loginValue,
+                      passwordValue,
+                      props.history,
+                      setIsLoading,
+                      setError,
+                    )
+                  }
+                }}
+                margin="normal"
+                placeholder="Password"
+                type="password"
+                fullWidth
               />
               <div className={classes.formButtons}>
                 {isLoading ? (
@@ -90,7 +103,6 @@ function Login(props) {
                     variant="contained"
                     color="primary"
                     size="large"
-                   
                   >
                     Login
                   </Button>
@@ -99,7 +111,6 @@ function Login(props) {
             </React.Fragment>
         </div>
       </div>
-      
     </Grid>
   );
 }

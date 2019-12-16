@@ -5,6 +5,8 @@ import Error from "../pages/error/Error";
 import Login from "../pages/login/Login";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
+import dashboard from "../pages/dashboard/dashboard";
+import createorder from "../pages/createorder/createorder";
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
 import config from "../config";
 
@@ -41,6 +43,8 @@ export default function App() {
         <PrivateRoute path="/app" component={Layout} />
         <PublicRoute path="/login" component={Login} />
         <PublicRoute path="/landingPage" component={landingPage} />
+        <PublicRoute path="/dashboard" component={dashboard} />
+        <PublicRoute path="/createorder" component={createorder} />
         <Route component={Error} />
       </Switch>
     </HashRouter>
@@ -58,7 +62,7 @@ export default function App() {
           ) : (
             <Redirect
               to={{
-                pathname: "/landingPage",
+                pathname: "/login",
                 state: {
                   from: props.location,
                 },

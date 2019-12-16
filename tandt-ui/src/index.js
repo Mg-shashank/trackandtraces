@@ -10,7 +10,7 @@ import * as serviceWorker from "./serviceWorker";
 import { LayoutProvider } from "./context/LayoutContext";
 import { UserProvider } from "./context/UserContext";
 import { LedgerProvider } from "./context/LedgerContext";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 ReactDOM.render(
