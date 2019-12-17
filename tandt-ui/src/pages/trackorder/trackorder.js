@@ -3,8 +3,9 @@ import { withRouter } from "react-router-dom";
 // import { Menu, Dropdown, Icon } from 'antd';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
-import back from "./images/arrow-right.svg"
-import map from "./images/map.svg"
+import back from "./images/arrow-right.svg";
+import router from "./images/router.png"
+import map from "./images/map.svg";
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
@@ -29,7 +30,7 @@ import "./dashboard.scss";
 				<img src={map} alt="map"/>
 				<div class="place-order">
 					<div class="col-lg-7 col-md-7">
-						<img src="images/router.png" alt="device" class="rect" />
+						<img src={router} alt="device" class="rect" />
 						<div class="network-device">
 							<p>Linksys AC1200 Max WiFi Range Extender RE6500<br/><span>Network</span></p>
 							<p>Item Quantity: <span>10000</span></p>
