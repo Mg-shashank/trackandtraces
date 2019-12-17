@@ -23,7 +23,7 @@ import "./dashboard.scss";
           </header>
 		  <section class="content">
 			<h3 class="section-header">Order Details</h3>
-			<h5><div class="col-lg-12 col-md-12 place-order">
+			<h6><div class="col-lg-12 col-md-12 place-order">
 				<div class="col-lg-3 col-md-3">
 					<img src={router} alt="device" class="rect" width="100" height="100"/>
 					<p class="network-device">Asus ROG Rapture GT-AC5300<br/><span>network</span></p>
@@ -62,7 +62,7 @@ import "./dashboard.scss";
 					<a href="#" class="btn btn-cancel">Cancel</a>
 					<a href="track-order.html" class="btn btn-prim">Track Order</a>
 				</div>
-			</div></h5>
+			</div></h6>
 		</section>
  
         </div>  
