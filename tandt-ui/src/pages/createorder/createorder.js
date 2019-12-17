@@ -43,10 +43,10 @@ import "./dashboard.scss";
 						<div class="form-group col-md-6">
 							<label class="form-label">Quantity</label>
 							<select class="form-control">
-								<option>Option 01</option>
-								<option>Option 02</option>
-								<option>Option 03</option>
-								<option>Option 04</option>
+								<option default>10000</option>
+								<option>20000</option>
+								<option>30000</option>
+								<option>40000</option>
 							</select>
 						</div>
 						<div class="form-group col-md-12">
