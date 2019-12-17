@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Error from "../pages/error/Error";
-import Login from "../pages/login/Login";
+import Login from "../pages/login/googlelogin";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
