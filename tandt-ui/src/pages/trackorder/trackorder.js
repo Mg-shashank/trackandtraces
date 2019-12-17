@@ -18,7 +18,7 @@ import "./dashboard.scss";
               <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
             
               <div className="userBlock collapse navbar-collapse">
-                <a href="#">Help</a>&nbsp;<span className="pipe">|</span>&nbsp;<a href="#">Hi Michael B Smith <img src={usericon} alt="user" /></a>
+                <a href="#">Help</a>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
           		</div>  
              
           </header>
@@ -47,7 +47,8 @@ import "./dashboard.scss";
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>		
+	    <Link to="/dashboard"><div className="btn btn-prim pull-right">Go to Dashboard</div></Link>
 			<div class="col-lg-3 col-md-3 activity-log">
 				<h2 class="section-header">Track Details</h2>
 				<div class="timeline-wrapper">
