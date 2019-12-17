@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import rect from "./images/rect.svg"
-import router from "./images/router.png"
+import router from "./images/router2.jpg"
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
@@ -23,34 +23,29 @@ import "./dashboard.scss";
           </header>
 		  <section class="content">
 			<h3 class="section-header">Order Details</h3>
-			<div class="col-lg-12 col-md-12 place-order">
+			<h5><div class="col-lg-12 col-md-12 place-order">
 				<div class="col-lg-3 col-md-3">
-					<img src={router} alt="device" class="rect" />
-					<p class="network-device">Linksys AC1200 Max WiFi Range Extender RE6500<br/><span>Network</span></p>
+					<img src={router} alt="device" class="rect" width="100" height="100"/>
+					<p class="network-device">Asus ROG Rapture GT-AC5300<br/><span>network</span></p>
 				</div>
 				<div class="col-lg-2 col-md-2">
-					<p class="network-device">Item Quantity<br/><span>1000</span></p>
+					<p class="network-device">Item Quantity<br/><span>10000</span></p>
 				</div>
 				<div class="col-lg-2 col-md-2">
 					<p class="network-device">Billing Id<br/><span>813725866655</span></p>
 				</div>
 				<div class="col-lg-2 col-md-2">
-					<p class="network-device">Biller Name<br/><span>Ann N Johnson</span></p>
+					<p class="network-device">Biller Name<br/><span>Michael B Smith</span></p>
 				</div>
 				<div class="col-lg-12 col-md-12 padding0">
 					<div class="col-lg-3 col-md-3">
-						<label class="form-label">First Name</label>
-						<p>Michael</p>
+						<label class="form-label">Vendor Name</label>
+						<p>Abbott Group Enterprise</p>
 					</div>
-					<div class="col-lg-3 col-md-3">
-						<label class="form-label">Last Name</label>
-						<p>B Smith</p>
-					</div>
-				</div>
-				<div class="col-lg-12 col-md-12 padding0">
+				
 					<div class="col-lg-3 col-md-3">
 						<label class="form-label">Quantity</label>
-						<p>1000</p>
+						<p>10000</p>
 					</div>
 					<div class="col-lg-3 col-md-3">
 						<label class="form-label">Address</label>
@@ -58,14 +53,16 @@ import "./dashboard.scss";
 					</div>
 				</div>
 				<div class="col-lg-12 col-md-12">
-					<label class="form-label">Comments</label>
+					<label class="form-label">Addition Requests</label>
 					<p>Condition:Refurbished Status: Working</p>
+                    <p>Upgrade device compatible to 5G.</p>
 				</div>
+				
 				<div class="col-lg-12 col-md-12 text-right">
 					<a href="#" class="btn btn-cancel">Cancel</a>
 					<a href="track-order.html" class="btn btn-prim">Track Order</a>
 				</div>
-			</div>
+			</div></h5>
 		</section>
  
         </div>  
