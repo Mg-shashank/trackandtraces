@@ -305,15 +305,18 @@ p{
 .recent-activities{
 	background: #FFFFFF;
 	height: calc(100vh - 65px);
-	padding: 10px 20px;
+	float: right;
 	font-size: 14px;
+	margin-top: 15px;
+	padding-top: 20px;
 }
 .activity-card{
+	float:right;
 	background: #FFFFFF 0% 0% no-repeat padding-box;
 	border: 1px solid #CECECE;
 	border-radius: 4px;
-	margin: 15px 0px;
-	padding: 10px;
+	margin : 15px 0px;
+	padding-top: 20px;
 }
 .section-header{
 	color: #707070;
@@ -546,14 +549,22 @@ a.type-select{
   background:#ffae16;
 }
 .userBlock {
-	float: right;
+	margin-top: 20px;
 	display: inline-block;
 }
 .pipe {
 	color: #FFFFFF;
+	margin-top: 5px;
 }
 .logoImage {
 	width: 125px;
     margin-top: 10px;
     margin-left: 10px;
+}
+.rightmenuinner{
+height: 100px;
+width: 100px;
+overflow-y: scroll;
+overflow-x: hidden;
+padding-top: 20px;
 }
