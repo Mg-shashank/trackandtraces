@@ -61,7 +61,7 @@ import "./dashboard.scss";
     </div>
     <div className="row">
       <div className="col-lg-12 col-md-12">
-        <span className="section-header">Recommended Orders </span><a href="place-order.html" className="btn btn-prim pull-right">+ Create New Order</a>
+        <span className="section-header">Recommended Orders </span><Link to="/createorder"><div className="btn btn-prim pull-right">+ Create New Order</div></Link>
       </div>
     </div>
   </div>
@@ -93,19 +93,12 @@ import "./dashboard.scss";
                 </div>
               </div>
             </div>
-                    
-        
-                    
-                  
-                
-              
-               
+             
                   <div className="col-lg-9 col-md-9 padding0">
                     <div className="col-lg-4 col-md-4">
                       <div className="device-card selected">
                         <div className="dropdown dots">
-                          <button className="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                            
+                          
                             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                               <b>...</b>
                             </Button>
@@ -120,7 +113,7 @@ import "./dashboard.scss";
                               <MenuItem onClick={handleClose}>Device Type: Router</MenuItem>
                               <MenuItem onClick={handleClose}>Device Vendor: Asus</MenuItem>
                             </Menu>
-                          </button>
+                         
                           </div>
                         <img src={router} alt="s1" className="s1" />
                         <h3 className="title">Asus ROG Rapture GT-AC5300</h3>
@@ -131,12 +124,9 @@ import "./dashboard.scss";
                         <p className="attribute">Domain name: Telecom</p>
                       </div>
                     </div>
-
                     <div className="col-lg-4 col-md-4">
                       <div className="device-card selected">
                         <div className="dropdown dots">
-                          <button className="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                  
                             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                             <b>...</b>
                             </Button>
@@ -150,8 +140,7 @@ import "./dashboard.scss";
                               <MenuItem onClick={handleClose}>Device Model: AC5300</MenuItem>
                               <MenuItem onClick={handleClose}>evice Type: Router</MenuItem>
                               <MenuItem onClick={handleClose}>Device Vendor: Asus</MenuItem>
-                            </Menu>   
-                          </button>
+                            </Menu>                             
                         </div>
                         <img src={router} alt="s1" className="s1" />
                         <h3 className="title">Asus ROG Rapture GT-AC5300</h3>
@@ -166,8 +155,6 @@ import "./dashboard.scss";
                   <div className="col-lg-4 col-md-4">
                     <div className="device-card selected">
                       <div className="dropdown dots">
-                        <button className="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                          
                           <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                           <b>...</b>
                             </Button>
@@ -182,7 +169,6 @@ import "./dashboard.scss";
                               <MenuItem onClick={handleClose}>Device Type: Router</MenuItem>
                               <MenuItem onClick={handleClose}>Device Vendor: Asus</MenuItem>
                             </Menu>
-                        </button>
                         </div>
                       <img src={router} alt="s1" className="s1" />
                       <h3 className="title">Asus ROG Rapture GT-AC5300</h3>
@@ -203,12 +189,5 @@ import "./dashboard.scss";
          
 );
       }
-  
-                
 export default (Landingpage);
                     
-
-
-
-
-
