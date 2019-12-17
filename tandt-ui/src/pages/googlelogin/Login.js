@@ -5,6 +5,15 @@ import LandingPage from '../dashboard/dashboard';
 //import { GoogleLogin } from 'react-google-login';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+
+import {Button, MenuItem, Menu} from "@material-ui/core";
+// import { Menu, Dropdown, Icon } from 'antd';
+
+
+
+
+import "./login.scss";
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +73,27 @@ class Login extends Component {
     if (this.state.isSignedIn) {
     //  return <Switch> <Route path="/mem" render={() => ( <FailedComponent logout={this.onLoginFailed} />)} /> </Switch>
     //  return <FailedComponent logout={this.onLoginFailed}/>
-        return <LandingPage/>
+        
+        return( 
+          <div className="wrapper">
+           <header>
+   
+              
+                <div className="userBlock collapse navbar-collapse">
+                <Link to="/help">Help</Link>&nbsp;
+                </div>  
+               
+                </header>
+            <section>    
+       
+        <div className="col-lg-12 col-md-12">
+         <Link to="/dashboard"><div className="btn btn-prim pull-right">Go to Dashboard</div></Link>
+        </div>
+     
+            </section>  
+          </div>  
+           
+  );
       } else {
       return (
         <div>
