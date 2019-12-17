@@ -25,19 +25,20 @@ import "./dashboard.scss";
 			<h3 class="section-header">Place Order</h3>
 			<div class="col-lg-12 col-md-12 place-order">
 				<div class="padding-bottom20">
-					<img src={rect} alt="device" class="rect" />
-					<p class="network-device">Network Device 1<br/><span>Device Category</span></p>
+					<img src={router} alt="device" class="rect" width="100" height="100"/>
+				<h2>	<p class="network-device">Asus ROG Rapture GT-AC5300<br/><span>network</span></p></h2>
 				</div>
 				<div class="col-lg-7 col-md-7">
 					<form class="form-horizontal">
 						<legend>Company Details</legend>
 						<div class="form-group col-md-6">
-							<label class="form-label">First Name</label>
-							<input type="text" placeholder="First Name" name="first-name" class="form-control" />
-						</div>
-						<div class="form-group col-md-6">
-							<label class="form-label">Last Name</label>
-							<input type="text" placeholder="Last Name" name="last-name" class="form-control" />
+							<label class="form-label">Distributor Name</label>
+							<select class="form-control">
+							<option>Abbott Group Enterprise</option>
+									<option default>Hirthe Group Enterprise</option>
+									<option>Schuster Ltd Enterprise</option>
+									</select>
+							
 						</div>
 						<div class="form-group col-md-6">
 							<label class="form-label">Quantity</label>
