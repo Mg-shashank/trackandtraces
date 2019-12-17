@@ -3,9 +3,9 @@ import { withRouter } from "react-router-dom";
 // import { Menu, Dropdown, Icon } from 'antd';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
-import back from "./images/arrow-right.svg";
-import router from "./images/router.png"
-import map from "./images/map.svg";
+import back from "./images/arrow-right.svg"
+import map from "./images/map.svg"
+import router from "./images/router2.jpg"
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
@@ -29,20 +29,21 @@ import "./dashboard.scss";
 				
 				<img src={map} alt="map"/>
 				<div class="place-order">
-					<div class="col-lg-7 col-md-7">
-						<img src={router} alt="device" class="rect" />
+					<div class="col-lg-6 col-md-6">
+						<img src={router} alt="device" class="rect" width="100" height="100"/>
 						<div class="network-device">
-							<p>Linksys AC1200 Max WiFi Range Extender RE6500<br/><span>Network</span></p>
+							
+							<h6><p>Asus ROG Rapture GT-AC5300<br/><span>Network</span></p>
 							<p>Item Quantity: <span>10000</span></p>
-							<p>Order Status: <span>Order Placed</span></p>
+							<p>Order Status: <span>Order Placed</span></p></h6>
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6">
 						<div class="network-device">
-							<p>Billing Id: <span>813725866655</span></p>
-							<p>Biller Name: <span>Ann N Johnson</span></p>
-							<p>Address: <span>Ann N Johnson Phone Number(706) 738-0746
-							   2121 Cumming Rd, Augusta, GA, 30904</span></p>
+						<h6><p>Billing Id: <span>813725866655</span></p>
+							<p>Biller Name: <span>Michael B Smith</span></p>
+							<p>Address: <span>Michael B Smith, Phone Number(706) 738-0746
+							   2121 Cumming Rd, Augusta, GA, 30904</span></p></h6>
 						</div>
 					</div>
 				</div>
@@ -51,23 +52,23 @@ import "./dashboard.scss";
 				<h2 class="section-header">Track Details</h2>
 				<div class="timeline-wrapper">
 					<div class="node finished">
-					<h5>Order Initiated</h5>
+					<h6>Order Initiated</h6>
 					<p class="sub-title">25-11-2019 14:54:00 EST</p>
 				  </div>
 				  <div class="node progressing">
-					<h5>Order Released</h5>
+					<h6>Order Released</h6>
 					<p class="sub-title">26-11-2019 14:54:00 EST</p>
 				  </div>
 				  <div class="node">
-					<h5>Order Accepted</h5>
+					<h6>Order Accepted</h6>
 					<p class="sub-title">Status / Time</p>
 				  </div>
 				  <div class="node">
-					<h5>Order Shipped</h5>
+					<h6>Order Shipped</h6>
 					<p class="sub-title">Status / Time</p>
 				  </div>
 				  <div class="node">
-					<h5>Order Delivered</h5>
+					<h6>Order Delivered</h6>
 					<p class="sub-title">Status / Time</p>
 				  </div>
 				</div>
