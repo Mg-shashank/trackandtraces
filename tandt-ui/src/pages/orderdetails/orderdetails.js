@@ -50,7 +50,7 @@ import "./dashboard.scss";
 				<div class="col-lg-12 col-md-12 padding0">
 					<div class="col-lg-3 col-md-3">
 						<label class="form-label">Quantity</label>
-						<p>10000</p>
+						<p>1000</p>
 					</div>
 					<div class="col-lg-3 col-md-3">
 						<label class="form-label">Address</label>
