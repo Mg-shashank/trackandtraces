@@ -1,7 +1,7 @@
 import React from "react";
-import logo from "../images/brillio-logo.png";
 
-export default function Help (){
+
+export default function help (){
       
    return (
      
