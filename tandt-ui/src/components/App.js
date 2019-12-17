@@ -50,7 +50,7 @@ export default function App() {
         <PublicRoute path="/createorder" component={createorder} />
         <PublicRoute path="/orderdetails" component={orderdetails} />
         <PublicRoute path="/trackorder" component={trackorder} />
-        <PublicRoute path="/traceorder" component={traceorder}   
+        <PublicRoute path="/traceorder" component={traceorder}  /> 
         <Route component={Error} />
       </Switch>
     </HashRouter>
