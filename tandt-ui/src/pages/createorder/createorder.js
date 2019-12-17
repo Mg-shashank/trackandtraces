@@ -1,5 +1,5 @@
 import React, {} from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter,Link } from "react-router-dom";
 // import { Menu, Dropdown, Icon } from 'antd';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
@@ -56,8 +56,9 @@ import "./dashboard.scss";
 					</form>
 				</div>
 				<div class="col-lg-12 col-md-12 text-right">
-					<a href="#" class="btn btn-cancel">Cancel</a>
-					<a href="order-details.html" class="btn btn-prim">Place Order</a>
+				<Link to="/dashboard"><div class="btn btn-cancel">Cancel</div></Link>
+				
+					<Link to="/orderdetails"><div class="btn btn-prim">Place Order</div></Link>
 				</div>
 			</div>
 		</section>

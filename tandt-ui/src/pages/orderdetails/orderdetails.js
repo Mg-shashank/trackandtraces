@@ -1,4 +1,5 @@
 import React, {} from "react";
+import { Link } from 'react-router-dom';
 import { withRouter } from "react-router-dom";
 // import { Menu, Dropdown, Icon } from 'antd';
 import logo from "./images/brillio-logo.png";
@@ -59,8 +60,11 @@ import "./dashboard.scss";
 				</div>
 				
 				<div class="col-lg-12 col-md-12 text-right">
-					<a href="#" class="btn btn-cancel">Cancel</a>
-					<a href="track-order.html" class="btn btn-prim">Track Order</a>
+				<Link to="/createorder"><div class="btn btn-cancel">Cancel</div></Link>
+					<Link to="/trackorder"><div class="btn btn-prim">Track Order</div></Link>
+
+			
+					
 				</div>
 			</div></h6>
 		</section>
