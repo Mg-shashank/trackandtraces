@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import rect from "./images/rect.svg"
-import router from "./images/router.png"
+import router from "./images/router2.jpg"
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
