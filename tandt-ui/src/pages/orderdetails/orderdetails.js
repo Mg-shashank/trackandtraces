@@ -25,7 +25,7 @@ import "./dashboard.scss";
 			<h3 class="section-header">Order Details</h3>
 			<div class="col-lg-12 col-md-12 place-order">
 				<div class="col-lg-3 col-md-3">
-					<img src="images/router.png" alt="device" class="rect" />
+					<img src={router} alt="device" class="rect" />
 					<p class="network-device">Linksys AC1200 Max WiFi Range Extender RE6500<br/><span>Network</span></p>
 				</div>
 				<div class="col-lg-2 col-md-2">
