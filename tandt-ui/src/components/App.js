@@ -9,6 +9,7 @@ import dashboard from "../pages/dashboard/dashboard";
 import createorder from "../pages/createorder/createorder";
 import orderdetails from "../pages/orderdetails/orderdetails";
 import trackorder from "../pages/trackorder/trackorder";
+import traceorder from "../pages/traceorder/traceorder";
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
 import config from "../config";
 
