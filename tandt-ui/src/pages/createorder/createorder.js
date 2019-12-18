@@ -32,7 +32,7 @@ import "./dashboard.scss";
 					<form class="form-horizontal">
 						<legend>Company Details</legend>
 						<div class="form-group col-md-6">
-							<label class="form-label">Enterprise Name</label>
+							<label class="form-label">Vendor Name</label>
 							<select class="form-control">
 							<option>Abbott Group Enterprise</option>
 									<option default>Hirthe Group Enterprise</option>
