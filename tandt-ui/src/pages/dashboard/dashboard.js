@@ -109,7 +109,7 @@ import "./dashboard.scss";
                             </Menu>
                          
                           </div>
-                        <img src={router} alt="s1" className="s1" />
+                        <img src={router} width="100" height="100" alt="s1" className="s1" />
                         <h3 className="title">Asus ROG Rapture GT-AC5300</h3>
                         <p className="sub-title">Router</p>
                         <p className="card-label"><label>End of Warranty:</label> March</p>
@@ -137,7 +137,7 @@ import "./dashboard.scss";
                               <MenuItem onClick={handleClose}>Device Vendor: Abbot</MenuItem>
                             </Menu>                             
                         </div>
-                        <img src={router2} alt="s1" className="s1" />
+                        <img src={router2} alt="s1" width="100" height="100" className="s1" />
                         <h3 className="title">D-Link AC2600 (DIR-2680)</h3>
                         <p className="sub-title">Router</p>
                         <p className="card-label"><label>End of Warranty:</label> June</p>
@@ -167,7 +167,7 @@ import "./dashboard.scss";
                               <MenuItem onClick={handleClose}>Device Vendor: Asus</MenuItem>
                             </Menu>
                         </div>
-                      <img src={router3} alt="s1" className="s1" />
+                      <img src={router3} width="100" height="100" alt="s1" className="s1" />
                       <h3 className="title">Asus RT-AC66U B1</h3>
                       <p className="sub-title">Router</p>
                       <p className="card-label"><label>End of Warranty:</label> June</p>
