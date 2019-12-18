@@ -41,9 +41,8 @@ import "./dashboard.scss";
 					<div class="col-lg-6 col-md-6">
 						<div class="network-device">
 						<h6><p>Billing Id: <span>813725866655</span></p>
-							<p>Biller Name: <span>Michael B Smith</span></p>
-							<p>Address: <span>Michael B Smith, Phone Number(706) 738-0746
-							   2121 Cumming Rd, Augusta, GA, 30904</span></p></h6>
+						
+							<p>Address: <span>Los Angeles, USA</span></p></h6>
 						</div>
 					</div>
 				</div>
