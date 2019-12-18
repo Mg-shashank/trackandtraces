@@ -5,7 +5,7 @@ import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import back from "./images/arrow-right.svg"
 import map from "./images/map.svg"
-import router from "./images/router2.jpg"
+import router from "./images/router.png"
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
