@@ -18,7 +18,7 @@ import "./dashboard.scss";
               <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
             
               <div className="userBlock collapse navbar-collapse">
-                <Link to="/help">Help</Link></Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
+                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
           		</div>  
              
           </header>
