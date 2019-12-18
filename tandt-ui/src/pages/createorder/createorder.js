@@ -4,7 +4,7 @@ import { withRouter,Link } from "react-router-dom";
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import rect from "./images/rect.svg"
-import router from "./images/router2.jpg"
+import router from "./images/router.jpg"
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
@@ -32,7 +32,7 @@ import "./dashboard.scss";
 					<form class="form-horizontal">
 						<legend>Company Details</legend>
 						<div class="form-group col-md-6">
-							<label class="form-label">Distributor Name</label>
+							<label class="form-label">Enterprise Name</label>
 							<select class="form-control">
 							<option>Abbott Group Enterprise</option>
 									<option default>Hirthe Group Enterprise</option>
