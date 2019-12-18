@@ -36,7 +36,7 @@ import "./dashboard.scss";
 					<p class="network-device">Billing Id<br/><span>813725866655</span></p>
 				</div>
 				<div class="col-lg-2 col-md-2">
-					<p class="network-device">Biller Name<br/><span>Michael B Smith</span></p>
+					
 				</div>
 				<div class="col-lg-12 col-md-12 padding0">
 					<div class="col-lg-3 col-md-3">
