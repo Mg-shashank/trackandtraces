@@ -6,6 +6,7 @@ import Login from "../pages/googlelogin/Login";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
+import help from "../pages/help/help";
 import createorder from "../pages/createorder/createorder";
 import orderdetails from "../pages/orderdetails/orderdetails";
 import trackorder from "../pages/trackorder/trackorder";
@@ -47,6 +48,7 @@ export default function App() {
         <PublicRoute path="/login" component={Login} />
         <PublicRoute path="/landingPage" component={landingPage} />
         <PublicRoute path="/dashboard" component={dashboard} />
+        <PublicRoute path="/help" component={help} />
         <PublicRoute path="/createorder" component={createorder} />
         <PublicRoute path="/orderdetails" component={orderdetails} />
         <PublicRoute path="/trackorder" component={trackorder} />
