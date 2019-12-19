@@ -50,7 +50,7 @@ import "./dashboard.scss";
 							</select>
 						</div>
 						<div class="form-group col-md-12">
-							<label class="form-label">Address</label>
+							<label class="form-label">Delivery Address</label>
 							<textarea class="form-control"></textarea>
 						</div>
 					</form>
