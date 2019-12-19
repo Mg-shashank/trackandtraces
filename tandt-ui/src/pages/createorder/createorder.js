@@ -53,6 +53,10 @@ import "./dashboard.scss";
 							<label class="form-label">Delivery Address</label>
 							<textarea class="form-control"></textarea>
 						</div>
+	                                       <div class="form-group col-md-12">
+							<label class="form-label">Upgrade device compatible to 5G</label>
+							<textarea class="form-control">Yes</textarea>
+						</div>
 					</form>
 				</div>
 				<div class="col-lg-12 col-md-12 text-right">
