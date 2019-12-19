@@ -64,7 +64,7 @@ import "./dashboard.scss";
     <div className="row">
       <div className="col-lg-12 col-lg-12">
         <span className="section-header">Recommended Orders </span>
-        <Link to="/createorder"><div className="btn btn-prim pull-right">&nbsp;&nbsp;&nbsp;&nbsp;+ Create New Order</div></Link>
+        <Link to="/createorder"><div className="&nbsp;&nbsp;&nbsp;&nbsp;btn btn-prim pull-right">&nbsp;&nbsp;&nbsp;&nbsp;+ Create New Order</div></Link>
       </div>
     </div>
   </div>
