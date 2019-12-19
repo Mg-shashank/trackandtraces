@@ -62,8 +62,9 @@ import "./dashboard.scss";
       </div>
     </div>
     <div className="row">
-      <div className="col-lg-12 col-md-12">
-        <span className="section-header">Recommended Orders </span><Link to="/createorder"><div className="&nbsp;&nbsp;&nbsp;&nbsp;btn btn-prim pull-right">+ Create New Order</div></Link>
+      <div className="col-lg-12 col-lg-12">
+        <span className="section-header">Recommended Orders </span>
+        <Link to="/createorder"><div className="btn btn-prim pull-right">&nbsp;&nbsp;&nbsp;&nbsp;+ Create New Order</div></Link>
       </div>
     </div>
   </div>
@@ -114,9 +115,10 @@ import "./dashboard.scss";
                         <p className="sub-title">Router</p>
                         <p className="card-label"><label>End of Warranty:</label> March</p>
                         <p className="attribute">MAC Address: D4:05:15:35:4A:11</p>
+                        <p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
                         <p className="attribute">IPv6 Compatible: yes</p>
                         <p className="attribute">Data Transfer Rate: 1200 Mbps</p>
-<p className="attribute">Frequency Band : Dual Band</p>
+                        <p className="attribute">Frequency Band : Dual Band</p>
                       </div>
                     </div>
                     <div className="col-lg-4 col-md-4">
@@ -142,10 +144,10 @@ import "./dashboard.scss";
                         <p className="sub-title">Router</p>
                         <p className="card-label"><label>End of Warranty:</label> June</p>
                         <p className="attribute">MAC Address: D2:65:75:87:A7:05</p>
-                     
+                        <p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
                         <p className="attribute">IPv6 Compatible: yes</p>
                         <p className="attribute">Data Transfer Rate: 3600 Mbps</p>
-<p className="attribute">Frequency Band : TriBand</p>
+                        <p className="attribute">Frequency Band : TriBand</p>
                       </div>
                     </div>
 
@@ -172,10 +174,10 @@ import "./dashboard.scss";
                       <p className="sub-title">Router</p>
                       <p className="card-label"><label>End of Warranty:</label> June</p>
                       <p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
-                 
-                        <p className="attribute">IPv6 Compatible: yes</p>
-                        <p className="attribute">Data Transfer Rate: 4600 Mbps</p>
-<p className="attribute">Frequency Band : Dual Band</p>
+                      <p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
+                       <p className="attribute">IPv6 Compatible: yes</p>
+                      <p className="attribute">Data Transfer Rate: 4600 Mbps</p>
+                      <p className="attribute">Frequency Band : Dual Band</p>
                     </div>
                   </div>
                 </div>
