@@ -1,0 +1,21 @@
+.container {
+    height: "100vh";
+    width: "100vw";
+    display: "flex";
+    justify-content: "center";
+    align-items: "center";
+    position: "absolute";
+    top: 800;
+    left: 600;
+  }
+
+.logotypeImage {
+    top:800;
+    height: "50%";
+    width: "30%";
+    left:600;
+}
+
+.button1{
+  align-items:"center";
+}
