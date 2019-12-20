@@ -1,118 +1,118 @@
-import React, { useState } from "react";
-import { Grid, CircularProgress, Typography, Button, TextField, Fade } from "@material-ui/core";
-import { withRouter } from "react-router-dom";
-import useStyles from "./styles";
-import logo from "./blogo.png";
-import { useUserDispatch, loginUser } from "../../context/UserContext";
+/* global gapi */
+import React, {Component} from 'react';
+import './login.scss';
+import LandingPage from '../dashboard/dashboard';
+//import { GoogleLogin } from 'react-google-login';
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import {Button, MenuItem, Menu} from "@material-ui/core";
+import './blogo.png';
+import brillio from './brillio.jpg';
+import LogButton from '../buttoncomponent/LogButton';
 
-function Login(props) {
-  var classes = useStyles();
+const tstyle = {
+  width:500,
+  height:380,
+  align:'justify',
+  top:250,
+  left:200
+};
 
-  // global
-  var userDispatch = useUserDispatch();
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSignedIn: false
+    }
+  }
 
-  // local
-  var [isLoading, setIsLoading] = useState(false);
-  var [error, setError] = useState(null);
-  var [loginValue, setLoginValue] = useState("");
-  var [passwordValue, setPasswordValue] = useState("");
+  componentDidMount() {
+    const successCallback = this.onSuccess.bind(this);
+    const failureCallback = this.onLoginFailed.bind(this);
+    window.gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: '252338212303-eku5e56140e59uhvqeq36fl8neetega2.apps.googleusercontent.com',
+      })
 
-  return (
-    <Grid container className={classes.container}>
-      <div className={classes.logotypeContainer}>
-        <img src={logo} alt="logo" className={classes.logotypeImage} />
-      </div>
-      <div className={classes.formContainer}>
-        <div className={classes.form}>
-            <React.Fragment>
-              <Fade in={error}>
-                <Typography color="secondary" className={classes.errorMessage}>
-                  Something is wrong with your login or password :(
-                </Typography>
-              </Fade>
-              <TextField
-                id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                value={loginValue}
-                onChange={e => setLoginValue(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === "Enter") {
-                    loginUser(
-                      userDispatch,
-                      loginValue,
-                      passwordValue,
-                      props.history,
-                      setIsLoading,
-                      setError,
-                    )
-                  }
-                }}
-                margin="normal"
-                placeholder="Email Adress"
-                type="email"
-                fullWidth
-              />
-              <TextField
-                id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                value={passwordValue}
-                onChange={e => setPasswordValue(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === "Enter") {
-                    loginUser(
-                      userDispatch,
-                      loginValue,
-                      passwordValue,
-                      props.history,
-                      setIsLoading,
-                      setError,
-                    )
-                  }
-                }}
-                margin="normal"
-                placeholder="Password"
-                type="password"
-                fullWidth
-              />
-              <div className={classes.formButtons}>
-                {isLoading ? (
-                  <CircularProgress size={26} className={classes.loginLoader} />
-                ) : (
-                  <Button
-                    disabled={loginValue.length === 0}
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        loginValue,
-                        passwordValue,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
-                    }
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    Login
-                  </Button>
-                )}
-              </div>
-            </React.Fragment>
+      // this.auth2.attachClickHandler(document.querySelector('#loginButton'), {}, this.onLoginSuccessful.bind(this))
+
+      this.auth2.then(() => {
+        console.log('on init');
+        this.setState({
+          isSignedIn: this.auth2.isSignedIn.get(),
+        });
+      });
+    });
+
+    window.gapi.load('signin2', function() {
+        var opts = {
+        width: 200,
+        height: 50,
+        client_id: '252338212303-eku5e56140e59uhvqeq36fl8neetega2.apps.googleusercontent.com',
+        onSuccess: successCallback,
+        onFailure: failureCallback
+      }
+      gapi.signin2.render('loginButton', opts)
+    })
+  }
+
+  onSuccess() {
+    console.log('on success')
+    this.setState({
+      isSignedIn: true,
+      err: null
+    })
+  }
+
+ onLoginFailed(err) {
+    console.log('on failure')
+    this.setState({
+      isSignedIn: false
+    })
+  }
+
+  getContent() {
+    if (this.state.isSignedIn) {
+    //  return <Switch> <Route path="/mem" render={() => ( <FailedComponent logout={this.onLoginFailed} />)} /> </Switch>
+    //  return <FailedComponent logout={this.onLoginFailed}/>
+        return(
+          <div className="wrapper">
+          {/* <header>
+                <div className="userBlock collapse navbar-collapse">
+                <Link to="/help">Help</Link>&nbsp;
+                </div>
+            </header>
+            <section>*/ }
+        <div className="col-lg-12 col-md-12">
+         {/*<Link to="/dashboard"><div className="btn btn-prim pull-right">Go to Dashboard</div></Link>*/}
+         <LogButton/>
         </div>
-      </div>
-    </Grid>
+            {/*</section>*/}
+        </div>
   );
+      } else {
+      return (
+        <div>
+          <p style={{fontSize:30}}>SignIn to Track and Trace</p>
+          <button id="loginButton" style={{left:50}} className="button1">Login with Google</button>
+        </div>
+      )
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <div class="row">
+    <div style={tstyle} class="col-md-5">
+      <div>
+        <img src={brillio} alt="logo" />
+    </div>
+    </div>
+    <div class="col-md-5" style={tstyle} >{this.getContent()}</div>
+  </div>
+</div>
+    );
+  }
 }
 
-export default withRouter(Login);
+export default Login;
