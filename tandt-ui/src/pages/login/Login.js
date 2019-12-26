@@ -2,17 +2,20 @@
 import React, {Component} from 'react';
 import './login.scss';
 import LandingPage from '../dashboard/dashboard';
+import dashboard from '../dashboard/dashboard';
 //import { GoogleLogin } from 'react-google-login';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch,Redirect } from "react-router-dom";
 import {Button, MenuItem, Menu} from "@material-ui/core";
 import './blogo.png';
-import brillio from './brillio.svg';
+//import brillio from './brillio.svg';
 import brillio1 from './brillio1.png';
 import login from './login.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LogButton from '../buttoncomponent/LogButton';
 import image1 from './image1.png';
 import './site.scss';
+import firebase from "firebase";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 const tstyle = {
   width:500,
   height:380,
@@ -29,102 +32,54 @@ const tstyle = {
  	backgroundSize: 'cover'
   }
 
+  firebase.initializeApp({
+    apiKey: "AIzaSyCICEsUIfXhpYMwasSxphU9PbhLuMtpyoo",
+    authDomain:"fir-tuto-a6fd4.firebaseapp.com"
+  })
+
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSignedIn: false
+  state={isSignedIn:false}
+  uiConfig = {
+    signInFlow: 'popup',
+    signInOptions:[
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ],
+    callbacks:{
+      signInSuccess: () => false
     }
   }
 
-  componentDidMount() {
-    const successCallback = this.onSuccess.bind(this);
-    const failureCallback = this.onLoginFailed.bind(this);
-    window.gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: '252338212303-eku5e56140e59uhvqeq36fl8neetega2.apps.googleusercontent.com',
-      })
-
-      // this.auth2.attachClickHandler(document.querySelector('#loginButton'), {}, this.onLoginSuccessful.bind(this))
-
-      this.auth2.then(() => {
-        console.log('on init');
-        this.setState({
-          isSignedIn: this.auth2.isSignedIn.get(),
-        });
-      });
-    });
-
-    window.gapi.load('signin2', function() {
-        var opts = {
-        width: 200,
-        height: 50,
-        client_id: '252338212303-eku5e56140e59uhvqeq36fl8neetega2.apps.googleusercontent.com',
-        onSuccess: successCallback,
-        onFailure: failureCallback
-      }
-      gapi.signin2.render('loginButton', opts)
+  componentDidMount =()=>{
+    firebase.auth().onAuthStateChanged(user=>{
+      this.setState({isSignedIn:!!user})
     })
   }
 
-  onSuccess() {
-    console.log('on success')
-    this.setState({
-      isSignedIn: true,
-      err: null
-    })
-  }
-
- onLoginFailed(err) {
-    console.log('on failure')
-    this.setState({
-      isSignedIn: false
-    })
-  }
-
-  getContent() {
-    if (this.state.isSignedIn) {
-    //  return <Switch> <Route path="/mem" render={() => ( <FailedComponent logout={this.onLoginFailed} />)} /> </Switch>
-    //  return <FailedComponent logout={this.onLoginFailed}/>
-        return(
-          <div className="wrapper">
-          {/* <header>
-                <div className="userBlock collapse navbar-collapse">
-                <Link to="/help">Help</Link>&nbsp;
-                </div>
-            </header>
-            <section>*/ }
-        <div className="col-lg-12 col-md-12">
-         {/*<Link to="/dashboard"><div className="btn btn-prim pull-right">Go to Dashboard</div></Link>*/}
-         <LogButton/>
-        </div>
-            {/*</section>*/}
-        </div>
-  );
-      } else {
-      return (
-        <div>
-        {/*<button type="button" id="loginButton" className="btn btn-primary" data-toggle="modal" data-target="#login-type">Login</button>*/}
-          <button id="loginButton" className="button1">Login with Google</button>
-        </div>
-      )
-    }
-  }
 
   render() {
     return (
-      <div className="container-fluid padding0">
-    		<div className="col-lg-7 col-md-7 padding0 introimg">
-    			{/*<img src={brillio} alt="img" className=""/>*/}
-          <img src={brillio1} alt='image1' style={introimg}/>
+      <div>
+        {this.state.isSignedIn
+          ?
+          <div>
+          {/*<Redirect to='/dashboard' back={()=>firebase.auth().signOut()}/>*/}
+            <Redirect to='/dashboard'/>
           </div>
-    		<div className="col-lg-5 col-md-5 login-container">
-    			<p className="text-center"><img src={login} alt="login" /></p>
-    			<div class="text-center">
-            <div class="col-md-5">{this.getContent()}</div>
-          </div>
-    		</div>
-    	</div>
+          :
+           <div className="container-fluid padding0">
+         		<div className="col-lg-7 col-md-7 padding0 introimg">
+         			{/*<img src={brillio} alt="img" className=""/>*/}
+               <img src={brillio1} alt='image1' style={introimg}/>
+               </div>
+         		<div className="col-lg-5 col-md-5 login-container">
+         			<p className="text-center"><img src={login} alt="login" /></p>
+         			<div class="text-center">
+                 <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+               </div>
+         		</div>
+         	</div>
+       }
+      </div>
     );
   }
 }
