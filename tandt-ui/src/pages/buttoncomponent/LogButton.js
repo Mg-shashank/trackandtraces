@@ -5,7 +5,7 @@ export default class LogButton extends React.Component{
   render(){
     return(
       <div>
-      <Link to="/dashboard"> <button className="btn btn-small btn-primary"> Log In </button> </Link>
+      <Link to="/dashboard"> <button className="btn btn-large btn-primary"> Login to Track And Trace</button> </Link>
       </div>
     )
   }
