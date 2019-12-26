@@ -486,7 +486,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'tandt' + json['batchId'];
+    let key = 'batch' + json['batchId'];
     console.log('##### queryBatch key: ' + key);                                                                
 
     return queryByKey(stub, key);
