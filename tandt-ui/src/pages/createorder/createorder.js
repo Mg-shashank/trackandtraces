@@ -6,8 +6,8 @@ import usericon from "./images/user-icon.svg";
 import rect from "./images/rect.svg"
 import router from "./images/router.png"
 import "./dashboard.scss";
-// import { ReceiptTwoTone } from "@material-ui/icons";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
+// import { ReceiptTwoTone } from "@material-ui/icons";
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
 
     function Landingpage(props) {    
