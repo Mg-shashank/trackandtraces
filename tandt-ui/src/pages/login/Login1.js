@@ -60,7 +60,7 @@ class App extends React.Component {
    render() {    
         var name=this.state.userDetails.givenName;
         //var surname=this.state.userDetails.familyName;
-        //var email=this.state.userDetails.email;        
+        var email=this.state.userDetails.email;        
         var loggedInUsersEmailId = email;
         localStorage.setItem('name', name); 
         localStorage.setItem('logged-in-user-email-id', loggedInUsersEmailId);
