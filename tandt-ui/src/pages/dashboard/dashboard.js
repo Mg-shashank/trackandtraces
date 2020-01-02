@@ -142,7 +142,7 @@ import "./dashboard.scss";
                             >
                               <MenuItem onClick={handleClose}>Device Model: AC2600</MenuItem>
                               <MenuItem onClick={handleClose}>Device Type: Router</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Vendor: Abbot</MenuItem>
+                              <MenuItem onClick={handleClose}>Device Vendor: D-Link</MenuItem>
                             </Menu>                             
                         </div>
                         <img src={router2} alt="s1" width="100" height="100" className="s1" />
