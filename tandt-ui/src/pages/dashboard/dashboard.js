@@ -1,9 +1,9 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
 import {Button, MenuItem, Menu} from "@material-ui/core";
 // import { Menu, Dropdown, Icon } from 'antd';
 import logo from "./images/brillio-logo.png";
-
+import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import usericon from "./images/user-icon.svg";
 import dots from "./images/dots.svg";
 import router from "./images/router.png";
@@ -29,9 +29,15 @@ import "./dashboard.scss";
               <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
             
               <div className="userBlock collapse navbar-collapse">
-              <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<a href="#"> <img src={usericon} alt="user" /></a>
-          		</div>  
-             
+              <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp; <img src={usericon} alt="user" />
+               <span className="pipe">&nbsp;|&nbsp;</span>
+                <span>
+                <GoogleLogout render={renderProps => (
+                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
+                </Link>)}
+                />
+                </span>
+          		</div>               
               </header>
           <section>    
             <div className="container">
