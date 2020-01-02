@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Error from "../pages/error/Error";
-import Login from "../pages/login/Login";
+//import Login from "../pages/login/Login";
+import Login1 from "../pages/login/Login1";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
@@ -46,7 +47,8 @@ export default function App() {
           render={() => <Redirect to="/app/default" />}
         />
         <PrivateRoute path="/app" component={Layout} />
-        <PublicRoute path="/login" component={Login} />
+          {/*<PublicRoute path="/login" component={Login} />*/}
+        <PublicRoute path="/login" component={Login1} />
         <PublicRoute path="/landingPage" component={landingPage} />
         <PublicRoute path="/dashboard" component={dashboard} />
         <PublicRoute path="/help" component={help} />
