@@ -1,6 +1,7 @@
 import React, {} from "react";
 import { withRouter,Link } from "react-router-dom";
 // import { Menu, Dropdown, Icon } from 'antd';
+import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import back from "./images/arrow-right.svg"
@@ -19,6 +20,13 @@ import "./dashboard.scss";
             
               <div className="userBlock collapse navbar-collapse">
                 <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
+	      <span className="pipe">&nbsp;|&nbsp;</span>
+                <span>
+                <GoogleLogout render={renderProps => (
+                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
+                </Link>)}
+                />
+                </span>	
           		</div>  
              
           </header>
