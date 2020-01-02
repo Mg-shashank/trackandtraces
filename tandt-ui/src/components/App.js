@@ -9,6 +9,7 @@ import dashboard from "../pages/dashboard/dashboard";
 import help from "../pages/help/help";
 import createorder from "../pages/createorder/createorder";
 import orderdetails from "../pages/orderdetails/orderdetails";
+import Unknown from "../pages/login/Unknown";
 import trackorder from "../pages/trackorder/trackorder";
 import traceorder from "../pages/traceorder/traceorder";
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
@@ -53,6 +54,7 @@ export default function App() {
         <PublicRoute path="/orderdetails" component={orderdetails} />
         <PublicRoute path="/trackorder" component={trackorder} />
         <PublicRoute path="/traceorder" component={traceorder}  /> 
+        <PublicRoute path="/unknown" component={Unknown}  />
         <Route component={Error} />
       </Switch>
     </HashRouter>
