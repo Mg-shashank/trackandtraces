@@ -7,6 +7,7 @@ import back from "./images/arrow-right.svg"
 import map from "./images/map.svg"
 import router from "./images/router2.jpg"
 import "./dashboard.scss";
+import {GoogleLogin,GoogleLogout} from 'react-google-login';
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
@@ -19,6 +20,13 @@ import "./dashboard.scss";
             
               <div className="userBlock collapse navbar-collapse">
 			  <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
+	      	<span className="pipe">&nbsp;|&nbsp;</span>
+                <span>
+                <GoogleLogout render={renderProps => (
+                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
+                </Link>)}
+                />
+                </span>
           		</div>  
              
           </header>
