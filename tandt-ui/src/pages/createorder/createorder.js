@@ -7,7 +7,7 @@ import rect from "./images/rect.svg"
 import router from "./images/router.png"
 import "./dashboard.scss";
 // import { ReceiptTwoTone } from "@material-ui/icons";
-
+import {GoogleLogin,GoogleLogout} from 'react-google-login';
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
 
     function Landingpage(props) {    
@@ -18,8 +18,15 @@ import "./dashboard.scss";
             
               <div className="userBlock collapse navbar-collapse">
                 <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
-          		</div>  
-             
+	      	<span className="pipe">&nbsp;|&nbsp;</span>
+                <span>
+                {/*<GoogleLogouts/>*/}
+                <GoogleLogout render={renderProps => (
+                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
+                </Link>)}
+                />
+                </span>
+          	</div>               
           </header>
       <section class="content">
 			<h3 class="section-header">Place Order</h3>
