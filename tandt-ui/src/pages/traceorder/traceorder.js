@@ -9,24 +9,49 @@ import router from "./images/router2.jpg"
 import "./dashboard.scss";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 // import { ReceiptTwoTone } from "@material-ui/icons";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
 
-    function Landingpage(props) {    
+    var image=localStorage.getItem('profile-picture');
+var name=localStorage.getItem('name');
+class Landingpage extends React.Component {
+	constructor(props){
+		super(props);
+		this.toggle= this.toggle.bind(this);
+		this.state = {
+			dropdownOpen:false
+		}; 
+	}
+	
+	toggle=()=>{
+		this.setState((prevState)=>{
+			return{dropdownOpen:!prevState.dropdownOpen};
+		});
+	}   
+	render(){     
       return( 
         <div class="container-fluid padding0">
         <header>
               <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
             
               <div className="userBlock collapse navbar-collapse">
-			  <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
-	      	<span className="pipe">&nbsp;|&nbsp;</span>
-                <span>
-                <GoogleLogout render={renderProps => (
-                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
-                </Link>)}
-                />
-                </span>
+			  <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+      <DropdownToggle caret>
+			<span>
+		Welcome &nbsp;
+			<img src={image} className ="img-circle" alt={usericon} width="40" height="40"/>		
+			</span>
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem header>Options</DropdownItem>
+        <DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
+        {/*<DropdownItem divider />*/}
+        <DropdownItem><GoogleLogout render={renderProps => (
+				<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
+        /></DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
           		</div>  
              
           </header>
@@ -84,7 +109,7 @@ import {GoogleLogin,GoogleLogout} from 'react-google-login';
 		</section>
         </div>         
          
-);
+);}
 }
 
 
