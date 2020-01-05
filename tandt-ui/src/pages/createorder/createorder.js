@@ -6,13 +6,17 @@ import usericon from "./images/user-icon.svg";
 import router from "./images/router.png";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import "./dashboard.scss";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import $ from 'jquery';
+var image=localStorage.getItem('profile-picture');
+var name=localStorage.getItem('name');
 class Landingpage extends React.Component {
 	constructor(props){
 	  super(props);
-	  this.state = {
-		
-		addresss: ''
+		this.toggle= this.toggle.bind(this);
+	  this.state = {		
+		addresss: '',
+		  dropdownOpen:false
 	  };
   
 	  this._handleSubmit = this._handleSubmit.bind(this);
@@ -21,6 +25,11 @@ class Landingpage extends React.Component {
 	}
   
 	// Change state of input field so text is updated while typing
+	toggle=()=>{
+		this.setState((prevState)=>{
+			return{dropdownOpen:!prevState.dropdownOpen};
+		});
+	}
 	_handleChange(e) {
 	  this.setState({
 		contactEmail: e.target.value,
@@ -109,15 +118,22 @@ class Landingpage extends React.Component {
               <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
             
               <div className="userBlock collapse navbar-collapse">
-                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
-	      	<span className="pipe">&nbsp;|&nbsp;</span>
-                <span>
-                {/*<GoogleLogouts/>*/}
-                <GoogleLogout render={renderProps => (
-                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
-                </Link>)}
-                />
-                </span>
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+      <DropdownToggle caret>
+			<span>
+		Welcome &nbsp;
+			<img src={image} className ="img-circle" alt={usericon} width="40" height="40"/>		
+			</span>
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem header>Options</DropdownItem>
+        <DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
+        {/*<DropdownItem divider />*/}
+        <DropdownItem><GoogleLogout render={renderProps => (
+				<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
+        /></DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
           	</div>               
           </header>
 	<section class="content">
