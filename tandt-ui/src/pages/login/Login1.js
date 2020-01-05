@@ -26,6 +26,10 @@ const tstyle = {
     left:500
   };
   
+  const but ={
+    align:'center',
+    left:1000
+  }
    const introimg = {
      height:'100vh',
      width : '58vw',
@@ -60,10 +64,12 @@ class App extends React.Component {
    render() {    
         var name=this.state.userDetails.givenName;
         //var surname=this.state.userDetails.familyName;
-        var email=this.state.userDetails.email;        
+        var email=this.state.userDetails.email;  
+        var image=this.state.userDetails.imageUrl;      
         var loggedInUsersEmailId = email;
         localStorage.setItem('name', name); 
         localStorage.setItem('logged-in-user-email-id', loggedInUsersEmailId);
+        localStorage.setItem('profile-picture',image);
         
         if(email==="shashank30051997@gmail.com"&&"4mc15cs050@gmail.com"){            
             console.log(email);
@@ -86,20 +92,20 @@ class App extends React.Component {
           <img src={brillio1} alt='image1' style={introimg}/>
           </div>
     		<div className="col-lg-5 col-md-5 login-container">
+        <div className="text-center" style={{fontSize:'30px'}}>WELCOME TO TRACK AND TRACE </div>
     			<p className="text-center"><img src={login} alt="login" /></p>
-    			<div class="text-center">
-            <div class="col-md-5">
+    			<div className="text-center">
+            <div className="col-md-5">
             <GoogleLogin            
             clientId="252338212303-eku5e56140e59uhvqeq36fl8neetega2.apps.googleusercontent.com" //TO BE CREATED
-            render={renderProps => (              
-              <span className="btn btn-info btn-lg glyphicon glyphicon-log-in" onClick={renderProps.onClick} disabled={renderProps.disabled}>&nbsp;
-              Log
-              into
-              Track
-              And
-              Trace
-              </span>             
-               )}
+            render={renderProps => (       
+              <div className="text-center" style={{width:"260px"}}>       
+              <button type="button" className="btn btn-primary btn-lg btn-block" 
+              onClick={renderProps.onClick} disabled={renderProps.disabled}> 
+              Login 
+            </button>  
+            </div>
+            )}                           
             onSuccess={ this.responseGoogle}
             onFailure={this.responseGoogle}
             />
@@ -127,27 +133,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
-/* const emailIds = ['shashank30051997@gmail.com', 'abcd1@gmail.com', 'abcd@gmail.com']
-  const roles = [{
-                    "role": "serviceProvider",
-                    "emailId":"shashank30051997@gmail.com"
-                },
-                {
-                    "role": "distributor",
-                    "emailId":"4mc15cs050@gmail.com"
-                },
-                {
-                    "role": "manuacturer",
-                    "emailId":"abcd3@gmail.com"
-                }];*/
-//var roleData = this.getRoleByEmailId(loggedInUsersEmailId);
-//console.log(roleData[0].role);      
-//console.log(this.state.isUserLoggedIn)
-//console.log(this.state.userDetails.familyName)
-//var roleData = this.getRoleByEmailId(loggedInUsersEmailId);
-        //console.log(roleData[0].role);
-        //console.log(roleData)
-        //console.log(this.state.userDetails.email)
