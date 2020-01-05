@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-ro
 import {Button, MenuItem, Menu} from "@material-ui/core";
 // import { Menu, Dropdown, Icon } from 'antd';
 import logo from "./images/brillio-logo.png";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import usericon from "./images/user-icon.svg";
 import dots from "./images/dots.svg";
@@ -10,33 +11,53 @@ import router from "./images/router.png";
 import router2 from "./images/router2.jpg";
 import router3 from "./images/router3.jpg"
 import "./dashboard.scss";
-
-
-    function Landingpage(props) { 
-      
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
+var image=localStorage.getItem('profile-picture');
+var name=localStorage.getItem('name');
+    class Landingpage extends React.Component {
+			constructor(props){
+				super(props);
+				this.toggle= this.toggle.bind(this);
+				this.state = {
+          dropdownOpen:false,
+          anchorEl:null
+				}; 
+			}
+			
+			toggle=()=>{
+				this.setState((prevState)=>{
+					return{dropdownOpen:!prevState.dropdownOpen};
+				});
+			} 
+  handleClick = e => {
+    this.setState({anchorEl:e.target.value})
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+ handleClose = () => {
+  this.setState({anchorEl:null});
   };
-   
+ 
+  render(){
       return( 
         <div className="wrapper">
          <header>
               <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
             
               <div className="userBlock collapse navbar-collapse">
-              <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp; <img src={usericon} alt="user" />
-               <span className="pipe">&nbsp;|&nbsp;</span>
-                <span>
-                <GoogleLogout render={renderProps => (
-                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
-                </Link>)}
-                />
-                </span>
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+      <DropdownToggle caret>
+			<span>
+		Welcome &nbsp;
+			<img src={image} className ="img-circle" alt={usericon} width="40" height="40"/>		
+			</span>
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem header>Options</DropdownItem>
+        <DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
+        {/*<DropdownItem divider />*/}
+        <DropdownItem><GoogleLogout render={renderProps => (
+				<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
+        /></DropdownItem>
+        </DropdownMenu>
+    </Dropdown>
           		</div>               
               </header>
           <section>    
@@ -100,19 +121,20 @@ import "./dashboard.scss";
                       <div className="device-card selected">
                         <div className="dropdown dots">
                           
-                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                               <b>...</b>
                             </Button>
                             <Menu
                               id="simple-menu"
-                              anchorEl={anchorEl}
+                              anchorEl={this.state.anchorEl}
                               keepMounted
-                              open={Boolean(anchorEl)}
-                              onClose={handleClose}
+                              open={Boolean(this.state.anchorEl)}
+                             // open={this.state.anchorEl}
+                              onClose={this.handleClose}
                             >
-                              <MenuItem onClick={handleClose}>Device Model: AC5300</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Type: Router</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Vendor: Asus</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Model: AC5300</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
                             </Menu>
                          
                           </div>
@@ -130,19 +152,19 @@ import "./dashboard.scss";
                     <div className="col-lg-4 col-md-4">
                       <div className="device-card selected">
                         <div className="dropdown dots">
-                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                             <b>...</b>
                             </Button>
                             <Menu
                               id="simple-menu"
-                              anchorEl={anchorEl}
+                              anchorEl={this.state.anchorEl}
                               keepMounted
-                              open={Boolean(anchorEl)}
-                              onClose={handleClose}
+                            //  open={Boolean(anchorEl)}
+                              onClose={this.handleClose}
                             >
-                              <MenuItem onClick={handleClose}>Device Model: AC2600</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Type: Router</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Vendor: D-Link</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Model: AC2600</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
+                              <MenuItem onClick={this.shandleClose}>Device Vendor: Abbot</MenuItem>
                             </Menu>                             
                         </div>
                         <img src={router2} alt="s1" width="100" height="100" className="s1" />
@@ -160,19 +182,19 @@ import "./dashboard.scss";
                   <div className="col-lg-4 col-md-4">
                     <div className="device-card selected">
                       <div className="dropdown dots">
-                          <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                          <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                           <b>...</b>
                             </Button>
                             <Menu
                               id="simple-menu"
-                              anchorEl={anchorEl}
+                              anchorEl={this.state.anchorEl}
                               keepMounted
-                              open={Boolean(anchorEl)}
-                              onClose={handleClose}
+                           //   open={Boolean(anchorEl)}
+                              onClose={this.handleClose}
                             >
-                              <MenuItem onClick={handleClose}>Device Model: AC66U</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Type: Router</MenuItem>
-                              <MenuItem onClick={handleClose}>Device Vendor: Asus</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
+                              <MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
                             </Menu>
                         </div>
                       <img src={router3} width="100" height="100" alt="s1" className="s1" />
@@ -194,7 +216,7 @@ import "./dashboard.scss";
           </section>  
         </div>  
          
-);
+);}
       }
 export default (Landingpage);
                     
