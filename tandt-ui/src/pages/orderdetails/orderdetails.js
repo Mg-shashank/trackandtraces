@@ -8,19 +8,20 @@ import usericon from "./images/user-icon.svg";
 import rect from "./images/rect.svg"
 import router from "./images/router.png"
 import "./dashboard.scss";
-// import { ReceiptTwoTone } from "@material-ui/icons";
-// import { useUserDispatch, loginUser } from "../../context/UserContext";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-    import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
-//console.log(image);
+var orderStatus;
     class Landingpage extends React.Component {
 			constructor(props){
 				super(props);
 				this.toggle= this.toggle.bind(this);
 				this.state = {
-					dropdownOpen:false
+					dropdownOpen:false,
+					disabled : false
 				}; 
 			}
 			
@@ -29,14 +30,82 @@ var name=localStorage.getItem('name');
 					return{dropdownOpen:!prevState.dropdownOpen};
 				});
 			}
+			handleClick = (event) => {
+				if (this.state.disabled) {
+						return;
+				}
+				this.setState({disabled: true});
+		}
+		handleClicks=(e)=>{
+
+		}
+						
+			 componentDidMount(){
+				var APIURL="https://njm54jxya2.execute-api.us-east-1.amazonaws.com/prod/entries";
+					var API_URL="https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/createorder";
+								$(document).ready(function(){
+								$.ajax({
+									type:'GET',
+									url: API_URL,
+									success:function(data){
+		 								$('#transactionid').html('');
+										$('#createdat').html('');							
+										$('#distributor').html('');
+										$('#vendorname').html('');
+										$('#quantitywithvendor').html('');
+										$('#orderid').html('');
+										$('#orderdetails').html('');
+										$('#status').html('');
+										console.log(data);
+										console.log("hello")
+										data.Items.forEach(function(createorderdisplayitem)
+										{
+										$('#orderid').append('<p>'+ createorderdisplayitem.OrderID.S + '</p>')
+										$('#orderdetails').append('<p>'+ createorderdisplayitem.OrderDetails.S + '</p>')
+										$('#transactionid').append('<p>'+ createorderdisplayitem.TransactionID.S +'</p>')
+										$('#createdat').append('<p>'+createorderdisplayitem.CreatedAt.S+'</p>')
+										$('#orderstatus').append('<p>'+createorderdisplayitem.OrderStatus.S+'</p>')
+										$("#distributor").append('<p>'+createorderdisplayitem.Distributor.S+'</p>')
+										})										
+								}
+							});
+						});
+						$('#reject').on('click',function(){
+							$.ajax({
+								type:'POST',
+								url:APIURL,
+								data: JSON.stringify({'rejection':"Order Rejected"}),
+								contentType:"application/json",
+								/*success: function(data){
+									window.location.reload();
+								}*/
+							})
+							return false;
+						})	
+						$('#accept').on('click',function(){
+							$.ajax({
+								type:'POST',
+								url:APIURL,
+								data: JSON.stringify({'acceptance':"Order Accepted"}),
+								contentType:"application/json",
+							
+							})
+							return false;
+						})
+				}
+					
+					disabling(){
+						document.getElementById('reject').disabled=true;
+						document.getElementById('accept').disabled=true;
+					}
 			render(){
       return(
-        <div class="container-fluid padding0">
+        <div className="container-fluid padding0">
         <header>
           <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/>
-          </span>
-          <div className="userBlock collapse navbar-collapse">
-			 <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+          </span>				
+          <div className="userBlock collapse navbar-collapse">	
+					<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle caret>
 			<span>
 		Welcome &nbsp;
@@ -46,64 +115,45 @@ var name=localStorage.getItem('name');
       <DropdownMenu>
         <DropdownItem header>Options</DropdownItem>
         <DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
-        {/*<DropdownItem divider />*/}
         <DropdownItem><GoogleLogout render={renderProps => (
 				<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
         /></DropdownItem>
         </DropdownMenu>
     </Dropdown>
-	      </div>
-        </header>
-		  <section class="content">
-			<h3 class="section-header">Order Details</h3>
-			<h6><div class="col-lg-12 col-md-12 place-order">
-				<div class="col-lg-3 col-md-3">
+
+			  </div>
+        </header>	
+					<section class="content">
+					<div class="col-lg-3 col-md-3" id="images">
 					<img src={router} alt="device" class="rect" width="100" height="100"/>
-					<p class="network-device">Asus ROG Rapture GT-AC5300<br/><span>network</span></p>
-				</div>
-				<div class="col-lg-2 col-md-2">
-					<p class="network-device">Item Quantity<br/><span>10000</span></p>
-				</div>
-				<div class="col-lg-2 col-md-2">
-					<p class="network-device">Billing Id<br/><span>813725866655</span></p>
-				</div>
-				<div class="col-lg-2 col-md-2">
-
-				</div>
-				<div class="col-lg-12 col-md-12 padding0">
-					<div class="col-lg-3 col-md-3">
-						<label class="form-label">Vendor Name</label>
-						<p>Abbott Group Enterprise</p>
 					</div>
-
-					<div class="col-lg-3 col-md-3">
-						<label class="form-label">Quantity</label>
-						<p>10000</p>
-					</div>
-					<div class="col-lg-3 col-md-3">
-						<label class="form-label">Address</label>
-						<p>Los Angeles, USA</p>
-					</div>
-				</div>
-				<div class="col-lg-12 col-md-12">
-					<label class="form-label">Addition Requests</label>
-					<p>Condition:Refurbished Status: Working</p>
-          <p>Upgrade device compatible to 5G.</p>
-				</div>
-        <div>
-        <div class="col-sm-12 text-right">
-          <button class="btn btn-danger">Reject Order</button>&nbsp;&nbsp;
-    		  <button class="btn btn-primary">Accept Order</button>
+					<div className="transactionid" width="300" height="200"><p style={{fontWeight:'bold'}}>Transaction ID:</p></div>
+					<div id="transactionid" width="200" height="100"></div>
+					<div className="orderid" width="300" height="200"><p style={{fontWeight:'bold'}}>Order ID:</p></div>
+					<div id="orderid" width="200" height="100"></div>
+					<div className="orderdetails" width="300" height="200"><p style={{fontWeight:'bold'}}>Order Details:</p></div>
+					<div id="orderdetails" width="200" height="100"></div>
+					<div className="createdat" width="300" height="200"><p style={{fontWeight:'bold'}}>Created At:</p></div>
+					<div id="createdat" width="200" height="100"></div>
+					<div className="orderstatus" width="300" height="200"><p style={{fontWeight:'bold'}}>OrderStatus:</p></div>
+					<div id="orderstatus" width="200" height="100"></div>
+					<div className="orderstatuess" width="300" height="200"><p style={{fontWeight:'bold'}}>OrderStatus:</p></div>
+					<div id="orderstatuses" width="200" height="100"></div>
+					<div className="distributor" width="300" height="200"><p style={{fontWeight:'bold'}}>Distributor:</p></div>
+					<div id="distributor" width="200" height="100"></div>
+					<div class="col-sm-12 text-right">
+					<button class="btn btn-danger" onClick={this.handleClick} disabled={this.state.disabled} id='reject'>
+					Reject</button>&nbsp;&nbsp;					
+    		  <button class="btn btn-primary" onClick={this.handleClicks} disabled={this.state.disabled} id='accept'>
+					Accept</button>
         </div>
 				<div class="col-md-4 text-left">
 				  <Link to="/createorder"><button class="btn btn-small btn-cancel">Cancel</button></Link>&nbsp;&nbsp;
 					<Link to="/trackorder"><button class="btn btn-primary">Track Order</button></Link>
 				</div>
-        </div>
-      </div>
-    </h6>
-		</section>
+					</section>
   </div>
-  );}
+  );
+}
 }
 export default withRouter(Landingpage);
