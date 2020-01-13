@@ -30,25 +30,11 @@ async function queryByKey(stub, key) {
   return resultAsBytes;
 }
 
-/**
- * Executes a query based on a provided queryString
- * 
- * I originally wrote this function to handle rich queries via CouchDB, but subsequently needed
- * to support LevelDB range queries where CouchDB was not available.
- * 
- * @param {*} queryString - the query string to execute
- */
+
 async function queryByString(stub, queryString) {
   console.log('============= START : queryByString ===========');
   console.log("##### queryByString queryString: " + queryString);
 
-  // CouchDB Query
-  // let iterator = await stub.getQueryResult(queryString);
-
-  // Equivalent LevelDB Query. We need to parse queryString to determine what is being queried
-  // In this chaincode, all queries will either query ALL records for a specific docType, or
-  // they will filter ALL the records looking for a specific NGO, Donor, Donation, etc. So far, 
-  // in this chaincode there is a maximum of one filter parameter in addition to the docType.
   let docType = "";
   let startKey = "";
   let endKey = "";
@@ -64,8 +50,6 @@ async function queryByString(stub, queryString) {
 
   let iterator = await stub.getStateByRange(startKey, endKey);
 
-  // Iterator handling is identical for both CouchDB and LevelDB result sets, with the 
-  // exception of the filter handling in the commented section below
   let allResults = [];
   while (true) {
     let res = await iterator.next();
@@ -82,10 +66,7 @@ async function queryByString(stub, queryString) {
         console.log('##### queryByString error: ' + err);
         jsonRes.Record = res.value.value.toString('utf8');
       }
-      // ******************* LevelDB filter handling ******************************************
-      // LevelDB: additional code required to filter out records we don't need
-      // Check that each filter condition in jsonQueryString can be found in the iterator json
-      // If we are using CouchDB, this isn't required as rich query supports selectors
+
       let jsonRecord = jsonQueryString['selector'];
       // If there is only a docType, no need to filter, just return all
       console.log('##### queryByString jsonRecord - number of JSON keys: ' + Object.keys(jsonRecord).length);
@@ -108,8 +89,7 @@ async function queryByString(stub, queryString) {
         }
       }
       // ******************* End LevelDB filter handling ******************************************
-      // For CouchDB, push all results
-      // allResults.push(jsonRes);
+
     }
     if (res.done) {
       await iterator.close();
@@ -120,28 +100,6 @@ async function queryByString(stub, queryString) {
   }
 }
 
-/**
- * Record spend made by an NGO
- * 
- * This functions allocates the spend amongst the donors, so each donor can see how their 
- * donations are spent. The logic works as follows:
- * 
- *    - Get the donations made to this NGO
- *    - Get the spend per donation, to calculate how much of the donation amount is still available for spending
- *    - Calculate the total amount spent by this NGO
- *    - If there are sufficient donations available, create a SPEND record
- *    - Allocate the spend between all the donations and create SPENDALLOCATION records
- * 
- * @param {*} spend - the spend amount to be recorded. This will be JSON, as follows:
- * {
- *   "docType": "spend",
- *   "spendId": "1234",
- *   "spendAmount": 100,
- *   "spendDate": "2018-09-20T12:41:59.582Z",
- *   "spendDescription": "Delias Dainty Delights",
- *   "ngoRegistrationNumber": "1234"
- * }
- */
 async function allocateSpend(stub, spend) {
   console.log('============= START : allocateSpend ===========');
   console.log('##### allocateSpend - Spend received: ' + JSON.stringify(spend));
@@ -294,18 +252,6 @@ async function allocateSpend(stub, spend) {
       throw new Error('##### allocateSpend - spendPerDonation is not a valid number: ' + spendPerDonation);   
     }
 
-    // create the SPENDALLOCATION records. Each record looks as follows:
-    //
-    // {
-    //   "docType":"spendAllocation",
-    //   "spendAllocationId":"c5b39e938a29a80c225d10e8327caaf817f76aecd381c868263c4f59a45daf62-1",
-    //   "spendAllocationAmount":38.5,
-    //   "spendAllocationDate":"2018-09-20T12:41:59.582Z",
-    //   "spendAllocationDescription":"Peter Pipers Poulty Portions for Pets",
-    //   "donationId":"FFF6A68D-DB19-4CD3-97B0-01C1A793ED3B",
-    //   "ngoRegistrationNumber":"D0884B20-385D-489E-A9FD-2B6DBE5FEA43",
-    //   "spendId": "1234"
-    // }
 
     for (let donation of donationMap) {
       let donationId = donation[0];
@@ -338,11 +284,7 @@ async function allocateSpend(stub, spend) {
         console.log('##### allocateSpend - donation ID ' + donationId + ' has no funds available at all. Available amount: ' + availableAmountForDonor + '. This donation ID will be ignored');
         continue;
       }
-      // add a new spendAllocation record containing the portion of a donation allocated to this spend
-      //
-      // spendAllocationId is (hopefully) using an ID created in a deterministic manner, meaning it should
-      // be identical on all endorsing peer nodes. If it isn't, the transaction validation process will fail
-      // when Fabric compares the write-sets for each transaction and discovers there is are different values.
+
       let spendAllocationId = stub.getTxID() + '-' + recordCounter;
       recordCounter++;
       let key = 'spendAllocation' + spendAllocationId;
@@ -472,6 +414,27 @@ let Chaincode = class {
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
     console.log('============= END : createBatch ===========');
   }
+  
+    async createOrder(stub, args) {
+    console.log('============= START : createOrder ===========');
+    console.log('##### createOrder arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'order' + json['orderId'];
+    json['docType'] = 'order';
+
+    console.log('##### createOrder payload: ' + JSON.stringify(json));
+
+    // Check if the donor already exists
+    // let donorQuery = await stub.getState(key);
+    // if (donorQuery.toString()) {
+    //   throw new Error('##### createBatch - This batch already exists: ' + json['donorUserName']);
+    // }
+
+    await stub.putState(key, Buffer.from(JSON.stringify(json)));
+    console.log('============= END : createOrder ===========');
+  }
 
 
   /**
@@ -491,7 +454,17 @@ let Chaincode = class {
 
     return queryByKey(stub, key);
   }
+  async queryOrder(stub, args) {
+    console.log('============= START : queryOrder ===========');
+    console.log('##### queryOrder arguments: ' + JSON.stringify(args));
 
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'order' + json['orderId'];
+    console.log('##### queryOrder key: ' + key);                                                                
+
+    return queryByKey(stub, key);
+  }
   /**
    * Retrieves all batches
    * 
@@ -506,6 +479,13 @@ let Chaincode = class {
     return queryByString(stub, queryString);
   }
 
+    async queryAllOrders(stub, args) {
+    console.log('============= START : queryAllOrders===========');
+    console.log('##### queryAllOrders arguments: ' + JSON.stringify(args));
+ 
+    let queryString = '{"selector": {"docType": "order"}}';
+    return queryByString(stub, queryString);
+  }
 /**
    * Creates a new Organizaion
    * 
