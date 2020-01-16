@@ -21,8 +21,8 @@ var orderid=localStorage.getItem('orderid');
 var createdat=localStorage.getItem('createdat');
 var orderstatus=localStorage.getItem('orderstatus');
 var transactionid=localStorage.getItem('transactionid');
-var distributorr=localStorage.getItem('distributor');
-var distributoraddress=localStorage.getItem('distributoraddress');
+var manufacturer=localStorage.getItem('manufacturer');
+var manufactureraddress=localStorage.getItem('manufactureraddress');
 var product=localStorage.getItem('product');
 var category=localStorage.getItem('category');
 var quantity=localStorage.getItem('quantity');
@@ -136,7 +136,7 @@ class Landingpage extends React.Component {
 							Order ID: {orderid} <br/>
 							Transaction ID: {transactionid} <br/>
 							Order Placed on: {createdat}<br/><br/>
-							Distributor: {distributorr}<br/>{distributoraddress}<br/><br/>
+							Distributor: {manufacturer}<br/>{manufactureraddress}<br/><br/>
 							Product Name: {product}<br/>
 							Product Category: {category}<br/>
 							Quantity :{quantity}<br/>
