@@ -31,6 +31,21 @@ var name=localStorage.getItem('name');
   handleClick = e => {
     this.setState({anchorEl:e.target.value})
   };
+  eve1 =()=> {
+    window.location.reload(false)
+    var r="Asus ROG Rapture GT-AC5300";
+    localStorage.setItem('router',r);
+  };
+  eve2 =()=> {
+    window.location.reload(false)
+    var r="D-Link AC2600 (DIR-2680)";
+    localStorage.setItem('router',r);
+  };
+  eve3 =()=> {
+    window.location.reload(false)
+    var r="Asus RT-AC66U B1";
+    localStorage.setItem('router',r);
+  };
  handleClose = () => {
   this.setState({anchorEl:null});
   };
@@ -118,7 +133,7 @@ var name=localStorage.getItem('name');
              
                   <div className="col-lg-9 col-md-9 padding0">
                     <div className="col-lg-4 col-md-4">
-                      <div className="device-card selected">
+                      <div className="device-card " onClick={this.eve1}>
                         <div className="dropdown dots">
                           
                             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
@@ -150,7 +165,7 @@ var name=localStorage.getItem('name');
                       </div>
                     </div>
                     <div className="col-lg-4 col-md-4">
-                      <div className="device-card selected">
+                      <div className="device-card " onClick={this.eve2}>
                         <div className="dropdown dots">
                             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                             <b>...</b>
@@ -180,7 +195,7 @@ var name=localStorage.getItem('name');
                     </div>
 
                   <div className="col-lg-4 col-md-4">
-                    <div className="device-card selected">
+                    <div className="device-card" onClick={this.eve3}>
                       <div className="dropdown dots">
                           <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
                           <b>...</b>
