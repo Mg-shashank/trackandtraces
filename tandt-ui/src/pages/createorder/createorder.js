@@ -17,7 +17,7 @@ class Landingpage extends React.Component {
 	  this.state = {
 		
 		address: '',
-        vendor:'',
+        manufacture:'',
         address1:'',
         quantity:'',
 	  };
@@ -42,7 +42,7 @@ class Landingpage extends React.Component {
 		}
 	  _handleChangename(e) {
 		  this.setState({
-			  vendor: e.target.value,
+			manufacture: e.target.value,
 		  });
 		}
 	  _handleChangeMsg(e) {
@@ -58,7 +58,7 @@ class Landingpage extends React.Component {
 	  this.setState({
 	
 		address: this.state.address,
-    vendor:this.state.vendor,
+		manufacture:this.state.manufacture,
     address1:this.state.address1,
     quantity:this.state.quantity,
 	  });
@@ -71,7 +71,7 @@ class Landingpage extends React.Component {
 			"Product":routers,
 			"Category":"Network",
 			Quantity: this.state.quantity,
-			Distributor: this.state.vendor,
+			Manufacturer: this.state.manufacture,
 			"Address": this.state.address1,
 	 	   'Upgrade device compatiblity to 5G': $("#upgrade").val(),
 		   'Delivery Address': this.state.address
@@ -91,7 +91,7 @@ class Landingpage extends React.Component {
 			mode :'no-cors',
 			data: JSON.stringify({
 				
-				OrderDetails: [JSON.stringify({"Product":routers,"Category":"Network","Distributor":this.state.vendor,"Address": this.state.address1,"Quantity": this.state.quantity,"Upgradeto5G":$("#upgrade").val(),"DeliveryAddress":this.state.address})],ServiceProvider:name,Distributor:this.state.vendor,TransactionID:id
+				OrderDetails: [JSON.stringify({"Product":routers,"Category":"Network","Manufacturer":this.state.manufacture,"Address": this.state.address1,"Quantity": this.state.quantity,"Upgradeto5G":$("#upgrade").val(),"DeliveryAddress":this.state.address})],ServiceProvider:name,Manufacturer:this.state.manufacture,TransactionID:id
 			}),
 			cache: false,
 			success: function(data) {
@@ -109,8 +109,8 @@ class Landingpage extends React.Component {
 			 localStorage.setItem('createdat',data.CreatedAt.S);
 			 localStorage.setItem('orderstatus',data.OrderStatus.S);
 			 localStorage.setItem('transactionid',data.TransactionID.S);
-			 localStorage.setItem('distributor',data.Distributor.S);
-			 localStorage.setItem('distributoraddress', c.Address);
+			 localStorage.setItem('manufacturer',data.Manufacturer.S);
+			 localStorage.setItem('manuafctureraddress', c.Address);
 			 localStorage.setItem('product', c.Product);
 			 localStorage.setItem('category', c.Category);
 			 localStorage.setItem('quantity', c.Quantity);
@@ -181,8 +181,8 @@ class Landingpage extends React.Component {
 			
 				
 				<div class="form-group col-md-6">
-					<label class="form-label"><b>Vendor Name : </b></label>
-					<input type="text" rows="8" cols="40" value={this.state.vendor} onChange={this._handleChangename} required/>				
+					<label class="form-label"><b>Manufacturer: </b></label>
+					<input type="text" rows="8" cols="40" value={this.state.manufacture} onChange={this._handleChangename} required/>				
 				</div>
                
 				<div class="form-group col-md-6">
