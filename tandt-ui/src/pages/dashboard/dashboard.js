@@ -11,22 +11,69 @@ import router from "./images/router.png";
 import router2 from "./images/router2.jpg";
 import router3 from "./images/router3.jpg"
 import "./dashboard.scss";
+var https = require("https");
+var image = localStorage.getItem('profile-picture');
+var ordcounts = localStorage.getItem('ordcount');
+var ordcounts1 = localStorage.getItem('ordcount1');
+var ordcounts2 = localStorage.getItem('ordcount2');
+var recentact= localStorage.getItem('recentact');
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
-    class Landingpage extends React.Component {
-			constructor(props){
-				super(props);
-				this.toggle= this.toggle.bind(this);
-				this.state = {
-          dropdownOpen:false,
-          anchorEl:null
-				}; 
-			}
-			
-			toggle=()=>{
-				this.setState((prevState)=>{
-					return{dropdownOpen:!prevState.dropdownOpen};
-				});
+
+class Landingpage extends React.Component {
+constructor(props){
+super(props);
+this.toggle= this.toggle.bind(this);
+	
+this.state = {
+dropdownOpen:false,
+anchorEl:null
+}; 
+}
+
+	componentDidMount() {
+    https.get("https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchordercount",
+      function (response) {
+        if (response.statusCode !== 200) {
+          console.log("Error while getting the data.");
+        }
+        response.on('data', function (data) {
+
+          console.log(JSON.parse(data));
+          ordcounts = localStorage.setItem('ordcount', data);
+        });
+      })
+
+    https.get("https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchcountaccept",
+      function (response) {
+        if (response.statusCode !== 200) {
+          console.log("Error while getting the data.");
+        }
+        response.on('data', function (data) {
+
+          console.log(JSON.parse(data));
+           ordcounts1 = localStorage.setItem('ordcount1', data);
+        }
+        )
+      })
+
+    https.get("https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchcountrec",
+      function (response) {
+        if (response.statusCode !== 200) {
+          console.log("Error while getting the data");
+        }
+        response.on('data', function (data) {
+          //  console.log(data2);
+          console.log(JSON.parse(data));
+           ordcounts2 = localStorage.setItem('ordcount2', data);
+        }
+        )
+      })
+	
+toggle=()=>{
+this.setState((prevState)=>{
+return{dropdownOpen:!prevState.dropdownOpen};
+});
 			} 
   handleClick = e => {
     this.setState({anchorEl:e.target.value})
@@ -87,19 +134,19 @@ var name=localStorage.getItem('name');
       <div className="col-lg-4 col-md-4">
         <div className="track-order">
           <h3>Order Received</h3>
-          <p className="order-number">18605</p>
+          <p className="order-number"><b>{ordcounts2}</b></p>
         </div>
       </div>
       <div className="col-lg-4 col-md-4">
         <div className="track-order">
           <h3>Order Accepted</h3>
-          <p className="order-number">15730</p>
+          <p className="order-number"><b>{ordcounts1}</b></p>
         </div>
       </div>
       <div className="col-lg-4 col-md-4">
         <div className="track-order">
           <h3>Order Placed</h3>
-          <p className="order-number">15067</p>
+          <p className="order-number"><b><strong>{ordcounts}</strong></b></p>
         </div>
       </div>
     </div>
@@ -110,10 +157,9 @@ var name=localStorage.getItem('name');
       </div>
     </div>
   </div>
-</div>
-            
+</div>           
 
-                      <div className="col-lg-3 col-mt-3  float-right  recent-activities">
+                <div className="col-lg-3 col-mt-3  float-right  recent-activities">
               <div className="col-lg-12 col-mt-12 col-mt-5 padding0">
                 <h3 className="section-header">Recent Activities</h3>
                 
