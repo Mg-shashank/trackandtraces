@@ -116,7 +116,7 @@ class Landingpage extends React.Component {
 		  console.log(err);
 		
 		}.bind(this)
-	  });window.location="/#/trackorder";
+	  });window.location="/#/orderdetails";
 	}
 	
 	render() {
