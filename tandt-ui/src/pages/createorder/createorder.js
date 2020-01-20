@@ -1,5 +1,6 @@
 import React, {useState, Component }  from "react";
-import { withRouter,Link } from "react-router-dom";
+import { withRouter,Link ,Route} from "react-router-dom";
+import { Redirect } from 'react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from "./images/brillio-logo.png";
@@ -16,51 +17,29 @@ class Landingpage extends React.Component {
 	  super(props);
 	  this.state = {
 		
-		address: '',
-        manufacture:'',
-        address1:'',
+	
         quantity:'',
 	  };
   
 	  this._handleSubmit = this._handleSubmit.bind(this);
-	  this._handleChange = this._handleChange.bind(this);
-      this._handleChangeMsg = this._handleChangeMsg.bind(this);
-      this._handleChangename = this._handleChangename.bind(this);
+
       this._handleChangeq = this._handleChangeq.bind(this);
 	}
   
 	// Change state of input field so text is updated while typing
-	_handleChange(e) {
-		this.setState({
-		  address1: e.target.value,
-		});
-	  }
+
 	  _handleChangeq(e) {
 		  this.setState({
 			quantity: e.target.value,
 		  });
 		}
-	  _handleChangename(e) {
-		  this.setState({
-			manufacture: e.target.value,
-		  });
-		}
-	  _handleChangeMsg(e) {
-		this.setState({
-		  address: e.target.value,
-		  
-		
-		});
-	  }
+	
+
   
 	_handleSubmit(e) {
 	  e.preventDefault();
 	  this.setState({
-	
-		address: this.state.address,
-		manufacture:this.state.manufacture,
-    address1:this.state.address1,
-    quantity:this.state.quantity,
+	    quantity:this.state.quantity,
 	  });
 	  
   
@@ -71,17 +50,17 @@ class Landingpage extends React.Component {
 			"Product":routers,
 			"Category":"Network",
 			Quantity: this.state.quantity,
-			Manufacturer: this.state.manufacture,
-			"Address": this.state.address1,
+		    "Manufacturer": $("#manufacture").val(),
 	 	   'Upgrade device compatiblity to 5G': $("#upgrade").val(),
-		   'Delivery Address': this.state.address
+		  
 		},
 		cache: false,
 		success: function(data) {
 
 		  // Success..
-		  var id=JSON.stringify(data);
-		  console.log('success', data);
+		  var id=JSON.stringify(data.transactionId);
+		  console.log('Transaction ID', data.transactionId);
+		 
 		  var name=localStorage.getItem('name');
 		  console.log(localStorage.getItem('name'));
 			//var assign=localStorage.getItem('name');
@@ -91,7 +70,7 @@ class Landingpage extends React.Component {
 			mode :'no-cors',
 			data: JSON.stringify({
 				
-				OrderDetails: [JSON.stringify({"Product":routers,"Category":"Network","Manufacturer":this.state.manufacture,"Address": this.state.address1,"Quantity": this.state.quantity,"Upgradeto5G":$("#upgrade").val(),"DeliveryAddress":this.state.address})],ServiceProvider:name,Manufacturer:this.state.manufacture,TransactionID:id
+				OrderDetails: [JSON.stringify({"Product":routers,"Category":"Network","Manufacturer":$("#manufacture").val(),"Quantity": this.state.quantity,"Upgradeto5G":$("#upgrade").val()})],ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:id
 			}),
 			cache: false,
 			success: function(data) {
@@ -110,14 +89,13 @@ class Landingpage extends React.Component {
 			 localStorage.setItem('orderstatus',data.OrderStatus.S);
 			 localStorage.setItem('transactionid',data.TransactionID.S);
 			 localStorage.setItem('manufacturer',data.Manufacturer.S);
-			 localStorage.setItem('manuafctureraddress', c.Address);
-			 localStorage.setItem('product', c.Product);
+			localStorage.setItem('product', c.Product);
 			 localStorage.setItem('category', c.Category);
 			 localStorage.setItem('quantity', c.Quantity);
-			 localStorage.setItem('deliveryaddress', c.DeliveryAddress);
-			 localStorage.setItem('upgrade', c.Upgradeto5G);
+			localStorage.setItem('upgrade', c.Upgradeto5G);
+			
 		      
-			 toast.success("Order is placed successfully!");
+			
 		
 			}.bind(this),
 			// Fail..
@@ -125,11 +103,7 @@ class Landingpage extends React.Component {
 			  console.log(xhr, status);
 			  console.log(err);
 			  console.log(data);
-			  this.setState({
 			
-				address: '<h1>Order could not be placed</h1><p>Try again later</p>'
-			  });
-			  console.log(this.state.address+ 'fail');
 			}.bind(this)
 		  });
 
@@ -140,14 +114,9 @@ class Landingpage extends React.Component {
 		error: function(xhr, status, err) {
 		  console.log(xhr, status);
 		  console.log(err);
-		  this.setState({
 		
-			addresss: '<h1>Order could not be placed</h1><p>Try again later</p>'
-		  });
-		  console.log(this.state.addresss + 'fail');
-
 		}.bind(this)
-	  });
+	  });window.location="/#/trackorder";
 	}
 	
 	render() {
@@ -178,21 +147,23 @@ class Landingpage extends React.Component {
 	
 			<form class="form-horizontal" onSubmit={this._handleSubmit} id="formContact">
 			<div class="col-lg-7 col-md-7">
+			<div class="form-group col-md-6">
+							<label class="form-label"><b>Manufacturer</b></label>
+							
+							<select class="form-control" id="manufacture">
+									<option>Abbott Group Enterprise, Oklahoma, USA</option>
+									<option default>Hirthe Group Enterprise, Washington, USA</option>
+									<option>Schuster Ltd Enterprise, Alabama, USA</option>
+								</select>
+						</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			
 				
-				<div class="form-group col-md-6">
-					<label class="form-label"><b>Manufacturer: </b></label>
-					<input type="text" rows="8" cols="40" value={this.state.manufacture} onChange={this._handleChangename} required/>				
-				</div>
-               
-				<div class="form-group col-md-6">
-					<label class="form-label"><b>Address :</b></label>
-					<input type="text" rows="8" cols="40" value={this.state.address1} onChange={this._handleChange} required/>					
-				</div>
 			
-                <div class="form-group col-md-6">
-					<label class="form-label"><b>Quantity :</b></label>&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="text" rows="8" cols="40" value={this.state.quantity} onChange={this._handleChangeq} required/>					
+               
+			
+                <div class="form-group col-md-6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<label class="form-label"><b>Quantity :</b></label>
+					<input type="number" rows="8" cols="40" value={this.state.quantity} onChange={this._handleChangeq} required/>					
 				</div>
 				<br/><br/><br/><br/><br/><br/>
 			  
@@ -205,17 +176,10 @@ class Landingpage extends React.Component {
 				</div>
 				<br />
 			 
-                <div class="form-group col-md-12">
-                    <label class="form-label"><b>Delivery Address :</b></label><br/>
-                    <textarea id="formMsg" name="formMsg" rows="8" cols="40" value={this.state.address} onChange={this._handleChangeMsg} required></textarea>
-                 </div>
-
-
+            
 			  <div class="col-lg-12 col-md-12 text-right">
 				<Link to="/dashboard"><div class="btn btn-cancel">Cancel</div></Link>&nbsp;&nbsp;&nbsp;
 				<input type="submit" value="Submit" className="btn btn-cancel" id="btn-submit" />
-				
-				<ToastContainer />
 				</div></div>
 			</form>
 		  </div></section>
