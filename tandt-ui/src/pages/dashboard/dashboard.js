@@ -69,6 +69,7 @@ anchorEl:null
         }
         )
       })
+}
 	
 toggle=()=>{
 this.setState((prevState)=>{
