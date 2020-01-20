@@ -165,14 +165,22 @@ return{dropdownOpen:!prevState.dropdownOpen};
                 <h3 className="section-header">Recent Activities</h3>
                 
                 <div className="activity-card">
-                  <p className="act-head">Order Accepted</p>
-                  <p className="act-content">Order accepted for for Netgear Nightwalk X10 AD7200 from Hirthe Group Enterprise.</p>
+                  <p className="act-head">Order Initiated</p>
+                  <p className="act-content">Order initiated for for Netgear Nightwalk X10 AD7200 from Hirthe Group Enterprise </p>
                   <p className="text-right"><Link to="/traceorder"><div className="view-more">View more</div></Link></p>
                 </div>
                
                 <div className="activity-card">
                   <p className="act-head">Order Accepted</p>
-                  <p className="act-content">Order received for D-Link DWR-2010 5G Router from Schuster Ltd Enterprise.</p>
+                  <p className="act-content">Order accepted for D-Link DWR-2010 5G Router from Schuster Ltd Enterprise.</p>
+                  <p className="text-right"><Link to="/traceorder"><div className="view-more">View more</div></Link></p>
+                </div>
+              </div>
+            </div>
+
+		<div className="activity-card">
+                  <p className="act-head">Order Delivered</p>
+                  <p className="act-content">Order is delivered for D-Link DWR-2010 5G Router from Schuster Ltd Enterprise.</p>
                   <p className="text-right"><Link to="/traceorder"><div className="view-more">View more</div></Link></p>
                 </div>
               </div>
