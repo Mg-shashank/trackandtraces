@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import SimpleTable from '../SimpleTable'
 import PrevOrderTable from '../PrevOrderTable'
+import NewTable from '../NewTable'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,6 +59,12 @@ export default function CenteredTabs(props) {
     setValue(newValue);
   };
 
+if(role=="manufacturer"){
+    display=<SimpleTable rowss={props.rows}/>
+  }
+  else if(role=="distributor"){
+    display=<NewTable rowss={props.rows}/>
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static">
