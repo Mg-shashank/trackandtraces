@@ -8,6 +8,7 @@ import usericon from "./images/user-icon.svg";
 import router from "./images/router.png";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import "./dashboard.scss";
+import order from "../trackorder/trackorder";
 import $ from 'jquery';
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
@@ -17,10 +18,12 @@ class Landingpage extends React.Component {
 	  super(props);
 	  this.state = {
 		
-	
-        quantity:'',
+		quantity:'',
+		details: {},
+		
 	  };
-  
+
+	 
 	  this._handleSubmit = this._handleSubmit.bind(this);
 
       this._handleChangeq = this._handleChangeq.bind(this);
@@ -41,85 +44,60 @@ class Landingpage extends React.Component {
 	  this.setState({
 	    quantity:this.state.quantity,
 	  });
-	  
-  
-	  $.ajax({
-		url:"http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch",
-		type: 'POST',
-		data: {
-			"Product":routers,
-			"Category":"Network",
-			Quantity: this.state.quantity,
-		    "Manufacturer": $("#manufacture").val(),
-	 	   'Upgrade device compatiblity to 5G': $("#upgrade").val(),
-		  
-		},
-		cache: false,
-		success: function(data) {
 
-		  // Success..
-		  var id=JSON.stringify(data.transactionId);
-		  console.log('Transaction ID', data.transactionId);
-		 
-		  var name=localStorage.getItem('name');
-		  console.log(localStorage.getItem('name'));
-			//var assign=localStorage.getItem('name');
-		  $.ajax({
-			url:"https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/createorder",
-			type: 'POST',
-			mode :'no-cors',
-			data: JSON.stringify({
+
+	  const data = { 		
+    "Product":routers,
+	  "Category":"Network",
+	  Quantity: this.state.quantity,
+	  "Manufacturer": $("#manufacture").val(),
+	  'Upgrade device compatiblity to 5G': $("#upgrade").val(),
+	};
+
+	  fetch('http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch', {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	  })
+	  .then((response) => response.json())
+	  .then((data) => {
+			console.log('Success:', data.transactionId);
+			var id=JSON.stringify(data.transactionId);
+			const data2={
 				
 				OrderDetails: [JSON.stringify({"Product":routers,"Category":"Network","Manufacturer":$("#manufacture").val(),"Quantity": this.state.quantity,"Upgradeto5G":$("#upgrade").val()})],ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:id
-			}),
-			cache: false,
-			success: function(data) {
-			  // Success..
-			 
-			 
-			  console.log('success', data);
-			 var o=data;
-			
-			
-				var c=JSON.parse(o.OrderDetails.S);
-			// console.log('success', c.Product);
-			 
-			 localStorage.setItem('orderid',data.OrderID.S);
-			 localStorage.setItem('createdat',data.CreatedAt.S);
-			 localStorage.setItem('orderstatus',data.OrderStatus.S);
-			 localStorage.setItem('transactionid',data.TransactionID.S);
-			 localStorage.setItem('manufacturer',data.Manufacturer.S);
-			localStorage.setItem('product', c.Product);
-			 localStorage.setItem('category', c.Category);
-			 localStorage.setItem('quantity', c.Quantity);
-			localStorage.setItem('upgrade', c.Upgradeto5G);
-			
-		      
-			
-		
-			}.bind(this),
-			// Fail..
-			error: function(xhr, status, err,data) {
-			  console.log(xhr, status);
-			  console.log(err);
-			  console.log(data);
-			
-			}.bind(this)
-		  });
+								
+			  };
 
-		  
-		 
-		}.bind(this),
-		// Fail..
-		error: function(xhr, status, err) {
-		  console.log(xhr, status);
-		  console.log(err);
-		
-		}.bind(this)
-	  });window.location="/#/orderdetails";
+			fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/createorder', {
+					method: 'POST',
+					headers: {
+		 			 'Content-Type': 'application/json',
+						},
+									
+					body: JSON.stringify(data2),
+					})
+	 		 .then((response) => response.json())
+	 		 .then((data2) => {
+			console.log('Success:', data2);
+			let details = data2;
+			this.props.history.push({pathname:'/orderdetails',state:details})
+	 		 })
+	 		 .catch((error) => {
+			console.error('Error:', error);
+	 		 });
+
+	  })
+	  .catch((error) => {
+		console.error('Error:', error);
+	  });
+
 	}
 	
-	render() {
+	render() { 
+		
 	  return (
 		<div class="container-fluid padding0">
 <header>
@@ -138,12 +116,19 @@ class Landingpage extends React.Component {
           	</div>               
           </header>
 		  <section class="content">
+		
 			<h3 class="section-header">Place Order</h3>
 			<div class="col-lg-12 col-md-12 place-order">
 			<div class="padding-bottom20">
+			<div>
+
+    </div>
 				
 				<h2>&nbsp;&nbsp;<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{routers}<br/></p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>Network</span></h2>
 				</div>
+				<div>
+  
+    </div>
 	
 			<form class="form-horizontal" onSubmit={this._handleSubmit} id="formContact">
 			<div class="col-lg-7 col-md-7">
@@ -156,10 +141,6 @@ class Landingpage extends React.Component {
 									<option>Schuster Ltd Enterprise, Alabama, USA</option>
 								</select>
 						</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			
-				
-			
-               
 			
                 <div class="form-group col-md-6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<label class="form-label"><b>Quantity :</b></label>
@@ -189,3 +170,5 @@ class Landingpage extends React.Component {
   }
   
   export default Landingpage;
+
+  
