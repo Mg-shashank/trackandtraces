@@ -7,40 +7,55 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import TablePagination from '@material-ui/core/TablePagination';
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
+const useStyles = makeStyles({table: { minWidth: 650,},});
 
-export default function PrevOrderTable() {
+export default function PrevOrderTable(props) {
+  //const[disabled,setdisabled]=useState(false)
   const classes = useStyles();
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+  // const classes = useStyles();
+  const {rowses} = props;
   return (
+    <Paper>
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>OrderID</TableCell>
-            <TableCell align="right">Order Status</TableCell>
-            {/* <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
-          </TableRow>
-        </TableHead>
-        {/* <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">{row.name}</TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody> */}
-      </Table>
-    </TableContainer>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell style={{fontWeight:'bold'}}>Order Id</TableCell>
+              <TableCell style={{fontWeight:'bold'}}>Order Status</TableCell>
+              </TableRow>
+          </TableHead>
+          <TableBody>
+          {props.rowses.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>  (   
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">{row.orderid}</TableCell>                
+                <TableCell>{row.orderstatus}</TableCell>
+                </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+      rowsPerPageOptions={[5, 7]}
+      component="div"
+      count={[10]}
+      rowsPerPage={rowsPerPage}
+      page={page}
+      onChangePage={handleChangePage}
+      onChangeRowsPerPage={handleChangeRowsPerPage}
+    />
+    </Paper>
   );
 }
