@@ -1,8 +1,8 @@
 import React, {} from "react";
 import { withRouter,Link } from "react-router-dom";
-// import { Menu, Dropdown, Icon } from 'antd';
+
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
-import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
+import { GoogleApiWrapper, InfoWindow, Map, Marker ,Polyline} from 'google-maps-react';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import back from "./images/arrow-right.svg"
@@ -16,57 +16,63 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
-
-var orderid=localStorage.getItem('orderid');
-var createdat=localStorage.getItem('createdat');
-var orderstatus=localStorage.getItem('orderstatus');
-var transactionid=localStorage.getItem('transactionid');
-var manufacturer=localStorage.getItem('manufacturer');
-var manufactureraddress=localStorage.getItem('manufactureraddress');
-var product=localStorage.getItem('product');
-var category=localStorage.getItem('category');
-var quantity=localStorage.getItem('quantity');
-var deliveryaddress=localStorage.getItem('deliveryaddress');
-var upgrade=localStorage.getItem('upgrade');
-
-		
 		
 class Landingpage extends React.Component {
+	
+	path = [
+	
+		{ lat: 35.5175, lng: -86.5804 },
+		{ lat: 35.0078, lng: -97.0929 }
+	  ];
+	
 	constructor(props){
+		
 		super(props);
 		this.toggle= this.toggle.bind(this);
 		this.state = {
 			dropdownOpen:false,
 			showingInfoWindow: false,
+			showingPolyine: false,
 			activeMarker: {},
+			activeMarker1: {},
 			selectedPlace: {}
 		}; 
-		this.onMarkerClick = this.onMarkerClick.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
-	
+		this.onMarkerClick1 = this.onMarkerClick1.bind(this);
+		this.onMarkerClick= this.onMarkerClick.bind(this);
+		
 	}
-
 	onMarkerClick = (props, marker, e) => {
 		this.setState({
 		  selectedPlace: props,
 		  activeMarker: marker,
-		  showingInfoWindow: true
+		
 		});
 	  }
-	  onMapClick = (props) => {
-		if (this.state.showingInfoWindow) {
-		  this.setState({
-			showingInfoWindow: false,
-			activeMarker: null
-		  });
-		}
+	  onMarkerClick1 = (props, marker, e) => {
+		this.setState({
+		  selectedPlace: props,
+		  activeMarker1: marker,
+		  showingInfoWindow: true,
+		 
+		});
 	  }
+
 	toggle=()=>{
 		this.setState((prevState)=>{
 			return{dropdownOpen:!prevState.dropdownOpen};
 		});
 	}   
 	render(){
+		console.log('=-=-=-=-', this.props.location.state);
+		let Orderid = this.props.location.state.OrderID;
+		let OrderStatus = this.props.location.state.OrderStatus;
+		let Createdat = this.props.location.state.CreatedAt;
+		let Transactionid = this.props.location.state.TransactionID;
+		let Manufacturer = this.props.location.state.Manufacturer;
+		let Product = this.props.location.state.Product;
+		let Category = this.props.location.state.Category;
+		let Quantity = this.props.location.state.Quantity;
+		let Upgrade = this.props.location.state.Upgradeto5G;
 	const style = {
 		width: '60vw',
 		height: '50vh',
@@ -89,7 +95,7 @@ class Landingpage extends React.Component {
       <DropdownMenu>
         <DropdownItem header>Options</DropdownItem>
         <DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
-        {/*<DropdownItem divider />*/}
+ 
         <DropdownItem><GoogleLogout render={renderProps => (
 				<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
         /></DropdownItem>
@@ -104,46 +110,84 @@ class Landingpage extends React.Component {
 				<p>Track Current Order</p><div class="col-lg-3 col-md-3">
 				
 				<Map
-        item
-        xs = { 12 }
-        style={style}
-        google = { this.props.google }
-        onClick = { this.onMapClick }
-        zoom = { 14 }
-        initialCenter = {{ lat: 39.648209, lng: -75.711185 }}
+				item
+				xs = { 12 }
+				style={style}
+				google = { this.props.google }
+				onClick = { this.onMapClick }
+				zoom = {4}
+				initialCenter = {{ lat: 39.648209, lng: -75.711185 }}
       >
-        <Marker
-          onClick = { this.onMarkerClick }
-          title = { 'Changing Colors Garage' }
-          position = {{ lat: 39.648209, lng: -75.711185 }}
-          name = { 'Changing Colors Garage' }
+
+		<Marker
+          onClick = { this.onMarkerClick1}
+          title = { 'Manufacturer' }
+          position = {{ lat: 35.5175, lng: -86.5804 }}
+		  name = { 'Manufacturer' }
+		  
         />
-        <InfoWindow
+		<Marker
+          onClick = { this.onMarkerClick }
+          title = { 'Service provider' }
+          position = {{ lat: 35.0078, lng: -97.0929 }}
+          name = { 'Service Provider Enterprise' }
+        />
+		{/* <Polyline 
+  path={{ lat: 35.5175, lng: -86.5804 },{ lat: 35.0078, lng: -97.0929 }} 
+  options={{ 
+  strokeColor: '#00ffff',
+  strokeOpacity: 1,
+  strokeWeight: 2,
+  icons: [{ 
+    icon: "hello",
+    offset: '0',
+    repeat: '10px'
+  }],
+}}
+
+/> */}
+
+<Polyline path={this.path} options={{ strokeColor: "#000000 " },  {strokeOpacity: 1},
+ { strokeWeight: 2}} />
+<InfoWindow
           marker = { this.state.activeMarker }
           visible = { this.state.showingInfoWindow }
         >
           
-              98G Albe Dr Newark, DE 19702 <br />
-              302-293-8627
+              Order Initiated <br />
+              Oklahoma, USA
+        </InfoWindow>
+
+        <InfoWindow
+          marker = { this.state.activeMarker1 }
+          visible = { this.state.showingInfoWindow }
+        >
+          
+              Order Released <br />
+              Tennesse, USA
         </InfoWindow>
 		
       </Map></div><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 				<div class="place-order">
-					<div class="col-lg-6 col-md-6">
-						<img src={router} alt="device" class="rect" width="100" height="100"/>
-						<div class="network-device">
-							
-							Order ID: {orderid} <br/>
-							Transaction ID: {transactionid} <br/>
-							Order Placed on: {createdat}<br/><br/>
-							Distributor: {manufacturer}<br/>{manufactureraddress}<br/><br/>
-							Product Name: {product}<br/>
-							Product Category: {category}<br/>
-							Quantity :{quantity}<br/>
-							Upgrade device to 5G :{upgrade}<br/>
-							Delivery Address: {deliveryaddress}<br/>
-						</div>
+					<div class="col-lg-8 col-md-8">
+					<div class="padding-bottom20">
+					<h3><b>Order ID</b> : {Orderid}</h3>
+					<h3><b>Order Status:</b> {OrderStatus}</h3>
+					<h3><b>Order placed on: </b>{Createdat}</h3>
+				    </div>
+
+					<h3><b>Transaction ID :</b> {Transactionid}</h3>
+					<h3><b>Manufacturer : </b>{Manufacturer}</h3>
+					<h3><b>Product : </b>{Product}</h3>
+					<h3><b>Product Category : </b>{Category}</h3>
+					<h3><b>Quantity : </b>{Quantity}</h3>
+					<h3><b>Upgrade Product to 5G : </b>{Upgrade}</h3> */}
 						
+						{/* {/* <ul>
+					{Object.entries(Orders).map(([key, value])=>{
+					return <li key={key}>{key}: {value}</li>
+					})}
+				</ul>  */}
 					</div>
 				</div>
 			</div>		
@@ -153,30 +197,26 @@ class Landingpage extends React.Component {
 				<div class="timeline-wrapper">
 					<div class="node finished">
 					<h6>Order Initiated</h6>
-		<p class="sub-title">{createdat}</p>
+				<p class="sub-title">{Createdat}</p>
 				  </div>
 				  <div class="node progressing">
 					<h6>Order Accepted</h6>
-					<p class="sub-title">Status / Time</p>
+					
 				  </div>
 				  <div class="node">
 					<h6>Order Shipped</h6>
-					<p class="sub-title">Status / Time</p>
+					
 				  </div>
 				  <div class="node">
 					<h6>Order Delivered</h6>
-					<p class="sub-title">Status / Time</p>
+					
 				  </div>
 				</div>
 			</div>
 		</section>
-        </div>  
-       
-         
+        </div>          
 );}
 }
-
-
 export default GoogleApiWrapper({
 	apiKey: 'AIzaSyCBBI-PWfzZgdt_ssWRdibMuju_RH2BD8M'
   })(Landingpage);
