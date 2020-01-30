@@ -10,7 +10,10 @@ import usericon from "./images/user-icon.svg";
 //import dots from "./images/dots.svg";
 import router from "./images/router.png";
 import router2 from "./images/router2.jpg";
-import router3 from "./images/router3.jpg"
+import router3 from "./images/router3.jpg" ;
+import router4 from "./images/router4.jpg";
+import router5 from "./images/router5.jpg";
+import router6 from "./images/router6.jpg";
 import "./dashboard.scss";
 var https = require("https");
 var image = localStorage.getItem('profile-picture');
@@ -29,7 +32,7 @@ ordPlaced:'',
 ordAccept:'',
 ordRec: '',
 recAct:'',
-e:'',
+a:'',
 }; 
 }
 	
@@ -79,10 +82,10 @@ e:'',
 			method:'GET',
 			headers: {
 			'Content-Type':'application/json',
-							},
-						})
+						},
+				})
 			
-				  .then((response) =>response.json())
+			.then((response) =>response.json())
 						 .then((data) => {
 			console.log(data);
 			this.setState({
@@ -113,44 +116,48 @@ e:'',
 			console.error('Error:', error);
 				  });
 		
-	//  	https.get("https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/qldb-data",
-    //   	function (response) {
-    //     if (response.statusCode !== 200) {
-    //       console.log("Error while getting the data");
-    //     }
-    //     response.on('data', function (data) {
-	// 		console.log("data2");		
-	// 		//console.log(JSON.parse(data.body[0]));
+	 	https.get("https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/qldb-data",
+      	function (response) {
+        if (response.statusCode !== 200) {
+          console.log("Error while getting the data");
+        }
+        response.on('data', function (data) {
+			console.log("data2");		
+			//console.log(JSON.parse(data.body[0]));
+			var op =JSON.parse(data.toString())
+			var op2 = JSON.parse(op.body)
+			op2.forEach(element => {
+			console.log(element);	
+				// this.setState({
+				// 	a: data,
+				// 	isLoading:false,
+				// });					
+			});    		
+        })        
+	  })	  
+
+	// fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/qldb-data', {
+	// 	method:'GET',
+	// 	headers: {
+	// 	'Content-Type':'application/json',
+	// 			},
+	// 	})
+		
+	// 	.then((response) =>response.json())
+	// 		.then((data) => {
+	// 		console.log(JSON.parse(data));
 	// 		var op =JSON.parse(data.toString())
 	// 		var op2 = JSON.parse(op.body)
-	// 		op2.forEach(element => {
-	// 			console.log(element);			
-	// 		});	       
-    //     })        
-	//   })	  
-
-	fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/qldb-data', {
-		method:'GET',
-		headers: {
-		'Content-Type':'application/json',
-				},
-		})
-		
-		.then((response) =>response.json())
-			.then((data) => {
-			console.log(JSON.parse(data));
-			 var op =JSON.parse(data.toString())
-			 var op2 = JSON.parse(op.body)
-			console.log(JSON.parse(op2));
-			this.setState({
-			e: data,
-			isLoading:false,
-			});
+	// 		console.log(JSON.parse(op2));
+	// 		this.setState({
+	// 		a: data,
+	// 		isLoading:false,
+	// 		});
 			
-		 })
-		.catch((error) => {
-			console.error('Error:', error);
-		 });
+	// 	 })
+	// 	.catch((error) => {
+	// 		console.error('Error:', error);
+	// 	 });
 
 
 	}
@@ -160,6 +167,14 @@ e:'',
 	return{dropdownOpen:!prevState.dropdownOpen};
 	});
 	} 
+
+	handleClick=()=>{
+	this.setState((select)=>{
+	return{box:select.box};		
+	})
+	}
+
+
 	handleClick = e => {
 	this.setState({anchorEl:e.target.value})
 	};
@@ -169,25 +184,43 @@ e:'',
 	};
 
 	eve1 =()=> {
-    window.location.reload(false)
-    var r="Asus ROG Rapture GT-AC5300";
+    let r="Asus ROG Rapture GT-AC5300";
     localStorage.setItem('router',r);
 	  };
 	  
 	eve2 =()=> {
-    window.location.reload(false)
+    
     var r="D-Link AC2600 (DIR-2680)";
     localStorage.setItem('router',r);
 	};
 
 	eve3 =()=> {
-    window.location.reload(false)
+    
     var r="Asus RT-AC66U B1";
     localStorage.setItem('router',r);
-  	};
+	  };
+	  
+	 eve4 =()=> {
+    
+	var r="Netgear Nighthawk x10 ad7200";
+	localStorage.setItem('router',r);
+	  };
+
+ 	eve5 =()=> {
+	
+	var r="D-Link DWR-2010 5G Router";
+	localStorage.setItem('router',r);
+		};
+
+
+	eve6 =()=>  {
+
+	var r= "D-Link AC1200 ";
+	localStorage.setItem('router',r);
+	};	
  
   	render(){	
-		const { isLoading,ordPlaced,ordAccept,ordRec,recAct,e} = this.state;
+		const { isLoading,ordPlaced,ordAccept,ordRec,recAct} = this.state;
       return( 
         <div className="wrapper">
          <header>
@@ -210,7 +243,7 @@ e:'',
 		</DropdownMenu>
 		</Dropdown>
 		</div>               
-		</header>
+		</header> 
 		<section>    
 		<div className="container">
 		<div className="col-lg-9 col-md-9 padding0">
@@ -223,9 +256,9 @@ e:'',
 		<div className="track-order">
 		<h3>Order Placed</h3>
 		<p className="order-number"><div>
-          {!isLoading ? ordPlaced: (
-            <p>Loading...</p>
-          )}
+        {!isLoading ? ordPlaced: (
+            <p>...</p>
+        )}
         </div></p>
 		</div>
 		</div>
@@ -233,9 +266,9 @@ e:'',
 		<div className="track-order">
 		<h3>Order Accepted</h3>
 		<p className="order-number"><div>
-          {!isLoading ? ordAccept: (
-            <p>Loading...</p>
-          )}
+        {!isLoading ? ordAccept: (
+            <p>...</p>
+        )}
         </div></p>
 		</div>
 		</div>
@@ -243,9 +276,9 @@ e:'',
 		<div className="track-order">
 		<h3>Completed Orders</h3>
 		<p className="order-number"><div>
-          {!isLoading ? ordRec: (
-            <p>Loading...</p>
-          )}
+    	{!isLoading ? ordRec: (
+            <p>...</p>
+        )}
         </div></p>
 		</div>
 		</div>
@@ -266,20 +299,20 @@ e:'',
 			<div className="activity-card">
 			<p className="act-head">Order Initiated</p>
 			<p className="act-content"><div>
-          {!isLoading ? recAct : (
-            <p>Loading...</p>
-          )}
-        </div> is Initiated.</p>
+          	{!isLoading ? recAct : (
+            <p>...</p>
+          	)}
+        	</div> is Initiated.</p>
 			<p className="text-right"><Link to="/traceorder"><div className="view-more">View more</div></Link></p>
 			</div>
 
 			<div className="activity-card">
 			<p className="act-head">Order Accepted </p>
 			<p className="act-content"><div>
-          {!isLoading ? recAct: (
-            <p>Loading...</p>
-          )}
-        </div> is accepted.</p>
+          	{!isLoading ? recAct: (
+            <p>...</p>
+          	)}
+        	</div> is accepted.</p>
 			<p className="text-right"><Link to="/traceorder"><div className="view-more">View more</div></Link></p>
 			</div>
 		    </div>
@@ -287,9 +320,8 @@ e:'',
 
 			<div className="col-lg-9 col-md-9 padding0">
 			<div className="col-lg-4 col-md-4">
-			<div className="device-card"onClick={this.eve1}>
-			
-			{/* <div className="dropdown dots"> */}
+			<div className="device-card"onClick={this.eve1}>			
+			{/* <div className="dropdown dots"> */}  
 			{/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
 			{/* <b>...</b> */}
 			{/* </Button>  */}
@@ -304,20 +336,18 @@ e:'',
 			<MenuItem onClick={this.handleClose}>Device Model: AC5300</MenuItem>
 			<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 			<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
-			</Menu>
-
-			
+			</Menu>			
 			<img src={router} width="100" height="100" alt="s1" className="s1"  />	
 			{/* <div>
-          {!isLoading ?e: (
+          {!isLoading ?a: (
             <p>Loading...</p>
           )}
         </div> */}
-		<ul>
-                    {Object.entries(e).map(([key, value])=>{
-                    return <li key={key}>{key}: {value}</li>
-                    })}
-                </ul> 
+			{/* <ul>
+				{Object.entries(a).map(([key, value])=>{
+				return <li key={key}>{key}: {value}</li>
+				})} 
+			</ul> */}
 			  <h3 className="title">Asus ROG Rapture GT-AC5300</h3>
 			  {/*<p className="sub-title">Router</p>		
 			 <p className="card-label"><label>End of Warranty:</label> March</p>
@@ -329,7 +359,7 @@ e:'',
 			</div>
 			</div>
 			<div className="col-lg-4 col-md-4">
-			<div className="device-card"onClick={this.eve2 }>						
+			<div className="device-card"onClick={this.eve2}>						
 			
 			<Menu
 			id="simple-menu"
@@ -355,8 +385,7 @@ e:'',
 			</div>
 			</div>
 			<div className="col-lg-4 col-md-4">
-			<div className="device-card" onClick={this.eve3 }>	
-
+			<div className="device-card" onClick={this.eve3}>	
 			<Menu
 			id="simple-menu"
 			anchorEl={this.state.anchorEl}
@@ -380,6 +409,83 @@ e:'',
 			<p className="attribute">Frequency Band : Dual Band</p>		 */}
 			</div>
 			</div>
+
+			<div className="col-lg-4 col-md-4">
+			<div className="device-card" onClick={this.eve4 }>	
+			<Menu
+			id="simple-menu"
+			anchorEl={this.state.anchorEl}
+			keepMounted
+			//   open={Boolean(anchorEl)}
+			onClose={this.handleClose}
+			>
+			<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
+			<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
+			<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
+			</Menu>
+			
+			<img src={router4} width="100" height="100" alt="s1" className="s1" />
+			 <h3 className="title">Netgear Nighthawk x10 ad7200</h3>
+			{/* <p className="sub-title">Router</p>
+			<p className="card-label"><label>End of Warranty:</label> June</p>
+			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
+			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
+			<p className="attribute">IPv6 Compatible: yes</p>
+			<p className="attribute">Data Transfer Rate: 4600 Mbps</p>
+			<p className="attribute">Frequency Band : Dual Band</p>		 */}
+			</div>
+			</div>
+
+			<div className="col-lg-4 col-md-4">
+			<div className="device-card" onClick={this.eve5 }>	
+			<Menu
+			id="simple-menu"
+			anchorEl={this.state.anchorEl}
+			keepMounted
+			//   open={Boolean(anchorEl)}
+			onClose={this.handleClose}
+			>
+			<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
+			<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
+			<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
+			</Menu>
+			
+			<img src={router5} width="100" height="100" alt="s1" className="s1" />
+			<h3 className="title">D-Link DWR-2010 5G Router</h3>
+			{/* <p className="sub-title">Router</p>
+			<p className="card-label"><label>End of Warranty:</label> June</p>
+			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
+			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
+			<p className="attribute">IPv6 Compatible: yes</p>
+			<p className="attribute">Data Transfer Rate: 4600 Mbps</p>
+			<p className="attribute">Frequency Band : Dual Band</p>	*/}
+			</div>
+			</div>
+			<div className="col-lg-4 col-md-4">
+			<div className="device-card" onClick={this.eve6 }>	
+			<Menu
+			id="simple-menu"
+			anchorEl={this.state.anchorEl}
+			keepMounted
+			//   open={Boolean(anchorEl)}
+			onClose={this.handleClose}>			
+			<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
+			<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
+			<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
+			</Menu>
+			
+			<img src={router6} width="100" height="100" alt="s1" className="s1" />
+			 <h3 className="title">D-Link AC1200 </h3>
+			{/* <p className="sub-title">Router</p>
+			<p className="card-label"><label>End of Warranty:</label> June</p>
+			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
+			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
+			<p className="attribute">IPv6 Compatible: yes</p>
+			<p className="attribute">Data Transfer Rate: 4600 Mbps</p>
+			<p className="attribute">Frequency Band : Dual Band</p>		 */}
+			</div>
+			</div>
+
 			</div>
 			</div>
 			</section>  
