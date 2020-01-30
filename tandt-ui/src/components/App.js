@@ -2,23 +2,22 @@ import React, { useEffect } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Error from "../pages/error/Error";
+//import Login from "../pages/login/Login";
 import Login1 from "../pages/login/Login1";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
-import LandingPage from "../pages/dashboard/dashboard";
 import help from "../pages/help/help";
 import createorder from "../pages/createorder/createorder";
-import OrderID from "../pages/orderdetails/OrderDetailsUI";
+import orderdetails from "../pages/orderdetails/orderdetails";
 import Unknown from "../pages/login/Unknown";
 import trackorder from "../pages/trackorder/trackorder";
-// import LandingPage from "../pages/trackorder/trackorder";
 import traceorder from "../pages/traceorder/traceorder";
-import dashboarddisplay from "../pages/dashboard/dashboarddisplay";
-import Orders from '../pages/orderdetails/Orders';
+import createbatch from "../pages/createbatch/createbatch";
+import batchdetails from "../pages/batchdetails/batchdetails";
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
 import config from "../config";
-import Options from "../pages/login/Dialogbox";
+import OrderID from "../pages/orderdetails/OrderDetailsUI";
 export default function App() {
   const userState = useUserState();
   const ledgerDispatch = useLedgerDispatch();
@@ -49,23 +48,19 @@ export default function App() {
           path="/app"
           render={() => <Redirect to="/app/default" />}
         />
-        {/* <PrivateRoute path="/app" component={Layout} /> */}
-        {/*<PublicRoute path="/login" component={Login}/>*/}
+        <PrivateRoute path="/app" component={Layout} />
+          {/*<PublicRoute path="/login" component={Login} />*/}
         <PublicRoute path="/login" component={Login1} />
         <PublicRoute path="/landingPage" component={landingPage} />
-        <PublicRoute path="/dashboard" component={dashboarddisplay} />
-        {/* <PublicRoute path="/dashboard" component={LandingPage} /> */}
+        <PublicRoute path="/dashboard" component={dashboard} />
         <PublicRoute path="/help" component={help} />
         <PublicRoute path="/createorder" component={createorder} />
-        {/* <PublicRoute path="/orderdetails" component={orderdetails}/>*/}
         <PublicRoute path="/orderdetails" component={OrderID} />
         <PublicRoute path="/trackorder" component={trackorder} />
         <PublicRoute path="/traceorder" component={traceorder}  /> 
-        <PublicRoute path="/options" component={Options}  /> 
-        <PublicRoute path="/unknown" component={Unknown}  />    
-        {/* <PublicRoute path="/orderss" component={Orders}/> */}
-        <PublicRoute path="/orders" component={Orders}/>
-        <PublicRoute path="/orders?ordid=" render={(props) => <Orders {...props} />}/>
+        <PublicRoute path="/createbatch" component={createbatch} />
+        <PublicRoute path="/batchdetails" component={batchdetails} />
+        <PublicRoute path="/unknown" component={Unknown}  />
         <Route component={Error} />
       </Switch>
     </HashRouter>
