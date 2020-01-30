@@ -6,8 +6,6 @@ import { GoogleApiWrapper, InfoWindow, Map, Marker ,Polyline} from 'google-maps-
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import back from "./images/arrow-right.svg"
-import map from "./images/map.svg"
-import router from "./images/router.png"
 import "./dashboard.scss";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 // import { ReceiptTwoTone } from "@material-ui/icons";
@@ -132,20 +130,6 @@ class Landingpage extends React.Component {
           position = {{ lat: 35.0078, lng: -97.0929 }}
           name = { 'Service Provider Enterprise' }
         />
-		{/* <Polyline 
-  path={{ lat: 35.5175, lng: -86.5804 },{ lat: 35.0078, lng: -97.0929 }} 
-  options={{ 
-  strokeColor: '#00ffff',
-  strokeOpacity: 1,
-  strokeWeight: 2,
-  icons: [{ 
-    icon: "hello",
-    offset: '0',
-    repeat: '10px'
-  }],
-}}
-
-/> */}
 
 <Polyline path={this.path} options={{ strokeColor: "#000000 " },  {strokeOpacity: 1},
  { strokeWeight: 2}} />
@@ -181,7 +165,7 @@ class Landingpage extends React.Component {
 					<h3><b>Product : </b>{Product}</h3>
 					<h3><b>Product Category : </b>{Category}</h3>
 					<h3><b>Quantity : </b>{Quantity}</h3>
-					<h3><b>Upgrade Product to 5G : </b>{Upgrade}</h3> */}
+					<h3><b>Upgrade Product to 5G : </b>{Upgrade}</h3>
 						
 						{/* {/* <ul>
 					{Object.entries(Orders).map(([key, value])=>{
