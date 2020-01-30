@@ -8,7 +8,7 @@ import usericon from "./images/user-icon.svg";
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import "./dashboard.scss";
 import Table from 'react-bootstrap/Table';
-import $ from 'jquery';
+
 import { Update } from "@material-ui/icons";
 var image = localStorage.getItem('profile-picture');
 var name = localStorage.getItem('name');
