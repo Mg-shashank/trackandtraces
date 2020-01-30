@@ -108,8 +108,8 @@ componentDidMount(){
                     </div>
 
 						<div class="col-lg-12 col-md-12 text-right"><ToastContainer/>
-				<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
-				<button class="btn btn-prim" onClick={this.track}>Track Order</button></div>
+				<Link to="/dashboard"><div class="btn btn-prim">Go to Dashboard</div></Link>
+				</div>
 					</section>
 			</div>
 		)
