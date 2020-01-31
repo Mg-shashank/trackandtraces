@@ -21,6 +21,7 @@ class Landingpage extends React.Component {
 		quantity:'',
 		details: {},
 		loading:false,
+		isPlacingOrder: false,
 	  };
 	  this._handleSubmit = this._handleSubmit.bind(this);
       this._handleChangeq = this._handleChangeq.bind(this);
@@ -59,6 +60,7 @@ class Landingpage extends React.Component {
 	  this.setState({
 		quantity:this.state.quantity,
 		loading:true,
+		isPlacingOrder: true,
 	  });
 	  let date_ob = new Date();
 	  let date = ("0" + date_ob.getDate()).slice(-2);
@@ -77,32 +79,32 @@ class Landingpage extends React.Component {
 	  let dates=day+" "+time;
 	  console.log(dates);
 
-	const data = { 	
+	// const data = { 	
 		
-     "Product":routers,
-	  "Category":"Network",
-	  Quantity: this.state.quantity,
-	  "Manufacturer": $("#manufacture").val(),
-	  'Upgrade device compatiblity to 5G': $("#upgrade").val(),
-	  "Date":dates,
-	};
+    //  "Product":routers,
+	//   "Category":"Network",
+	//   Quantity: this.state.quantity,
+	//   "Manufacturer": $("#manufacture").val(),
+	//   'Upgrade device compatiblity to 5G': $("#upgrade").val(),
+	//   "Date":dates,
+	// };
 
-	  fetch('http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch', {
-		method: 'POST',
-		headers: {
-		  'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(data),
-	  })
-	  .then((response) => response.json())
-	  .then((data) => {
-			console.log('Success:', data.transactionId);
-			var id=JSON.stringify(data.transactionId);
-			var name=localStorage.getItem('name');
-			//var day=dateFormat(new Date(), "yyyy-mm-dd");
+	//   fetch('http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch', {
+	// 	method: 'POST',
+	// 	headers: {
+	// 	  'Content-Type': 'application/json',
+	// 	},
+	// 	body: JSON.stringify(data),
+	//   })
+	//   .then((response) => response.json())
+	//   .then((data) => {
+	// 		console.log('Success:', data.transactionId);
+	// 		var id=JSON.stringify(data.transactionId);
+	// 		var name=localStorage.getItem('name');
+	// 		//var day=dateFormat(new Date(), "yyyy-mm-dd");
 			const data2={
 				
-				Product:routers,Category:"Network",Quantity: this.state.quantity,Upgradeto5G:$("#upgrade").val(),ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:id
+				Product:routers,Category:"Network",Quantity:this.state.quantity,Upgradeto5G:$("#upgrade").val(),ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:"id",CreatedAt:Date(),OrderStatus:"Order Initiated"
 								
 			  };
 
@@ -123,15 +125,15 @@ class Landingpage extends React.Component {
 			console.error('Error:', error);
 	 		 });
 
-	  })
-	  .catch((error) => {
-		console.error('Error:', error);
-	  });
+	//   })
+	//   .catch((error) => {
+	// 	console.error('Error:', error);
+	//   });
 
 	}
 	
 	render() { 
-	
+		const { isPlacingOrder } = this.state;
 	  return (
 		<div class="container-fluid padding0">
         <header>
@@ -185,8 +187,10 @@ class Landingpage extends React.Component {
 		
 			
 		    <div class="col-lg-12 col-md-12 text-right">
-				<Link to="/dashboard"><div class="btn btn-cancel">Cancel</div></Link>&nbsp;&nbsp;&nbsp;
-				<input type="submit" value="Submit" className="btn btn-prim" id="btn-submit" disabled={this.state.loading}></input>
+				
+				<Link to="/dashboard"><div class="btn btn-cancel">Cancel</div></Link>
+				<button class="btn btn-prim" type="Submit" id="btn-submit" disabled={this.state.loading}>{isPlacingOrder ? "Placing Order...": "Submit"}</button>
+
 			</div>
 			</div>
 			</form>
