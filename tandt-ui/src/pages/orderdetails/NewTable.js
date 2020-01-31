@@ -9,14 +9,15 @@ import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import React, { useState } from 'react';
 import $ from 'jquery'
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
 var o1 = new Array(localStorage.getItem('idss'))
 const useStyles = makeStyles({table: {minWidth: 650}});
 var e=localStorage.getItem('initiated')
 var transactionid=localStorage.getItem("transactionid")
 var createdat=localStorage.getItem("createdat")
-var id;
- export default  class NewTable extends React.Component {
+var id,url;
+var Orderid;
+ class NewTable extends React.Component {
   constructor(props){
 	  super(props);
     this.state = {
@@ -25,7 +26,8 @@ var id;
       idOrder:'',
       page:0,
       rowsPerPage:5,
-      newPage:''
+      newPage:'',
+      orders:'',
     }
     this.handleChange=this.handleChange.bind(this)
     this.acceptOrder=this.acceptOrder.bind(this)
@@ -58,105 +60,86 @@ var id;
      })    
   };
   redirectToOrdDetails(e,orderid) { 
-    var url = "http://localhost:3000/#/orderdetails?ordid=" + orderid;
-    window.location = url;    
+    var url = `/orders?ordid=${orderid}`;
+    this.props.history.push(`${url}`);    
   }
-  // setCursorByID(id,cursorStyle){
-  //  // console.log(id)
-  //   var elem;
-  //   if (document.getElementById &&
-  //      (elem=document.getElementById(id)) ) {
-  //    if (elem.style) elem.style.cursor=pointer;
-  //   }
-  //  }
-  ///////////////////////////////////////////////////////////
-  //  mouseover(elem) {
-  //    console.log("MOUSE OVER")
-  //    console.log(elem)
-  //   elem.style.color = "white";
-  // }
-
   acceptOrder(e,orderid) {       
     const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Accepted By Distributor" }
     e.preventDefault();
     // console.log('Accept Order Id :', orderid);        
-        
-        fetch('http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+              
+        // fetch('http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(data),
+        // })
+        // .then((response) => response.json())
+        // .then((data) => {
+        //       // console.log('Success:', data.transactionId);
+        //       id=JSON.stringify(data.transactionId);
+        //       var name=localStorage.getItem('name');
+        //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
+        //     })
+        //     .catch((error) => {
+        //       console.error('Error:', error);
+        // });      
+          fetch("https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
           },
-          body: JSON.stringify(data),
+          body:  JSON.stringify({OrderStatus: "Order Accepted By Distributor", OrderID: orderid,TransactionId:id }),
+        }).then((response)=>response.json())
+        .then((data)=>{
+          console.log('ID',id)
+          console.log(orderid)     
+          // var Orderid = orderid;  
+          // this.props.history.push({pathname:'/createbatch', state:Orderid}) 
+          var e = document.getElementById('status_' + orderid).innerHTML = "Order Accepted By Distributor"   
+          var trackBtn = document.createElement("button");
+          trackBtn.innerHTML = "Create Batch"
+          document.getElementById('action_'+ orderid).innerHTML=""
+          document.getElementById('action_'+ orderid).appendChild(trackBtn);
+          document.getElementById('action_'+ orderid).onclick = function()
+          {   
+            window.location.href = "http://localhost:3000/#/trackorder"
+          }
         })
-        .then((response) => response.json())
-        .then((data) => {
-              // console.log('Success:', data.transactionId);
-              id=JSON.stringify(data.transactionId);
-              var name=localStorage.getItem('name');
-              //var day=dateFormat(new Date(), "yyyy-mm-dd");
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-        });      
-
-     
-        $.ajax({
-          url:"https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",
-          type: 'POST',
-          mode :'no-cors',
-          data: JSON.stringify({OrderStatus: "Order Accepted By Distributor", OrderID: orderid,TransactionId:id }),
-          cache: false,
-          success: function(data) {
-            // console.log(data)
-            // Success..
-          //  console.log('success', data);
-          //  console.log('ID',id)
-           var e = document.getElementById('status_' + orderid).innerHTML = "Order Accepted By Distributor" 
-      var trackBtn = document.createElement("button");
-      trackBtn.innerHTML = "Track"
-      document.getElementById('action_'+ orderid).innerHTML=""
-      document.getElementById('action_'+ orderid).appendChild(trackBtn);
-      document.getElementById('action_'+ orderid);
-          //  var o = data;
-          //  var c = JSON.parse(o.OrderDetails.S);
-          //  console.log('success', c.Product);          
-          //  localStorage.setItem('orderstatus',data.OrderStatus.S);
-          //  localStorage.setItem('Tid',data.TransactionId.S); 
-          }.bind(this),
-          // Fail..
-          error: function(xhr, status, err,data) {
-            // console.log(xhr, status);
-            // console.log(err);
-            // console.log(data);      
-          }.bind(this)
-        });  
-      
-      // Fail..
-      // error: function(xhr, status, err) {
-      //   console.log(xhr, status);
-      //   console.log(err);  
-      // }.bind(this)      
-    //});   
+        .catch((error)=>{
+          console.log('Error:',error)
+        });     
   }
  
 
   rejectOrder(e, orderid) {
     e.preventDefault();
-    // console.log('REJECT Order Id :', orderid);
-    $.ajax({
-      url:"https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",
-      mode :'no-cors',
-      type: 'POST',
-      data:JSON.stringify({OrderStatus: "Order Rejected By Distributor", OrderID: orderid}),
-      cache: false,
-      success: function(data){
-      // console.log(data)
-      document.getElementById('status_'+ orderid).innerHTML="Order RejecteD";      
-      }
-    })
+    fetch("https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+          },
+          body:  JSON.stringify({OrderStatus: "Order Rejected By Distributor", OrderID: orderid}),
+        }).then((response)=>response.json())
+        .then((data)=>{
+          var e = document.getElementById('status_' + orderid).innerHTML = "Order Rejected By Distributor" 
+          var trackBtn = document.createElement("button");
+          trackBtn.innerHTML = "Trace"
+          document.getElementById('action_'+ orderid).innerHTML=""
+          document.getElementById('action_'+ orderid).appendChild(trackBtn);
+          document.getElementById('action_'+ orderid).onclick = function()
+          {   
+            window.location.href = "http://localhost:3000/#/traceorder"
+          }
+        })
+        .catch((error)=>{
+          console.log('Error:',error)
+        }); 
   }
 
   render(){  
+    // console.log('=-=-=-=-', this.props.location.state);
      return (      
       <form class="form-horizontal" id="confirm">
       <Paper>
@@ -228,3 +211,4 @@ var id;
 }
 
 
+export default withRouter(NewTable)
