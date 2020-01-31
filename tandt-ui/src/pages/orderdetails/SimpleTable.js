@@ -9,10 +9,10 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Landingpage from '../trackorder/trackorder'
 import Paper from '@material-ui/core/Paper';
 import ReactDataTablePagination from 'react-datatable-pagination'
-import React, { useState } from 'react';
+import React from 'react';
 import $ from 'jquery'
 import trackorder from "../trackorder/trackorder";
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
 var o1 = new Array(localStorage.getItem('idss'))
 const useStyles = makeStyles({table: {minWidth: 650}});
 var e=localStorage.getItem('initiated')
@@ -20,8 +20,10 @@ var transactionid=localStorage.getItem("transactionid")
 var createdat=localStorage.getItem("createdat")
 var l,i,j,k;
 var id;
+// var accept,batch;
+var accept, createbatch;
 
- export default  class SimpleTable extends React.Component {
+class SimpleTable extends React.Component {
   constructor(props){
 	  super(props);
     this.state = {
@@ -31,16 +33,25 @@ var id;
       page:0,
       rowsPerPage:5,
       newPage:'',
-      details:{}
+      details:{},
+      visibility: false
     }
+    this.toggleVisibility=this.toggleVisibility.bind(this)
     this.handleChange=this.handleChange.bind(this)
     this.acceptOrder=this.acceptOrder.bind(this)
     this.rejectOrder=this.rejectOrder.bind(this)
     this.toggleHidden=this.toggleHidden.bind(this)
     this.handleChangePage=this.handleChangePage.bind(this)
     this.handleChangeRowsPerPage=this.handleChangeRowsPerPage.bind(this)
-    // this.Details=this.Details.bind(this)
   }
+
+  toggleVisibility=()=>{  
+      this.setState((prevState) =>{
+        return { visibility:!prevState.visibility }
+      });
+    } 
+    
+
    handleChangePage = (event, newPage) => {
     // setPage(newPage);
     this.setState({page:newPage})
@@ -65,8 +76,8 @@ var id;
   
   redirectToOrdDetails(e,orderid) 
   { 
-    var url = "http://localhost:3000/#/orders?ordid=" + orderid;
-    window.location = url;      
+    var url = `/orders?ordid=${orderid}`;
+    this.props.history.push(`${url}`);   
   }
 
   acceptOrder(e,orderid) {      
@@ -94,79 +105,74 @@ var id;
               // console.error('Error:', error);
         });      
 
-     
-        $.ajax({
-          url:"https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",
-          type: 'POST',
-          mode :'no-cors',
-          data: JSON.stringify({OrderStatus: "Order Accepted By Manufacturer", OrderID: orderid,TransactionID:id }),
-          cache: false,
-          success: function(data) {
-            // console.log(data)
-            // Success..
-          //  console.log('success', data);
-            console.log('ID',id)
-           var e = document.getElementById('status_' + orderid).innerHTML = "Order Accepted By Manufacturer" 
-      var trackBtn = document.createElement("button");
-      trackBtn.innerHTML = "Track"
-      document.getElementById('action_'+ orderid).innerHTML=""
-      document.getElementById('action_'+ orderid).appendChild(trackBtn);
-      document.getElementById('action_'+ orderid);
-          //  var o = data;
-          //  var c = JSON.parse(o.OrderDetails.S);
-          //  console.log('success', c.Product);          
-          //  localStorage.setItem('orderstatus',data.OrderStatus.S);
-          //  localStorage.setItem('Tid',data.TransactionId.S); 
-          }.bind(this),
-          // Fail..
-          error: function(xhr, status, err,data) {
-            // console.log(xhr, status);
-            // console.log(err);
-            // console.log(data);      
-          }.bind(this)
-        });  
-      
-      // Fail..
-      // error: function(xhr, status, err) {
-      //   console.log(xhr, status);
-      //   console.log(err);  
-      // }.bind(this)      
-    //});   
+        fetch("https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",{
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+          },
+          body: JSON.stringify({OrderStatus: "Order Accepted By Manufacturer", OrderID: orderid,TransactionID:id }),
+        }).then((response)=>response.json())
+        .then((data)=>{
+          console.log('ID',id)
+          console.log(orderid)     
+           var e = document.getElementById('status_' + orderid).innerHTML = "Order Accepted By Manufacturer";    
+          var trackBtn = document.createElement("button");
+          trackBtn.innerHTML = "Track"
+          document.getElementById('action_'+ orderid).innerHTML=""
+          document.getElementById('action_'+ orderid).appendChild(trackBtn);       
+          document.getElementById('action_'+ orderid).onclick = function()
+          {     
+            window.location.href = "http://localhost:3000/#/trackorder"
+            // var Orderid = orderid;  
+            // this.props.history.push({pathname:'/createbatch', state:Orderid})
+          }  
+        })
+        
+        .catch((error)=>{
+          console.log('Error:',error)
+        });     
   }
 
   rejectOrder(e, orderid) {
     e.preventDefault();
     console.log('REJECT Order Id :', orderid);
-    $.ajax({
-      url:"https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",
-      mode :'no-cors',
-      type: 'POST',
-      data:JSON.stringify({OrderStatus: "Order Rejected By Manufacturer", OrderID: orderid,}),
-      cache: false,
-      success: function(data){
-      // console.log(data)
-      document.getElementById('status_'+ orderid).innerHTML="Order Rejected ";    
+    fetch("https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({OrderStatus: "Order Rejected By Manufacturer", OrderID: orderid,}),
+    }).then((response)=>response.json())
+    .then((data)=>{
+      console.log('ID',id)
+      console.log(orderid)     
+      var e = document.getElementById('status_' + orderid).innerHTML = "Order Rejected" 
       var traceBtn = document.createElement("button");
       traceBtn.innerHTML = "Trace"
       document.getElementById('action_'+ orderid).innerHTML=""
       document.getElementById('action_'+ orderid).appendChild(traceBtn);
-      //document.getElementById('action_'+ orderid).href = "http://localhost:3000/#/traceorder";        
-      //var id = localStorage.setItem('rejectorderid', orderid)  
+      document.getElementById('action_'+ orderid).onclick = function()
+      {   
+        window.location.href = "http://localhost:3000/#/traceorder"
       }
     })
+    .catch((error)=>{
+      console.log('Error:',error)
+    });     
   } 
 
   render(){  
-    //  i=this.props.rowss.map(row=>({orderid:row.orderid, orderstatus:row.orderstatus}));
-    // console.log(JSON.stringify(i))
-    // console.log(i.length)
-    // for( j=0;j<=i.length-1;j++){
-    //   console.log(i[j])
-    //    k=i[j]
-    //   console.log(k)
+    // var accept, createbatch;
+    // console.log(this.state.visibility)
+    //  if (this.state.visibility) {      
+    //  createbatch=<button onClick={this.toggleVisibility}>CreateBatch</button>
+    //  console.log(this.state.visibility)
+    //  } else {  
+    // accept=<button onClick={this.toggleVisibility}>Accept</button>
+    // // accept= <button onClick={(e) => {this.acceptOrder(e, row.orderid),this.toggleVisibility}}>Click Me</button> 
     // }
-    // console.log(this.state.newPage)
-     return (      
+
+      return (      
       <form class="form-horizontal" id="confirm">
        <Paper>    
       <TableContainer>
@@ -197,13 +203,15 @@ var id;
                    {row.orderstatus}
                 </TableCell>                
                 <TableCell align="left">
-                  <span id={"action_" + row.orderid}>                                                
+                  <span id={"action_" + row.orderid}>       
                   <button 
                   className="btn btn-sm btn-primary"                
-                  onClick={(e) => this.acceptOrder(e, row.orderid)}                            
+                  onClick={(e) => {this.acceptOrder(e, row.orderid)}}                            
                   id='accept'>                
                   Accept                                 
-                  </button> &nbsp;&nbsp;
+                  </button>
+                 {/* {createbatch}{accept} */}
+                 &nbsp;&nbsp;
                   <br/> <br/>  
                    <button 
                    className="btn btn-sm btn-danger" 
@@ -228,10 +236,11 @@ var id;
         onChangeRowsPerPage={this.handleChangeRowsPerPage}
       />
        </Paper>  
-     {/* <button onClick={this.Details()}> Click </button> */}    
       </form>       
     );
   }
 }
 
+
+export default withRouter(SimpleTable)
 
