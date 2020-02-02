@@ -234,7 +234,7 @@ let Chaincode = class {
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryAllBatches(stub, args) {
+  async queryAllBatch(stub, args) {
     console.log('============= START : queryAllBatches ===========');
     console.log('##### queryAllBatches arguments: ' + JSON.stringify(args));
  
@@ -242,7 +242,7 @@ let Chaincode = class {
     return queryByString(stub, queryString);
   }
 
-    async queryAllOrders(stub, args) {
+    async queryAllOrder(stub, args) {
     console.log('============= START : queryAllOrders===========');
     console.log('##### queryAllOrders arguments: ' + JSON.stringify(args));
  
