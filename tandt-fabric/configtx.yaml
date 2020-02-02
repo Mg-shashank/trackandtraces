@@ -10,10 +10,10 @@
 ################################################################################
 Organizations:
     - &Org1
-        Name: m-ENX52YM44BBN5HNCFQOKHK62BM 
+        Name: m-ATZK6EGKD5EKJJLBXO74GGPDVI 
 
         # ID to load the MSP definition as
-        ID: m-ENX52YM44BBN5HNCFQOKHK62BM
+        ID: m-ATZK6EGKD5EKJJLBXO74GGPDVI
 
         MSPDir: /opt/home/admin-msp
 
