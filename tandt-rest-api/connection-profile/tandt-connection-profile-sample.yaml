@@ -23,7 +23,7 @@ channels:
     orderers:
       - orderer.com
     peers:
-      nd-B3G6X23XNBFZTF2KL55V4PZHBY:
+      nd-QQYP6LRNR5CVTOJII4LMEOHFLM:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -31,29 +31,29 @@ channels:
 
 organizations:
   Org1:
-    mspid: m-ENX52YM44BBN5HNCFQOKHK62BM
+    mspid: m-ATZK6EGKD5EKJJLBXO74GGPDVI
     peers:
-      - nd-B3G6X23XNBFZTF2KL55V4PZHBY
+      - nd-QQYP6LRNR5CVTOJII4LMEOHFLM
     certificateAuthorities:
       - ca-org1
 
 orderers:
   orderer.com:
-    url: grpcs://orderer.n-PD44BQCSMNCFBJLQHEYW4UMXUQ.managedblockchain.us-east-1.amazonaws.com:30001
+    url: grpcs://orderer.n-Y57MQCZDI5HFLJRFRR3ULXKLGQ.managedblockchain.us-east-1.amazonaws.com:30001
     tlsCACerts:
       path: /home/ec2-user/managedblockchain-tls-chain.pem
 
 peers:
   nd-WOD2TSFELBBNVEZCHMEXS4GRWU:
-    url: grpcs://nd-B3G6X23XNBFZTF2KL55V4PZHBY.m-ENX52YM44BBN5HNCFQOKHK62BM.n-PD44BQCSMNCFBJLQHEYW4UMXUQ.managedblockchain.us-east-1.amazonaws.com:30003
+    url: grpcs://nd-QQYP6LRNR5CVTOJII4LMEOHFLM.m-ATZK6EGKD5EKJJLBXO74GGPDVI.n-Y57MQCZDI5HFLJRFRR3ULXKLGQ.managedblockchain.us-east-1.amazonaws.com:30003
     grpcOptions:
-      ssl-target-name-override: nd-B3G6X23XNBFZTF2KL55V4PZHBY
+      ssl-target-name-override: nd-QQYP6LRNR5CVTOJII4LMEOHFLM
     tlsCACerts:
       path: /home/ec2-user/managedblockchain-tls-chain.pem
 
 certificateAuthorities:
   ca-org1:
-    url: https://ca.m-ENX52YM44BBN5HNCFQOKHK62BM.n-PD44BQCSMNCFBJLQHEYW4UMXUQ.managedblockchain.us-east-1.amazonaws.com:30002
+    url: https://ca.m-ATZK6EGKD5EKJJLBXO74GGPDVI.n-Y57MQCZDI5HFLJRFRR3ULXKLGQ.managedblockchain.us-east-1.amazonaws.com:30002
     httpOptions:
       verify: false
     tlsCACerts:
@@ -61,4 +61,4 @@ certificateAuthorities:
     registrar:
       - enrollId: admin
         enrollSecret: adminpwd
-    caName: m-ENX52YM44BBN5HNCFQOKHK62BM
+    caName: m-ATZK6EGKD5EKJJLBXO74GGPDVI
