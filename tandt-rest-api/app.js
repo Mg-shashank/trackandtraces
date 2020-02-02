@@ -123,83 +123,6 @@ app.post('/users', awaitHandler(async (req, res) => {
 	}
 }));
 
-/************************************************************************************
- * Donor methods
- ************************************************************************************/
-
-// GET Donor
-app.get('/donors', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donor');
-	let args = {};
-	let fcn = "queryAllDonors";
-
-    logger.info('##### GET on Donor - username : ' + username);
-	logger.info('##### GET on Donor - userOrg : ' + orgName);
-	logger.info('##### GET on Donor - channelName : ' + channelName);
-	logger.info('##### GET on Donor - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donor - fcn : ' + fcn);
-	logger.info('##### GET on Donor - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donor - peers : ' + peers);
-
-    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
- 	res.send(message);
-}));
-
-// GET a specific Donor
-app.get('/donors/:donorUserName', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donor by ID');
-	logger.info('Donor username : ' + req.params);
-	let args = req.params;
-	let fcn = "queryDonor";
-
-    logger.info('##### GET on Donor by username - username : ' + username);
-	logger.info('##### GET on Donor by username - userOrg : ' + orgName);
-	logger.info('##### GET on Donor by username - channelName : ' + channelName);
-	logger.info('##### GET on Donor by username - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donor by username - fcn : ' + fcn);
-	logger.info('##### GET on Donor by username - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donor by username - peers : ' + peers);
-
-    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
- 	res.send(message);
-}));
-
-// GET the Donations for a specific Donor
-app.get('/donors/:donorUserName/donations', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donations for Donor');
-	logger.info('Donor username : ' + req.params);
-	let args = req.params;
-	let fcn = "queryDonationsForDonor";
-
-    logger.info('##### GET on Donations for Donor - username : ' + username);
-	logger.info('##### GET on Donations for Donor - userOrg : ' + orgName);
-	logger.info('##### GET on Donations for Donor - channelName : ' + channelName);
-	logger.info('##### GET on Donations for Donor - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donations for Donor - fcn : ' + fcn);
-	logger.info('##### GET on Donations for Donor - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donations for Donor - peers : ' + peers);
-
-    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
- 	res.send(message);
-}));
-
-// POST Donor
-app.post('/donors', awaitHandler(async (req, res) => {
-	logger.info('================ POST on Donor');
-	var args = req.body;
-	var fcn = "createDonor";
-
-    logger.info('##### POST on Donor - username : ' + username);
-	logger.info('##### POST on Donor - userOrg : ' + orgName);
-	logger.info('##### POST on Donor - channelName : ' + channelName);
-	logger.info('##### POST on Donor - chaincodeName : ' + chaincodeName);
-	logger.info('##### POST on Donor - fcn : ' + fcn);
-	logger.info('##### POST on Donor - args : ' + JSON.stringify(args));
-	logger.info('##### POST on Donor - peers : ' + peers);
-
-	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
-	res.send(message);
-}));
 
 /************************************************************************************
  * Batch methods
@@ -265,7 +188,7 @@ app.post('/batch', awaitHandler(async (req, res) => {
  * Order methods
  ************************************************************************************/
 
-// GET Donation
+// GET Order
 app.get('/order', awaitHandler(async (req, res) => {
 	logger.info('================ GET on Donation');
 	let args = {};
@@ -283,7 +206,7 @@ app.get('/order', awaitHandler(async (req, res) => {
  	res.send(message);
 }));
 
-// GET a specific Donation
+// GET a specific Order
 app.get('/order/:orderId', awaitHandler(async (req, res) => {
 	logger.info('================ GET on Order by ID');
 	logger.info('Order ID : ' + req.params);
