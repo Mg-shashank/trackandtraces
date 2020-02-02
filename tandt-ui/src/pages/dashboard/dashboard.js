@@ -35,7 +35,7 @@ class Landingpage extends React.Component {
 			recAct: '',
 			selectedProduct: '',
 			createOrder:'',
-
+			details:'',
 		};
 	}	
 
@@ -131,9 +131,7 @@ class Landingpage extends React.Component {
 					Result.forEach(element => {
 						console.log(element);											
 					});									
-				})	
-							
-				
+				})	 				
 			})
 		
 
@@ -194,34 +192,16 @@ class Landingpage extends React.Component {
 	 };
 
 	 createOrder(element) {
-		//alert('createOrder')
-		
 		var selectedProduct = document.getElementsByClassName("selected")
-		// this.state.props.createOrder = selectedProduct.getAttribute('data-name');
 		alert('createOrder:'+ selectedProduct[0].getAttribute('data-name'))
-		
-		// this.state(
-		// 	{
-		// 		createOrder: selectedProduct[0].getAttribute('data-name'),
-		// 		isLoading: false
-		// 	}
-		// );
-		
-		return false
+		var t= selectedProduct[0].getAttribute('data-name')		
+		let details = t;
+		this.props.history.push({pathname:'/createorder',state:details})
 	 };
 
 	render() {
 		const { isLoading, ordPlaced, ordAccept, ordRec, recAct, createOrder }= this.state;
 
-		
-		// var r = Result;
-		// localStorage.setItem('result',r);
-		//console.log(Result);		
-		// eve1 =()=> {
-		// 	    window.location.reload(false)
-		// 	    var r="Asus ROG Rapture GT-AC5300";
-		// 	    localStorage.setItem('router',r);
-		// 	  };
 		return (
 			<div className="wrapper">
 				<header>
@@ -289,7 +269,7 @@ class Landingpage extends React.Component {
 										<span className="section-header">Recommended Orders </span>
 										<Link to="/createorder" onClick={this.createOrder.bind(this)}><button type="button" class="btn btn-primary pull-right" id="btn-create-order" disabled>+ Create New Order</button> 
 									</Link>
-						
+									
 									</div>
 								</div>
 							</div>
@@ -323,7 +303,7 @@ class Landingpage extends React.Component {
 
 						<div className="col-lg-9 col-md-9 padding0">
 							<div className="col-lg-4 col-md-4">
-								<div className="device-card " data-name = "dev1" onClick={this.selectProductTile.bind(this)} data-pname="demo" >
+								<div className="device-card " data-name = "Asus ROG Rapture GT-AC5300" onClick={this.selectProductTile.bind(this.state.createOrder)} data-pname="demo" >
 								
 									{/* <div className="dropdown dots"> */}
 									{/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
@@ -353,7 +333,7 @@ class Landingpage extends React.Component {
 								</div>
 							</div>
 							<div className="col-lg-4 col-md-4">
-								<div className="device-card" data-name = "dev2" onClick={this.selectProductTile.bind(this)}>
+								<div className="device-card" data-name = "D-Link AC2600 (DIR-2680)" onClick={this.selectProductTile.bind(this)}>
 								<div>
 										{!isLoading ? createOrder : (
 											<p>...</p>
@@ -383,7 +363,7 @@ class Landingpage extends React.Component {
 								</div>
 							</div>
 							<div className="col-lg-4 col-md-4">
-								<div className="device-card" data-name = "dev3" onClick={this.selectProductTile.bind(this)}>
+								<div className="device-card" data-name = "Asus RT-AC66U B1" onClick={this.selectProductTile.bind(this)}>
 									<Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
@@ -409,7 +389,7 @@ class Landingpage extends React.Component {
 							</div>
 
 							<div className="col-lg-4 col-md-4">
-								<div className="device-card" data-name = "dev4" onClick={this.selectProductTile.bind(this)}>
+								<div className="device-card" data-name = "Netgear Nighthawk x10 ad7200" onClick={this.selectProductTile.bind(this)}>
 									<Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
@@ -435,7 +415,7 @@ class Landingpage extends React.Component {
 							</div>
 
 							<div className="col-lg-4 col-md-4">
-								<div className="device-card" data-name = "dev5" onClick={this.selectProductTile.bind(this)}>
+								<div className="device-card" data-name = "D-Link DWR-2010 5G Router" onClick={this.selectProductTile.bind(this)}>
 									<Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
@@ -460,7 +440,7 @@ class Landingpage extends React.Component {
 								</div>
 							</div>
 							<div className="col-lg-4 col-md-4">
-								<div className="device-card" data-name = "dev6" onClick={this.selectProductTile.bind(this)}>
+								<div className="device-card" data-name = "D-Link AC1200" onClick={this.selectProductTile.bind(this)}>
 									<Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
