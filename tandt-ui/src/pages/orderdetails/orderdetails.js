@@ -15,7 +15,7 @@ var image = localStorage.getItem('profile-picture');
 var name = localStorage.getItem('name');
 var routers = localStorage.getItem('router');
 
-class LandingPage extends React.Component {
+class B extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,6 +27,9 @@ class LandingPage extends React.Component {
 track(e){
 	let orders= this.props.location.state;
 	this.props.history.push({pathname:'/trackorder',state:orders})
+}
+componentDidMount(){
+	toast.success("Your Order is placed successfully")
 }
 	render() {
 		// let { details } = this.props;
@@ -44,6 +47,21 @@ track(e){
 
 		return (
 			<div class="container-fluid padding0">
+				<header>
+              <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
+            
+              <div className="userBlock collapse navbar-collapse">
+                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
+	         	<span className="pipe">&nbsp;|&nbsp;</span>
+                <span>
+                {/*<GoogleLogouts/>*/}
+                <GoogleLogout render={renderProps => (
+                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
+                </Link>)}
+                />
+                </span>
+          	</div>               
+          </header>
 					<section class="content">
 
 					<h3 class="section-header">Order Details</h3>
@@ -94,7 +112,7 @@ track(e){
 
 
 
-				<div class="col-lg-12 col-md-12 text-right">
+				<div class="col-lg-12 col-md-12 text-right"><ToastContainer/>
 				<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
 				<button class="btn btn-prim" onClick={this.track}>Track Order</button></div>
 					</section>
@@ -103,7 +121,7 @@ track(e){
 	}
 }
 
-export default withRouter(LandingPage);
+export default withRouter(B);
 
 
 
