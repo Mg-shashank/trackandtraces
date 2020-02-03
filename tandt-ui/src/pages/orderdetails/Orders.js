@@ -4,6 +4,7 @@ import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import "./dashboard.scss";
+import Logout from '../login/Logout';
 import queryString from 'query-string';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 class Orders extends React.Component {
@@ -60,31 +61,7 @@ class Orders extends React.Component {
 		const { isLoading, posts } = this.state;
 		return (
 			<div class="container-fluid padding0">
-				<header>
-      		<span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/>
-      		</span>				
-      		<div className="userBlock collapse navbar-collapse">	
-	  		<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-      		<DropdownToggle caret>
-				<span>
-				Welcome &nbsp;
-				<img src={localStorage.getItem('profile-picture')} className ="img-circle" alt={usericon} width="40" height="40"/>		
-				</span>
-      		</DropdownToggle>
-      			<DropdownMenu>
-        		<DropdownItem header>Options</DropdownItem>
-        		<DropdownItem><Link to="/help">
-				<button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
-        		<DropdownItem><GoogleLogout render={renderProps => (
-			<Link to="/login">
-			<button type="style"
-			className="btn btn-block btn-primary"
-			onClick={()=>{renderProps.onClick(); localStorage.removeItem('role')}}>Logout</button></Link>)}/>
-			</DropdownItem>
-       		</DropdownMenu>
-       		</Dropdown>
-			</div>				
-        	</header>
+				<Logout/>
 				<section class="content">
 					<h3 class="section-header">Place Order</h3>
 					<div class="col-lg-12 col-md-12 place-order">
