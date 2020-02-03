@@ -9,7 +9,6 @@ import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import "./dashboard.scss";
 import $ from "jquery";
 import Logout from '../login/Logout';
-var dateFormat = require('dateformat');
 
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
