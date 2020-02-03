@@ -15,7 +15,7 @@ var image = localStorage.getItem('profile-picture');
 var name = localStorage.getItem('name');
 var routers = localStorage.getItem('router');
 
-class B extends React.Component {
+class LandingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -103,7 +103,7 @@ track(e){
 	}
 }
 
-export default withRouter(B);
+export default withRouter(LandingPage);
 
 
 
