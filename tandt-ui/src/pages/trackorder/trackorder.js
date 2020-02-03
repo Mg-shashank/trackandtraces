@@ -1,6 +1,6 @@
 import React, {} from "react";
 import { withRouter,Link } from "react-router-dom";
-
+import Logout from '../login/Logout';
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import { GoogleApiWrapper, InfoWindow, Map, Marker ,Polyline} from 'google-maps-react';
 import logo from "./images/brillio-logo.png";
@@ -79,29 +79,7 @@ class Landingpage extends React.Component {
 	  }
       return( 
         <div class="container-fluid padding0">
-        <header>
-              <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
-            
-              <div className="userBlock collapse navbar-collapse">
-               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-      <DropdownToggle caret>
-			<span>
-		Welcome &nbsp;
-			<img src={image} className ="img-circle" alt={usericon} width="40" height="40"/>		
-			</span>
-      </DropdownToggle>
-      <DropdownMenu>
-        <DropdownItem header>Options</DropdownItem>
-        <DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
- 
-        <DropdownItem><GoogleLogout render={renderProps => (
-				<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
-        /></DropdownItem>
-        </DropdownMenu>
-    </Dropdown>
-          		</div>  
-             
-          </header>
+        <Logout/>
 		  <section class="">
 			<div class="col-lg-8 col-md-8 content">
 				<h3 class="section-header"><Link to="/orderdetails"><img src={back} alt="back" class="back" /></Link><br/><br/></h3>
