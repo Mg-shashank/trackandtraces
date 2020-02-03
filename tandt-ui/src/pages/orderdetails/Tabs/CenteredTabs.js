@@ -14,7 +14,6 @@ import DisAcc from '../DisAcc'
 import { HashRouter, Route, Switch, Redirect, Link } from "react-router-dom";
 import trackorder from "../../trackorder/trackorder";
 import $ from 'jquery';
-import App from '../PagiTable';
 var role = localStorage.getItem('role')
 var display,display1,display2,display3; 
 var ordercount,ordercount1,ordercount2;
