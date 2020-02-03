@@ -8,7 +8,6 @@ import usericon from "./images/user-icon.svg";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import "./dashboard.scss";
 import $ from "jquery";
-import Logout from '../login/Logout';
 var dateFormat = require('dateformat');
 
 var image=localStorage.getItem('profile-picture');
@@ -79,9 +78,38 @@ class Landingpage extends React.Component {
 	
 	  let dates=day+" "+time;
 	  console.log(dates);
-		const data2={			
-				Product:routers,Category:"Network",Quantity:this.state.quantity,Upgradeto5G:$("#upgrade").val(),ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:"id",CreatedAt:Date(),OrderStatus:"Order Initiated"
-								
+
+	const data = { 	
+		
+     "Product":routers,
+	  "Category":"Network",
+	  Quantity: this.state.quantity,
+	  "Manufacturer": $("#manufacture").val(),
+	  'Upgrade device compatiblity to 5G': $("#upgrade").val(),
+	  "Date":dates,
+	};
+
+	  fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
+		method: 'POST',
+		headers: {
+		  'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	  })
+	  .then((response) => response.json())
+	  .then((data) => {
+			console.log('Success:', data.transactionId);
+			var id=JSON.stringify(data.transactionId);
+			var name=localStorage.getItem('name');
+			//var day=dateFormat(new Date(), "yyyy-mm-dd");
+			const data2={
+				
+				Product:routers,Category:"Network",Quantity:this.state.quantity,Upgradeto5G:$("#upgrade").val(),ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:"id",CreatedAt:Date(),OrderStatus:"Order Initiated",
+					
+				BatchCreatedOn:" ",
+				OrderShipped:" ",
+				OrderCompletedOn:" ",
+
 			  };
 
 			fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/createorder', {
@@ -101,10 +129,10 @@ class Landingpage extends React.Component {
 			console.error('Error:', error);
 	 		 });
 
-	//   })
-	//   .catch((error) => {
-	// 	console.error('Error:', error);
-	//   });
+	  })
+	  .catch((error) => {
+		console.error('Error:', error);
+	  });
 
 	}
 	
@@ -112,7 +140,21 @@ class Landingpage extends React.Component {
 		const { isPlacingOrder } = this.state;
 	  return (
 		<div class="container-fluid padding0">
-        <Logout/>
+        <header>
+              <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
+            
+              <div className="userBlock collapse navbar-collapse">
+                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
+	         	<span className="pipe">&nbsp;|&nbsp;</span>
+                <span>
+                {/*<GoogleLogouts/>*/}
+                <GoogleLogout render={renderProps => (
+                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
+                </Link>)}
+                />
+                </span>
+          	</div>               
+          </header>
 		  <section class="content">
 		
 			<h3 class="section-header">Place Order</h3>
@@ -130,9 +172,9 @@ class Landingpage extends React.Component {
 			<div class="padding-bottom20">
 				<label class="form-label"><b>Manufacturer : </b></label>
 				<select class="form-control" id="manufacture">
-					<option>Abbott Group Enterprise, Oklahoma, USA</option>
-					<option default>Hirthe Group Enterprise, Washington, USA</option>
-					<option>Schuster Ltd Enterprise, Alabama, USA</option>
+					<option>Abbott Group Enterprise</option>
+					<option default>Hirthe Group Enterprise</option>
+					<option>Schuster Ltd Enterprise</option>
 				</select>
 			</div>
 			
@@ -164,5 +206,3 @@ class Landingpage extends React.Component {
   }
   
   export default Landingpage;
-
-  
