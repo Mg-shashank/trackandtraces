@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import logo from "./images/brillio-logo.png";
-import usericon from "./images/user-icon.svg";
+import logo from "./brillio-logo.png";
+import usericon from "./user-icon.svg";
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { withRouter, Link, Route } from "react-router-dom";
 export default class Logout extends React.Component{
