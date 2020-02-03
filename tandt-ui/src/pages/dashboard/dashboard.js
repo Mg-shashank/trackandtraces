@@ -119,45 +119,44 @@ class Landingpage extends React.Component {
 			});
 
 
-		https.get("https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/qldb-data",
-			function (response) {
-				if (response.statusCode !== 200) {
-					console.log("Error while getting the data");
-				}
-				response.on('data', function (data) {
+		// https.get("https://ji94s8ez32.execute-api.us-east-1.amazonaws.com/qldb/get-qldb-network-devices-services",
+		// 	function (response) {
+		// 		if (response.statusCode !== 200) {
+		// 			console.log("Error while getting the data");
+		// 		}
+		// 		response.on('data', function (data) {
 					
-					//console.log(JSON.parse(data.body[0]));
-					var productData = JSON.parse(data.toString())
-					var Result = JSON.parse(productData.body)
-					Result.forEach(element => {
-						console.log(element);											
-					});									
-				})	 				
-			})
-		
-
-		// fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/qldb-data', {
-		// 	method:'GET',
-		// 	headers: {
-		// 	'Content-Type':'application/json',
-		// 			},
+		// 			//console.log(JSON.parse(data.body[0]));
+		// 			// var productData = JSON.parse(data.toString())
+		// 			// var Result = JSON.parse(productData.body)
+		// 			console.log(data)
+		// 			Result.forEach(element => {
+		// 				console.log(element);											
+		// 			});									
+		// 		})	 				
 		// 	})
+		
+			// fetch('https://ji94s8ez32.execute-api.us-east-1.amazonaws.com/qldb/get-qldb-network-devices-services').then((res)=>{
+			// 		return res.json()
+			// }).then((json)=>{
+			// 	console.log(json)
+			// })
 
-		// 	.then((response) =>response.json())
-		// 		.then((data) => {
-		// 		console.log(JSON.parse(data));
-		// 		var op =JSON.parse(data.toString())
-		// 		var op2 = JSON.parse(op.body)
-		// 		console.log(JSON.parse(op2));
-		// 		this.setState({
-		// 		a: data,
-		// 		isLoading:false,
-		// 		});
-
-		// 	 })
-		// 	.catch((error) => {
-		// 		console.error('Error:', error);
-		// 	 });		
+			
+		fetch('https://ji94s8ez32.execute-api.us-east-1.amazonaws.com/qldb/get-qldb-network-devices', {
+			method:'GET',
+			headers: {
+			'Content-Type':'application/json',
+					},
+			})			
+			.then((response) =>response.json()).then((data) => {
+				console.log(data)
+					// var productData = JSON.parse(data.toString())
+					// var Result = JSON.parse(productData.body)
+			 })
+			.catch((error) => {
+				console.error('Error:', error);
+			 });		
 		   
 	}
 
@@ -290,7 +289,7 @@ class Landingpage extends React.Component {
 									{/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick}>
 									{/* <b>...</b> */}
 									{/* </Button>  */}
-									<Menu
+									{/* <Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
 										keepMounted
@@ -301,11 +300,11 @@ class Landingpage extends React.Component {
 										<MenuItem onClick={this.handleClose}>Device Model: AC5300</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
-									</Menu>
+									</Menu> */}
 									<img src={router} width="100" height="100" alt="s1" className="s1" />
 									<h3 className="title">Asus ROG Rapture GT-AC5300</h3>
-									{/*<p className="sub-title">Router</p>		
-			 <p className="card-label"><label>End of Warranty:</label> March</p>
+									<p className="sub-title">Router</p>		
+			 {/* <p className="card-label"><label>End of Warranty:</label> March</p>
 			<p className="attribute">MAC Address: D4:05:15:35:4A:11</p>
 			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
 			<p className="attribute">IPv6 Compatible: yes</p>
@@ -320,7 +319,7 @@ class Landingpage extends React.Component {
 											<p>...</p>
 										)}
 									</div> 
-									<Menu
+									{/* <Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
 										keepMounted
@@ -330,12 +329,12 @@ class Landingpage extends React.Component {
 										<MenuItem onClick={this.handleClose}>Device Model: AC2600</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 										<MenuItem onClick={this.shandleClose}>Device Vendor: Abbot</MenuItem>
-									</Menu>
+									</Menu> */}
 
 									<img src={router2} alt="s1" width="100" height="100" className="s1" />
 									<h3 className="title">D-Link AC2600 (DIR-2680)</h3>
-									{/* <p className="sub-title">Router</p>
-		 	<p className="card-label"><label>End of Warranty:</label> June</p>
+									<p className="sub-title">Router</p>
+		 	{/* <p className="card-label"><label>End of Warranty:</label> June</p>
 			<p className="attribute">MAC Address: D2:65:75:87:A7:05</p>
 			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
 			<p className="attribute">IPv6 Compatible: yes</p>
@@ -345,7 +344,7 @@ class Landingpage extends React.Component {
 							</div>
 							<div className="col-lg-4 col-md-4">
 								<div className="device-card" data-name = "Asus RT-AC66U B1" onClick={this.selectProductTile.bind(this)}>
-									<Menu
+									{/* <Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
 										keepMounted
@@ -355,12 +354,12 @@ class Landingpage extends React.Component {
 										<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
-									</Menu>
+									</Menu> */}
 
 									<img src={router3} width="100" height="100" alt="s1" className="s1" />
 									<h3 className="title">Asus RT-AC66U B1</h3>
-									{/* <p className="sub-title">Router</p>
-			<p className="card-label"><label>End of Warranty:</label> June</p>
+									<p className="sub-title">Router</p>
+			{/* <p className="card-label"><label>End of Warranty:</label> June</p>
 			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
 			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
 			<p className="attribute">IPv6 Compatible: yes</p>
@@ -371,7 +370,7 @@ class Landingpage extends React.Component {
 
 							<div className="col-lg-4 col-md-4">
 								<div className="device-card" data-name = "Netgear Nighthawk x10 ad7200" onClick={this.selectProductTile.bind(this)}>
-									<Menu
+									{/* <Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
 										keepMounted
@@ -381,12 +380,12 @@ class Landingpage extends React.Component {
 										<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
-									</Menu>
+									</Menu> */}
 
 									<img src={router4} width="100" height="100" alt="s1" className="s1" />
 									<h3 className="title">Netgear Nighthawk x10 ad7200</h3>
-									{/* <p className="sub-title">Router</p>
-			<p className="card-label"><label>End of Warranty:</label> June</p>
+									<p className="sub-title">Router</p>
+			{/* <p className="card-label"><label>End of Warranty:</label> June</p>
 			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
 			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
 			<p className="attribute">IPv6 Compatible: yes</p>
@@ -397,7 +396,7 @@ class Landingpage extends React.Component {
 
 							<div className="col-lg-4 col-md-4">
 								<div className="device-card" data-name = "D-Link DWR-2010 5G Router" onClick={this.selectProductTile.bind(this)}>
-									<Menu
+									{/* <Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
 										keepMounted
@@ -407,22 +406,22 @@ class Landingpage extends React.Component {
 										<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
-									</Menu>
+									</Menu> */}
 
 									<img src={router5} width="100" height="100" alt="s1" className="s1" />
 									<h3 className="title">D-Link DWR-2010 5G Router</h3>
-									{/* <p className="sub-title">Router</p>
-			<p className="card-label"><label>End of Warranty:</label> June</p>
+									<p className="sub-title">Router</p>
+			{/* <p className="card-label"><label>End of Warranty:</label> June</p>
 			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
 			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
 			<p className="attribute">IPv6 Compatible: yes</p>
 			<p className="attribute">Data Transfer Rate: 4600 Mbps</p>
-			<p className="attribute">Frequency Band : Dual Band</p>	*/}
+			<p className="attribute">Frequency Band : Dual Band</p>	 */}
 								</div>
 							</div>
 							<div className="col-lg-4 col-md-4">
 								<div className="device-card" data-name = "D-Link AC1200" onClick={this.selectProductTile.bind(this)}>
-									<Menu
+									{/* <Menu
 										id="simple-menu"
 										anchorEl={this.state.anchorEl}
 										keepMounted
@@ -431,12 +430,12 @@ class Landingpage extends React.Component {
 										<MenuItem onClick={this.handleClose}>Device Model: AC66U</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Type: Router</MenuItem>
 										<MenuItem onClick={this.handleClose}>Device Vendor: Asus</MenuItem>
-									</Menu>
+									</Menu> */}
 
 									<img src={router6} width="100" height="100" alt="s1" className="s1" />
 									<h3 className="title">D-Link AC1200 </h3>
-									{/* <p className="sub-title">Router</p>
-			<p className="card-label"><label>End of Warranty:</label> June</p>
+									<p className="sub-title">Router</p>
+			{/* <p className="card-label"><label>End of Warranty:</label> June</p>
 			<p className="attribute">MAC Address: A4:02:33:93:7A:83</p>
 			<p className="card-label"><label>You can include below parameters to make your device 5G- Ready:</label></p>
 			<p className="attribute">IPv6 Compatible: yes</p>
@@ -455,4 +454,3 @@ class Landingpage extends React.Component {
 }
 
 export default (Landingpage);
-
