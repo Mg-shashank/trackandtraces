@@ -7,6 +7,7 @@ import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import "./dashboard.scss";
+import Logout from '../login/Logout';
 import $ from "jquery";
 var dateFormat = require('dateformat');
 
@@ -140,21 +141,7 @@ class Landingpage extends React.Component {
 		const { isPlacingOrder } = this.state;
 	  return (
 		<div class="container-fluid padding0">
-        <header>
-              <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
-            
-              <div className="userBlock collapse navbar-collapse">
-                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
-	         	<span className="pipe">&nbsp;|&nbsp;</span>
-                <span>
-                {/*<GoogleLogouts/>*/}
-                <GoogleLogout render={renderProps => (
-                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
-                </Link>)}
-                />
-                </span>
-          	</div>               
-          </header>
+       		<Logout/>
 		  <section class="content">
 		
 			<h3 class="section-header">Place Order</h3>
