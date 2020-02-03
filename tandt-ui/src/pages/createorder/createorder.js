@@ -8,6 +8,7 @@ import usericon from "./images/user-icon.svg";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import "./dashboard.scss";
 import $ from "jquery";
+import Logout from '../login/Logout';
 var dateFormat = require('dateformat');
 
 var image=localStorage.getItem('profile-picture');
@@ -78,32 +79,7 @@ class Landingpage extends React.Component {
 	
 	  let dates=day+" "+time;
 	  console.log(dates);
-
-	// const data = { 	
-		
-    //  "Product":routers,
-	//   "Category":"Network",
-	//   Quantity: this.state.quantity,
-	//   "Manufacturer": $("#manufacture").val(),
-	//   'Upgrade device compatiblity to 5G': $("#upgrade").val(),
-	//   "Date":dates,
-	// };
-
-	//   fetch('http://trackandt-Blockcha-OKH6MW7VYGQP-166143064.us-east-1.elb.amazonaws.com/batch', {
-	// 	method: 'POST',
-	// 	headers: {
-	// 	  'Content-Type': 'application/json',
-	// 	},
-	// 	body: JSON.stringify(data),
-	//   })
-	//   .then((response) => response.json())
-	//   .then((data) => {
-	// 		console.log('Success:', data.transactionId);
-	// 		var id=JSON.stringify(data.transactionId);
-	// 		var name=localStorage.getItem('name');
-	// 		//var day=dateFormat(new Date(), "yyyy-mm-dd");
-			const data2={
-				
+		const data2={			
 				Product:routers,Category:"Network",Quantity:this.state.quantity,Upgradeto5G:$("#upgrade").val(),ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:"id",CreatedAt:Date(),OrderStatus:"Order Initiated"
 								
 			  };
@@ -136,21 +112,7 @@ class Landingpage extends React.Component {
 		const { isPlacingOrder } = this.state;
 	  return (
 		<div class="container-fluid padding0">
-        <header>
-              <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
-            
-              <div className="userBlock collapse navbar-collapse">
-                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
-	         	<span className="pipe">&nbsp;|&nbsp;</span>
-                <span>
-                {/*<GoogleLogouts/>*/}
-                <GoogleLogout render={renderProps => (
-                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
-                </Link>)}
-                />
-                </span>
-          	</div>               
-          </header>
+        <Logout/>
 		  <section class="content">
 		
 			<h3 class="section-header">Place Order</h3>
