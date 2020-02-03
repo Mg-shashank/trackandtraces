@@ -8,6 +8,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import usericon from "./images/user-icon.svg";
 //import dots from "./images/dots.svg";
+import Logout from '../login/Logout';
 import router from "./images/router.png";
 import router2 from "./images/router2.jpg";
 import router3 from "./images/router3.jpg";
@@ -204,27 +205,7 @@ class Landingpage extends React.Component {
 
 		return (
 			<div className="wrapper">
-				<header>
-					<span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px" /></span>
-					<div className="userBlock collapse navbar-collapse">
-						<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-							<DropdownToggle caret>
-								<span>
-									Welcome &nbsp;
-										<img src={image} className="img-circle" alt={usericon} width="40" height="40" />
-								</span>
-							</DropdownToggle>
-							<DropdownMenu>
-								<DropdownItem header>Options</DropdownItem>
-								<DropdownItem><Link to="/help"><button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
-								{/*<DropdownItem divider />*/}
-								<DropdownItem><GoogleLogout render={renderProps => (
-									<Link to="/login"><button type="style" className="btn btn-block btn-primary" onClick={renderProps.onClick}>Logout</button></Link>)}
-								/></DropdownItem>
-							</DropdownMenu>
-						</Dropdown>
-					</div>
-				</header>
+				<Logout/>
 				<section>
 					<div className="container">
 						<div className="col-lg-9 col-md-9 padding0">
