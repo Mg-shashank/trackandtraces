@@ -33,8 +33,8 @@ export default class Logout extends React.Component{
       		</DropdownToggle>
       			<DropdownMenu>
         		<DropdownItem header>Options</DropdownItem>
-        		<DropdownItem><Link to="/help">
-				<button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
+//         		<DropdownItem><Link to="/help">
+// 				<button type="style" className="btn btn-block btn-primary">Help</button></Link></DropdownItem>
         		<DropdownItem><GoogleLogout render={renderProps => (
 			<Link to="/login">
 			<button type="style"
