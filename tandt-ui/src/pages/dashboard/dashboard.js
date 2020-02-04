@@ -150,9 +150,20 @@ class Landingpage extends React.Component {
 					},
 			})			
 			.then((response) =>response.json()).then((data) => {
-				console.log(data)
-					// var productData = JSON.parse(data.toString())
-					// var Result = JSON.parse(productData.body)
+				// console.log(data.toString());
+				// var Result=data.toString();
+				
+				// var productData=JSON.parse(Result.body);
+				 console.log(data);
+				 console.log(data.body[0]);
+				//  var productData = JSON.parse(data.toString())
+				//  var Result = JSON.parse(productData.body)					
+				// var productData = (data.body[2])
+				// var Result = JSON.parse(productData.body)
+		 		// 	console.log(Result)
+	 			// Result.forEach(element => {
+				// 	console.log(element);											
+		 		// 	});	
 			 })
 			.catch((error) => {
 				console.error('Error:', error);
