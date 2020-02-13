@@ -10,13 +10,16 @@ import SimpleTable from '../SimpleTable'
 import NewTable from '../NewTable'
 import PrevOrderTable from '../PrevOrderTable'
 import RejectTable from '../RejectTable'
+import Completed from '../Completed'
+import InProgress from '../InProgress'
 import DisAcc from '../DisAcc'
 import { HashRouter, Route, Switch, Redirect, Link } from "react-router-dom";
 import trackorder from "../../trackorder/trackorder";
 import $ from 'jquery';
+import App from '../PagiTable';
 var role = localStorage.getItem('role')
-var display,display1,display2,display3; 
-var ordercount,ordercount1,ordercount2;
+var display,display1,display2,display3,display4,display5,display6,display7,display8;
+var ordercount,ordercount1,ordercount2,refreshs;
 
 $.ajax({
   url:"https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchordercount",
@@ -32,7 +35,7 @@ $.ajax({
 	error: function(xhr, status, err,data) {
 	  // console.log(xhr, status);
 	  // console.log(err);
-	  // console.log(data);			
+	  console.log(data);			
 	}.bind(this)
   });
   $.ajax({
@@ -43,7 +46,7 @@ $.ajax({
     success: function(data) {
     // Success..			 
       ordercount1=JSON.parse(data)
-    //  console.log('success',ordercount);	 
+      //console.log('success',ordercount);	 
     }.bind(this),
     // Fail..
     error: function(xhr, status, err,data) {
@@ -69,15 +72,11 @@ $.ajax({
         // console.log(data);			
       }.bind(this)
       });
-
+      
+       
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-  // console.log({children})
-  // console.log({value})
-  // console.log({index})
-  // console.log({...other})
-
-  return (
+   return (
     <Typography
       component="div"
       role="tabpanel"
@@ -86,7 +85,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box p={5}>{children}</Box>}
     </Typography>
   );
 }
@@ -113,17 +112,35 @@ const useStyles = makeStyles(theme => ({
 export default function CenteredTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+ 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   if(role === "distributor"){
+    refreshs = localStorage.getItem('refresh');
+        console.log(refreshs);
+        if (refreshs===null){
+          console.log("REFRESH 3")
+          window.location.reload(false);
+         localStorage.setItem('refresh', "1");
+        }
      display = <NewTable rowsss={props.rowsss}/>
-     display2= <DisAcc dist={props.dis}/>
-  }
+     display8 = <Tab label="Order Details Table" {...a11yProps(0)} />
+    }
   else if(role === "manufacturer") {
-     display1 = <SimpleTable rowss={props.rows}/>
+    refreshs = localStorage.getItem('refresh');
+        console.log(refreshs);
+        if (refreshs===null){
+          window.location.reload(false);
+         localStorage.setItem('refresh', "1");
+        }
+     display1 = <SimpleTable rowss={props.rows} />
      display2= <PrevOrderTable rowses={props.row}/>
+     display3= <RejectTable rowsess={props.rowss}/>
+     display4= <InProgress rowsesss={props.inpr}/>
+     display5= <Completed comps={props.comp} />
+     display6= <Tab label="InProgress" {...a11yProps(3)} />
+     display7= <Tab label="Completed" {...a11yProps(4)} />  
   }
   return (
     <React.Fragment>
@@ -136,20 +153,20 @@ export default function CenteredTabs(props) {
 		<div className="col-lg-12 col-md-12 padding0">
 		<div className="col-lg-4 col-md-4">
 		<div className="track-order">
-		<h3>Order Received</h3>
-		<p className="order-number"><b>{ordercount2}</b></p>
+		<h3>Order Placed</h3>
+		<p className="order-number"><b>{props.ordPlace}</b></p>
 		</div>
 		</div>
 		<div className="col-lg-4 col-md-4">
 		<div className="track-order">
 		<h3>Order Accepted</h3>
-		<p className="order-number"><b>{ordercount1}</b></p>
+		<p className="order-number"><b>{props.ordAccepted}</b></p>
 		</div>
 		</div>
 		<div className="col-lg-4 col-md-4">
 		<div className="track-order">
-		<h3>Order Placed</h3>
-		<p className="order-number"><b>{ordercount}</b></p>
+		<h3>Order Completed</h3>
+		<p className="order-number"><b>{props.ordRecieve}</b></p>
 		</div>
 		</div>
 		</div>		
@@ -161,9 +178,13 @@ export default function CenteredTabs(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-        <Tab label="Current Orders" {...a11yProps(0)} />
-        <Tab label="Completed Orders" {...a11yProps(1)} />
+        {display8}
+        {/* <Tab label="Current Orders" {...a11yProps(0)} /> */}
+        {/* <Tab label="Accepted Orders" {...a11yProps(1)} />
         <Tab label="Rejected Orders" {...a11yProps(2)} />
+        {display6}
+        {display7}  */}
+        
         {/* <Tab label="PagiTable" {...a11yProps(3)} /> */}
         </Tabs>
       </AppBar>
@@ -176,17 +197,25 @@ export default function CenteredTabs(props) {
         {/* <PrevOrderTable rowses={props.row}/> */}
         {display2}
       </TabPanel>
-      <TabPanel value={value} index={2}>
-        <RejectTable rowsess={props.rowss}/>
+      <TabPanel value={value} index={2}>     
+        {display3}
+      </TabPanel>
+      <TabPanel value={value} index={3}>
+        {display4}
+        {display6}
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        {display5}
+        {display7}
       </TabPanel>
       {/* <TabPanel value={value} index={3}>
         <App rowss={props.rows}/>
       </TabPanel> */}
-      <div class="col-md-4 text-left">
+      {/* <div class="col-md-4 text-left">
       <Link to="/trackorder">
       <button type="button" className="btn btn-primary">Track Order</button>
       </Link>  
-      </div>    
+      </div>    */}
     </div>
     </React.Fragment>
   );
