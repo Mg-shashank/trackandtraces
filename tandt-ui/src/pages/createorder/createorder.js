@@ -11,60 +11,60 @@ import Logout from '../login/Logout';
 import $ from "jquery";
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
-var routers=localStorage.getItem('router');
 
 class Landingpage extends React.Component {
+	
 	constructor(props){
+		
 	  super(props);
 	  this.state = {
 		quantity:'',
 		details: {},
 		loading:false,
 		isPlacingOrder: false,
-	  };
-	  this._handleSubmit = this._handleSubmit.bind(this);
-      this._handleChangeq = this._handleChangeq.bind(this);
-	}
 	
+	  };
+	
+	  this._handleSubmit = this._handleSubmit.bind(this);
+	  this._handleChangeq = this._handleChangeq.bind(this);
+	  this._handleChangea = this._handleChangea.bind(this);
+	}
+
 	// Change state of input field so text is updated while typing
 	  _handleChangeq(e) {
 		  this.setState({
 			quantity: e.target.value,
 		  });
 		}
+		_handleChangea(e2) {
+			this.setState({
+			  address: e2.target.value,
+			});
+		  }
+
 	_handleSubmit(e) {
-		
+		var router=this.props.location.state;
 	  e.preventDefault();
 	  this.setState({
 		quantity:this.state.quantity,
+		address:this.state.address,
 		loading:true,
 		isPlacingOrder: true,
-	  });
-	  let date_ob = new Date();
-	  let date = ("0" + date_ob.getDate()).slice(-2);
-	  let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-	  let year = date_ob.getFullYear();
-	  
-	  let day=date+"/"+month+"/"+year;
-	 
-	  
-	  let hours = date_ob.getHours();
-	  let minutes = date_ob.getMinutes();
-	  let seconds = date_ob.getSeconds();
-	  
-	  let time=hours+":"+minutes+":"+seconds;
 	
-	  let dates=day+" "+time;
-	  console.log(dates);
-
+	  });
+	  var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
+	  usaTime = new Date(usaTime);
+	  var time=usaTime.toLocaleString()
+	  var orderid="order_"+Math.random().toString().slice(2,11); 
 	const data = { 	
-		
-     "Product":routers,
+	  "Order ID":orderid,
+      "Product":router,
 	  "Category":"Network",
-	  Quantity: this.state.quantity,
+	  "Quantity": this.state.quantity,
+	  "Date":time,
+	  "Delivery Address":this.state.address,
 	  "Manufacturer": $("#manufacture").val(),
 	  'Upgrade device compatiblity to 5G': $("#upgrade").val(),
-	  "Date":dates,
 	};
 
 	  fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
@@ -77,12 +77,16 @@ class Landingpage extends React.Component {
 	  .then((response) => response.json())
 	  .then((data) => {
 			console.log('Success:', data.transactionId);
-			var id=JSON.stringify(data.transactionId);
+			
+			var id=data.transactionId;
 			var name=localStorage.getItem('name');
 			//var day=dateFormat(new Date(), "yyyy-mm-dd");
+			var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
+			usaTime = new Date(usaTime);
+			var time=usaTime.toLocaleString()
 			const data2={
 				
-				Product:routers,Category:"Network",Quantity: this.state.quantity,Upgradeto5G:$("#upgrade").val(),ServiceProvider:name,Manufacturer:$("#manufacture").val(),TransactionID:id,CreatedAt:Date(),OrderStatus:"Order Initiated"
+				OrderID:orderid,Product:router,Category:"Network",Quantity: this.state.quantity,Upgradeto5G:$("#upgrade").val(),CreatedAt:time,ServiceProvider:name,DeliveryAddress:this.state.address,Manufacturer:$("#manufacture").val(),TransactionID1:id,OrderStatus:"Order Initiated"
 								
 			  };
 
@@ -95,7 +99,7 @@ class Landingpage extends React.Component {
 					})
 	 		 .then((response) => response.json())
 	 		 .then((data2) => {
-			console.log('Success:', data2);
+			//console.log('Success:', data2);
 			let details = data2;
 			this.props.history.push({pathname:'/orderdetails',state:details})
 	 		 })
@@ -111,7 +115,7 @@ class Landingpage extends React.Component {
 	}
 	
 	render() { 
-		let p=this.props.location.state;
+		var router=this.props.location.state;
 		const { isPlacingOrder } = this.state;
 	  return (
 		<div class="container-fluid padding0">
@@ -121,7 +125,7 @@ class Landingpage extends React.Component {
 			<h3 class="section-header">Place Order</h3>
 			<div class="col-lg-12 col-md-12 place-order">
 			<div class="padding-bottom20">
-			<div><h2><b>{p}</b></h2><br/></div>
+			<div><h2><b>{router}</b></h2><br/></div>
 			</div>
 			<div class="padding-bottom20">
 			<div><b>Network Category</b><br/></div>
@@ -148,12 +152,14 @@ class Landingpage extends React.Component {
 					<option default>Yes</option>
 					<option>No</option>
 				</select>
+				<label class="form-label"><b>Delivery Address: </b></label>
+				<input type="text"  class="form-control" value={this.state.address} onChange={this._handleChange} required/>	
+
 			</div></div>
 		
 			
 		    <div class="col-lg-12 col-md-12 text-right">
 				<Link to="/dashboard"><div class="btn btn-cancel">Cancel</div></Link>&nbsp;&nbsp;&nbsp;
-				{/* <input type="submit" value="Submit" className="btn btn-prim" id="btn-submit" disabled={this.state.loading}></input>*/}
 				<button class="btn btn-prim" type="Submit" id="btn-submit" disabled={this.state.loading}>{isPlacingOrder ? "Placing Order...": "Submit"}</button> 
 			</div>
 			</div>
@@ -165,6 +171,4 @@ class Landingpage extends React.Component {
 	}
   }
   
-  export default Landingpage;
-
-  
+export default Landingpage;
