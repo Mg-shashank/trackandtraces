@@ -15,7 +15,7 @@ var image = localStorage.getItem('profile-picture');
 var name = localStorage.getItem('name');
 var routers = localStorage.getItem('router');
 
-class B extends React.Component {
+class LandingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -29,16 +29,13 @@ track(e){
 	this.props.history.push({pathname:'/trackorder',state:orders})
 }
 componentDidMount(){
-	toast.success("Your Order is placed successfully")
+	 toast.success("Your Order is placed successfully")
 }
 	render() {
-		// let { details } = this.props;
-		//console.log('=-=-=-=-', this.props.location.state);
-		//let Orders= this.props.location.state;
 		let Orderid = this.props.location.state.OrderID;
 		let OrderStatus = this.props.location.state.OrderStatus;
 		let Createdat = this.props.location.state.CreatedAt;
-		let Transactionid = this.props.location.state.TransactionID;
+		let TransactionID1 = this.props.location.state.TransactionID1;
 		let Manufacturer = this.props.location.state.Manufacturer;
 		let Product = this.props.location.state.Product;
 		let Category = this.props.location.state.Category;
@@ -46,25 +43,9 @@ componentDidMount(){
 		let Upgrade = this.props.location.state.Upgradeto5G;
 
 		return (
-			<div class="container-fluid padding0">
-				<header>
-              <span className="logo"><img className="logoImage" src={logo} alt="Brillio logo" width="125px"/></span>
-            
-              <div className="userBlock collapse navbar-collapse">
-                <Link to="/help">Help</Link>&nbsp;<span className="pipe">|</span>&nbsp;<img src={usericon} alt="user" />
-	         	<span className="pipe">&nbsp;|&nbsp;</span>
-                <span>
-                {/*<GoogleLogouts/>*/}
-                <GoogleLogout render={renderProps => (
-                <Link to="/login"><span className="glyphicon glyphicon-log-out" onClick={renderProps.onClick}> Log Out </span>
-                </Link>)}
-                />
-                </span>
-          	</div>               
-          </header>
-					<section class="content">
-
-					<h3 class="section-header">Order Details</h3>
+			<div class="container-fluid padding0">			
+			<section class="content">
+			<h3 class="section-header">Order Details</h3>
 					   
 
 <div class="padding-bottom20">
@@ -84,7 +65,7 @@ componentDidMount(){
 </tr>
 <tr>
 <th><b>Transaction ID</b></th>
-<td>{Transactionid}</td>
+<td>{TransactionID1}</td>
 </tr>
 <tr>
 <th><b>Manufacturer</b></th>
@@ -109,19 +90,13 @@ componentDidMount(){
 </tbody>
 </Table>
 </div>
-
-
-
 				<div class="col-lg-12 col-md-12 text-right"><ToastContainer/>
 				<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
 				<button class="btn btn-prim" onClick={this.track}>Track Order</button></div>
-					</section>
+				</section>
 			</div>
 		)
 	}
 }
 
-export default withRouter(B);
-
-
-
+export default withRouter(LandingPage);
