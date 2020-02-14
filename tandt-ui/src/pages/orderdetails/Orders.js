@@ -7,16 +7,19 @@ import "./dashboard.scss";
 import queryString from 'query-string';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Table from 'react-bootstrap/Table';
+import LoadingOverlay from 'react-loading-overlay';
 import Logout from '../login/Logout';
 const request = require('request');
 var https = require("https");
 var orderid;
 var quantity;
+// var active=true;
 var role = localStorage.getItem('role')
 class Orders extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isActive:true,
 			posts: {},
             isLoading: true,
 			orderdetails:[],
@@ -26,8 +29,8 @@ class Orders extends React.Component {
 	}
 	componentDidMount(){
 		console.log('debug search value',this.props.location.search.split('=')[1])
-		orderid = this.props.location.search.split('=')[1];   
-		
+		orderid = this.props.location.search.split('=')[1];   	
+			
         fetch('https://t6kpja3x80.execute-api.us-east-1.amazonaws.com/prod/singleorderdetails',{
             method:'POST',
             body: JSON.stringify({OrderID:orderid, Quantity:quantity }),
@@ -40,20 +43,28 @@ class Orders extends React.Component {
                 this.setState({
                     isLoading: false,
                     posts: {...jsonRes}
-                })
+				})
+				document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
             }).catch((error)=>{
                 console.log('order error',error);
             })    
 		}
+		
+		componentWillUnmount(){
+			if (this.timerHandle) {
+			  clearTimeout(this.timerHandle);
+			  this.timerHandle = 0;
+			}
+		  }
 
 		gotoCreateBatch=()=>{
 			var data2= this.state.posts;	
 			this.props.history.push({pathname:'/createbatch', state:data2})
 			console.log(this.state.posts)
-
 		}
 
 	render() {
+		
 		var button1,button2;
 		if(role==="manufacturer"){
 			button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Create Batch</button>
@@ -65,11 +76,35 @@ class Orders extends React.Component {
 	 
         return (
 			<div class="container-fluid padding0">
-			<Logout/>
+			<Logout/>			
 				<section class="content">
-					<h3 class="section-header">Product Details</h3>
+					<h3 class="section-header">Product Details</h3>					
 					<div class="col-lg-12 col-md-12 place-order">
-																	
+					
+			<LoadingOverlay
+				active={true}
+				spinner
+				text='Loading the content...' 
+				styles={{
+					spinner: (base) => ({
+					  ...base,
+					  width: '50px',
+					  '& svg circle': {
+						stroke: 'rgba(255, 0, 0, 0.5)'
+					  }
+					})
+				  }}
+				>				
+				<p>Loading...</p>
+	 		</LoadingOverlay>		
+
+		{/* <div>
+        <BallBeat
+          color={'#000000'}
+          loading={this.state.loading}
+        />
+      	</div> */}
+			 	
 						<div class="padding-bottom20">
 						<Table striped bordered hover>
 						<tbody>
@@ -114,33 +149,22 @@ class Orders extends React.Component {
 						</div>
 						<div class="form-group col-md-20">
 							{!isLoading ? (
-						    <div >   									
-							    {/* {Object.entries(posts).map(([key, value])=>{
-						          return <SingleOrders key={key} value={value}/>
-                                })} */}
-                                {/* {Object.entries(posts).map(([key, value])=>{
-						            return <p style={{backgroundColor: 'white',fontWeight:'bold'}}> {key}  : {value}</p>
-                                })}   */}
-							{/* <Link to="/createbatch"> */}
-								{/* <button className="btn btn-primary" onClick={this.gotoCreateBatch}>Create Batch</button> */}
-							{/* </Link>	 */}
+						    <div style={{float: "right"}}>  
 							{button1}    {button2}
-							  
 							< Link to="/orderdetails">
-								
-							
-								<button align="right" float="right"  className="btn btn-primary"> Go Back to Orders List</button>
+														
+								<button  className="btn btn-primary"> Go Back to Orders List</button>
 								{/* <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">Go Back to Orders List</div> */}
 						</Link>                        
                              </div> 
                              ) : (
 							<p>Loading...</p>
 							)}
-							</div>													
+							</div>
+																			
 							</div>							
 							</section>													
 							</div>
 					)}
 		}
 export default withRouter(Orders);
-
