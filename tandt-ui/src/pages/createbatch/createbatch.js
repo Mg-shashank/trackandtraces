@@ -119,7 +119,7 @@ class CreateBatch extends React.Component {
 			<h3 class="section-header">Create Batch</h3>
 			<div class="col-lg-12 col-md-12 place-order">
 			<div class="padding-bottom20">
-			{/* <div><h2><b>{routers}</b></h2><br/></div> */}
+
 			</div>
 				
 			<form class="form-horizontal" onSubmit={this._handleSubmit} id="formContact">
@@ -142,14 +142,13 @@ class CreateBatch extends React.Component {
 
 			<div class="form-group col-md-8" >
 				<label class="form-label"><b>Product Quantity : </b></label>
-        <p style={{backgroundColor:'white'}}>{quantity}</p>
-        {/* <input type="number" class="form-control" value={this.props.location.state}  />  */}
-         {/* <p>{this.props.location.state}</p> */}
+        <p style={{backgroundColor:'white'}}>{quantity}</p>        
         </div>
 
 			<div class="form-group col-md-8" >
 				<label class="form-label"><b>Batch Quantity : </b></label>
-				<input type="number"  class="form-control" value={this.state.Quantity}  required/>					
+				<input type="number" name="num" pattern="[1-9]" title="Numbers only" class="form-control" value={this.state.Quantity}  required/>				
+        
 			</div>
             </div>		
 			
