@@ -2,23 +2,34 @@ import React, { useEffect } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Error from "../pages/error/Error";
-//import Login from "../pages/login/Login";
 import Login1 from "../pages/login/Login1";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
-import help from "../pages/help/help";
+import OrderPlaced from '../pages/dashboard/OrderPlaced';
+import OrderAccepted from '../pages/dashboard/OrderAccepted';
+import OrderRec from '../pages/dashboard/OrderRec';
+import createneworder from "../pages/createorder/createneworder";
+import LandingPage from "../pages/dashboard/dashboard";
 import createorder from "../pages/createorder/createorder";
-import orderdetails from "../pages/orderdetails/orderdetails";
+import CompletedOrders from '../pages/orderdetails/CompletedOrders'
+import OrderID from "../pages/orderdetails/OrderDetailsUI";
 import Unknown from "../pages/login/Unknown";
 import trackorder from "../pages/trackorder/trackorder";
+import track1 from "../pages/trackorder/track1";
+import disTrack from "../pages/trackorder/disTrack";
 import traceorder from "../pages/traceorder/traceorder";
-import createbatch from "../pages/createbatch/createbatch";
-import batchdetails from "../pages/batchdetails/batchdetails";
+import Orders from '../pages/orderdetails/Orders';
+import OrdersforSP from '../pages/orderdetails/OrdersforSP';
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
-import CompletedOrders from '../pages/orderdetails/CompletedOrders'
 import config from "../config";
-import OrderID from "../pages/orderdetails/OrderDetailsUI";
+import Options from "../pages/login/Dialogbox";
+import CreateBatch from '../pages/createbatch/createbatch'
+import BatchDetails from '../pages/batchdetails/batchdetails'
+import {isLogin} from "../pages/login/Login1";
+var role = localStorage.getItem('role')
+var name = localStorage.getItem('name')
+var roles
 export default function App() {
   const userState = useUserState();
   const ledgerDispatch = useLedgerDispatch();
@@ -30,7 +41,7 @@ export default function App() {
       if (config.continuousUpdate) {
         timer = setInterval(() => fetchContracts(ledgerDispatch, userState.token, () => {}, () => {}), 1000)
       }
-    }
+    }  
 
     if (config.continuousUpdate) {
       return () => {
@@ -39,30 +50,44 @@ export default function App() {
       }
     }
   });
-
+  
   return (
     <HashRouter>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/app/default" />} />
-        <Route
+        <Route exact path="/" render={() => <Redirect to="/login" />} />
+        {/* <Route
           exact
           path="/app"
           render={() => <Redirect to="/app/default" />}
-        />
-        <PrivateRoute path="/app" component={Layout} />
-          {/*<PublicRoute path="/login" component={Login} />*/}
-        <PublicRoute path="/login" component={Login1} />
-        <PublicRoute path="/landingPage" component={landingPage} />
+        /> */}
+        {/* <PrivateRoute path="/app" component={Layout} /> */}
+        {/*<PublicRoute path="/login" component={Login}/>*/}
+        {/* <PublicRoute  path="/login"  component={Login1} exact/> */}
+        <Route  path="/login"  component={Login1} exact/>
+        <PublicRoute path="/landingPage"  component={landingPage} exact/>
+        {/* <PrivateRoute path="/dashboard"  component={dashboarddisplay} exact/> */}
         <PublicRoute path="/dashboard" component={dashboard} />
-        <PublicRoute path="/help" component={help} />
-        <PublicRoute path="/createorder" component={createorder} />
-        <PublicRoute path="/orderdetails" component={OrderID} />
-        <PublicRoute path="/trackorder" component={trackorder} />
-        <PublicRoute path="/traceorder" component={traceorder}  /> 
-        <PublicRoute path="/createbatch" component={createbatch} />
-        <PublicRoute path="/batchdetails" component={batchdetails} />
-        <PrivateRoute path="/completedrecords" component={CompletedOrders} exact/>
-        <PublicRoute path="/unknown" component={Unknown}  />
+        <PublicRoute path="/OrderPlaced" component={OrderPlaced} exact />
+        <PublicRoute path="/OrderAccepted" component={OrderAccepted} exact/>
+        <PublicRoute path="/OrderRec" component={OrderRec} exact />
+        <PublicRoute path="/createorder"  component={createorder} exact/>
+        <PublicRoute path="/createneworder"  component={createneworder} exact/>
+        <PublicRoute path="/completedrecords" component={CompletedOrders} exact/>
+   {/* <PublicRoute path="/orderdetails" component={orderdetails}/>*/}
+        <PublicRoute path="/orderdetails"  component={OrderID} exact/>
+        <PublicRoute path="/trackorder"  component={trackorder} exact/>
+        <PublicRoute path="/track1"  component={track1} exact/>
+        <PublicRoute path="/disTrack"  component={disTrack} exact/>
+        <PublicRoute path="/traceorder"  component={traceorder} exact /> 
+        <PublicRoute path="/options" component={Options} exact /> 
+        <PublicRoute path="/unknown" component={Unknown}  exact/>    
+        {/* <PublicRoute path="/orderss" component={Orders}/> */}
+        <PublicRoute path="/orders" component={Orders} exact/>
+        <PublicRoute path="/ordersforsp" component={OrdersforSP} exact/>
+        <PublicRoute path="/createbatch" component={CreateBatch} exact/>
+        <PublicRoute path="/batchdetails" component={BatchDetails} exact/>
+        <PublicRoute path="/orders?ordid=" render={(props) => <Orders {...props}/>}exact/>
+        <PublicRoute path ="/ordersforsp?ordid=" render={(props) => <OrdersforSP {...props}/>} exact/>
         <Route component={Error} />
       </Switch>
     </HashRouter>
@@ -71,43 +96,63 @@ export default function App() {
   // #######################################################################
 
   function PrivateRoute({ component, ...rest }) {
+    console.log(role)
     return (
       <Route
         {...rest}
         render={props =>
-          userState.isAuthenticated ? (
-            React.createElement(component, props)
-          ) : (
+          (role && name? (
+            // userState.isAuthenticated ?(
+              React.createElement(component, props)
+             ) :
+             (
             <Redirect
               to={{
                 pathname: "/login",
                 state: {
                   from: props.location,
                 },
-              }}
-            />
-          )
-        }
-      />
-    );
-  }
+              }}/>
+            )
+          )}/>
+         );
+      }
 
-  function PublicRoute({ component, ...rest }) {
-    return (
+// function PrivateRoute ({component: Component, ...rest}){
+  //   return(
+  //     <Route {...rest} render={props =>(Options() ?<Component {...props}/>:<Redirect to="/login"/>)} />
+  //   )
+  // }
+
+  function PublicRoute({ component, restricted, ...rest }) {  
+     return (
       <Route
         {...rest}
         render={props =>
-          userState.isAuthenticated ? (
-            <Redirect
-              to={{
-                pathname: "/",
-              }}
-            />
+        (role && name ? (
+            //  userState.isAuthenticated ?(
+            React.createElement(component, props)  
           ) : (
-            React.createElement(component, props)
+            <Redirect
+              to='/login'
+            />
           )
+         )
         }
       />
     );
+  
+
+//   const PublicRoute = ({component: Component, restricted, ...rest}) => {
+//     return (
+//         // restricted = false meaning public route
+//         // restricted = true meaning restricted route
+//         <Route {...rest} render={props => (
+//             isLogin() && restricted ?
+//                 <Redirect to="/dashboard" />
+//             : <Component {...props} />
+//         )} />
+//     );
+// };
   }
 }
