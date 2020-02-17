@@ -11,6 +11,7 @@ import "./dashboard.scss";
 import order from "../trackorder/trackorder";
 import $ from 'jquery';
 import Table from 'react-bootstrap/Table';
+import color from "@material-ui/core/colors/amber";
 var image = localStorage.getItem('profile-picture');
 var name = localStorage.getItem('name');
 var routers = localStorage.getItem('router');
@@ -29,9 +30,13 @@ track(e){
 	this.props.history.push({pathname:'/trackorder',state:orders})
 }
 componentDidMount(){
-	 toast.success("Your Order is placed successfully")
+	// <font color="green">Your Order is placed successfully</font>
+	// toast.success("Your Order is placed successfully")
 }
 	render() {
+		// let { details } = this.props;
+		//console.log('=-=-=-=-', this.props.location.state);
+		//let Orders= this.props.location.state;
 		let Orderid = this.props.location.state.OrderID;
 		let OrderStatus = this.props.location.state.OrderStatus;
 		let Createdat = this.props.location.state.CreatedAt;
@@ -41,13 +46,16 @@ componentDidMount(){
 		let Category = this.props.location.state.Category;
 		let Quantity = this.props.location.state.Quantity;
 		let Upgrade = this.props.location.state.Upgradeto5G;
+		let DeliveryAddress=this.props.location.state.DeliveryAddress;
 
 		return (
-			<div class="container-fluid padding0">			
-			<section class="content">
-			<h3 class="section-header">Order Details</h3>
-					   
+			<div class="container-fluid padding0">
+			
+					<section class="content">
 
+					<h3 class="section-header">Order Details</h3><br/>
+					   
+					<p style={{ color: 'green' }}>Your Order is placed successfully!</p><br/>
 <div class="padding-bottom20">
 <Table striped bordered hover>
 <tbody>
@@ -87,13 +95,17 @@ componentDidMount(){
 <th><b>Upgrade Product to 5G</b></th>
 <td>{Upgrade}</td>
 </tr>
+<tr>
+<th><b>Delivery Address</b></th>
+<td>{DeliveryAddress}</td>
+</tr>
 </tbody>
 </Table>
 </div>
-				<div class="col-lg-12 col-md-12 text-right"><ToastContainer/>
+				<div class="col-lg-12 col-md-12 text-right">
 				<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
-				<button class="btn btn-prim" onClick={this.track}>Track Order</button></div>
-				</section>
+			    </div>
+					</section>
 			</div>
 		)
 	}
