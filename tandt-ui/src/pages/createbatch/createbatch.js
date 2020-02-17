@@ -45,12 +45,15 @@ class CreateBatch extends React.Component {
     var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
     usaTime = new Date(usaTime);
     var time=usaTime.toLocaleString()	
+    var batchid="batch_"+Math.random().toString().slice(2,11);
 
 	const data = { 	
-      
+    BatchID:batchid,
     BatchQuantity: this.state.batchquantity,      
     Distributor: $("#distributor").val(), 
     BatchCreatedOn: time,
+      
+
     };
     console.log(data)
         fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
@@ -66,8 +69,9 @@ class CreateBatch extends React.Component {
                 console.log('Success:', data.transactionId);
                 id=JSON.stringify(data.transactionId);
                 var name=localStorage.getItem('name');
-                    const data2 = { 	
+                    const data2 = {
                     OrderID:OrderID,
+                    BatchID:batchid,
                     Quantity: Quantity,
                     OrderStatus:'Order Accepted By Manufacturer',
                     BatchQuantity: this.state.batchquantity,      
