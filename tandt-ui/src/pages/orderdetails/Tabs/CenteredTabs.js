@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import SimpleTable from '../SimpleTable'
 import NewTable from '../NewTable'
+import Newtable1 from '../Newtable1'
 import PrevOrderTable from '../PrevOrderTable'
 import RejectTable from '../RejectTable'
 import Completed from '../Completed'
@@ -17,7 +18,10 @@ import { HashRouter, Route, Switch, Redirect, Link } from "react-router-dom";
 import trackorder from "../../trackorder/trackorder";
 import $ from 'jquery';
 import App from '../PagiTable';
+import { doWhileStatement } from "@babel/types";
+import ttConfig from '../../../config.js'
 var role = localStorage.getItem('role')
+var name = localStorage.getItem('name')
 var display,display1,display2,display3,display4,display5,display6,display7,display8;
 var ordercount,ordercount1,ordercount2,refreshs;
 
@@ -116,31 +120,19 @@ export default function CenteredTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  if(role === "distributor"){
-    refreshs = localStorage.getItem('refresh');
-        console.log(refreshs);
-        if (refreshs===null){
-          console.log("REFRESH 3")
-          window.location.reload(false);
-         localStorage.setItem('refresh', "1");
-        }
+  if(role === "distributor" && name==="Steve"){
      display = <NewTable rowsss={props.rowsss}/>
-     display8 = <Tab label="Order Details Table" {...a11yProps(0)} />
+    //  display = <Newtable1 rowsss={props.rowsss}/>
+    //  display8 = <Tab label="Order Details Table" {...a11yProps(0)} />
     }
-  else if(role === "manufacturer") {
-    refreshs = localStorage.getItem('refresh');
-        console.log(refreshs);
-        if (refreshs===null){
-          window.location.reload(false);
-         localStorage.setItem('refresh', "1");
-        }
+  else if(role === "manufacturer" && name==="Joe") {
      display1 = <SimpleTable rowss={props.rows} />
-     display2= <PrevOrderTable rowses={props.row}/>
-     display3= <RejectTable rowsess={props.rowss}/>
-     display4= <InProgress rowsesss={props.inpr}/>
-     display5= <Completed comps={props.comp} />
-     display6= <Tab label="InProgress" {...a11yProps(3)} />
-     display7= <Tab label="Completed" {...a11yProps(4)} />  
+    //  display2= <PrevOrderTable rowses={props.row}/>
+    //  display3= <RejectTable rowsess={props.rowss}/>
+    //  display4= <InProgress rowsesss={props.inpr}/>
+    //  display5= <Completed comps={props.comp} />
+    //  display6= <Tab label="InProgress" {...a11yProps(3)} />
+    //  display7= <Tab label="Completed" {...a11yProps(4)} />  
   }
   return (
     <React.Fragment>
