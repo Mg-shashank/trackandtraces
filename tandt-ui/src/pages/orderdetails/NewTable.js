@@ -232,26 +232,25 @@ function EnhancedTable(props) {
       console.log(orderid)
       const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Accepted By Distributor" }
       e.preventDefault();
-      console.log('Accept Batch Id :', batchid);        
-                
-          // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify(data),
-          // })
-          // .then((response) => response.json())
-          // .then((data) => {
-          //       console.log('Success:', data.transactionId);
-          //       id=JSON.stringify(data.transactionId);
-          //       console.log('TRANSID',id)
-          //       var name=localStorage.getItem('name');
-          //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
-          //     })
-          //     .catch((error) => {
-          //       console.error('Error:', error);
-          // });      
+      console.log('Accept Batch Id :', batchid);                        
+          fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          .then((response) => response.json())
+          .then((data) => {
+                console.log('Success:', data.transactionId);
+                id=JSON.stringify(data.transactionId);
+                console.log('TRANSID',id)
+                var name=localStorage.getItem('name');
+                //var day=dateFormat(new Date(), "yyyy-mm-dd");
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+          });      
             fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
             method:'POST',
             headers:{
