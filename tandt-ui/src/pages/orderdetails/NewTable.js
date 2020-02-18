@@ -27,12 +27,14 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import $ from 'jquery'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 import ttConfig from '../../config.js'
+import trackorder from "../trackorder/trackorder";
 var e=localStorage.getItem('initiated')
 var transactionid=localStorage.getItem("transactionid")
 var createdat=localStorage.getItem("createdat")
-var id,url;
+var id,url,ORderid;
 var Batchid;
 let isSelected;
+var cbResults="";
 
 function EnhancedTableHead(props) {
   const {
@@ -44,19 +46,14 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort
   } = props;
-  const createSortHandler = property => event => {
-    onRequestSort(event, property);
-  };
-  // console.log(ttConfig.name.assign)
-  return (
+   return (
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            // inputProps={{ "aria-label": "select all desserts" }}
+            onChange={onSelectAllClick}        
             />
         </TableCell>
         <TableCell align="center" style={{fontWeight:'bold'}}>Order ID </TableCell>
@@ -72,11 +69,8 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc","desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired
+  onSelectAllClick: PropTypes.func.isRequired, 
+  rowCount: PropTypes.number.isRequired,
 };
 
 const useToolbarStyles = makeStyles(theme => ({
@@ -104,39 +98,11 @@ const EnhancedTableToolbar = props => {
   const { numSelected } = props;
 
   return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle">
+    <Toolbar>
+     <Typography className={classes.title} variant="h6" id="tableTitle">
         Order Details
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
+    </Typography>
+     </Toolbar>
   );
 };
 
@@ -168,52 +134,63 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function EnhancedTable(props) {
+function EnhancedTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
+  const [selecteds, setSelecteds] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [toggling,setToggling] = React.useState(true);
   const [oRderid,setoRderid]=React.useState('');
+  const [statuss,setstatuss]=React.useState('');
+  const [checked,setChecked]=React.useState(false)
 
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-  const toggle=(event,orderid,batchid)=>{
+ 
+  const toggle=(event,batchid,orderid)=>{
     setToggling(!toggling)
   }
 
-  const handleSelectAllClick = event => {
+  const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = props.rowsss.map(n => n.orderid);
+      const newSelecteds = props.rowsss.map(n =>n.orderid);
+      const batcSelecteds = props.rowsss.map(n=>n.batchid);
+      console.log("NEW SELECTEDS",newSelecteds)
+      console.log("NEW SELECTEDS",batcSelecteds)
       setSelected(newSelecteds);
+      setSelecteds(batcSelecteds);
       return;
     }
     setSelected([]);
+    setSelecteds([]);
   };
+  console.log(checked)
+  console.log(props.rowsss.length)
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, orderid, batchid) => {
+    console.log(orderid)
+    console.log(batchid)
+    const selectedIndex = selected.indexOf(orderid);
+    const selectedIndexs = selecteds.indexOf(batchid);
     let newSelected = [];
-
+    let newsSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, orderid);
+      newsSelected = newsSelected.concat(selecteds, batchid);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
+      newsSelected = newsSelected.concat(selecteds.slice(1))
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
+      newsSelected = newsSelected.concat(selecteds.slice(0,-1))
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0,selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex),selected.slice(selectedIndex + 1));
+      newsSelected  = newsSelected.concat(selecteds.slice(0,selectedIndexs),selecteds.slice(selectedIndexs + 1));
     }
     setSelected(newSelected);
+    setSelecteds(newsSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -225,113 +202,80 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked);
-  };
-
-  const isSelected = name => selected.indexOf(name) !== -1;
-
+ const isSelected = name => selected.indexOf(name) !== -1;
+ 
+ const handleChangeDense = event => {
+  setDense(event.target.checked);
+};
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, 10 - page * rowsPerPage);
 
-  const status=orderid=>{
-    // setoRderid(e.target.value)
-    console.log(orderid)
-    console.log("hello")
-  }
-    const redirectToOrdDetails=(e,batchid)=>{ 
-      var url = `/orders?ordid=${batchid}`;
-      this.props.history.push(`${url}`);    
+   const redirectToOrdDetails=(e,orderid)=>{ 
+      var url = `/orders?ordid=${orderid}`;
+      props.history.push(`${url}`);    
     }
-  
-   const acceptOrder = (e,batchid,orderid) => {       
+   const trackOrder=(e,orderid)=>{ 
+    console.log(orderid)
+    var url = `/trackorder?ordid=${orderid}`;
+    this.props.history.push(`${url}`);   
+  }
+   const handleChange=(e)=>{
+      // this.setState({
+      //   status: e.target.value,
+      // });
+      setstatuss(e.target.value)
+      console.log("SETSTATUS",setstatuss)
+    }
+    
+    const acceptOrder = (e,batchid,orderid) => {       
       console.log(batchid)
       console.log(orderid)
       const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Accepted By Distributor" }
       e.preventDefault();
       console.log('Accept Batch Id :', batchid);        
                 
-          fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then((response) => response.json())
-          .then((data) => {
-                // console.log('Success:', data.transactionId);
-                id=JSON.stringify(data.transactionId);
-                var name=localStorage.getItem('name');
-                //var day=dateFormat(new Date(), "yyyy-mm-dd");
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-          });      
+          // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify(data),
+          // })
+          // .then((response) => response.json())
+          // .then((data) => {
+          //       console.log('Success:', data.transactionId);
+          //       id=JSON.stringify(data.transactionId);
+          //       console.log('TRANSID',id)
+          //       var name=localStorage.getItem('name');
+          //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
+          //     })
+          //     .catch((error) => {
+          //       console.error('Error:', error);
+          // });      
             fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
             method:'POST',
             headers:{
               'Content-Type':'application/json',
             },
-            body:JSON.stringify({BatchID:batchid, OrderID:orderid, OrderStatus:"Order Routed to ServiceProvider",OrderShipped:Date(),TransactionID2:id,BatchStatus:"Batch Created & Accepted by Distributor"}),
+            body:JSON.stringify({BatchID:batchid, OrderID:orderid, OrderStatus:"Order Routed to Service Provider",OrderShipped:Date(),TransactionID2:id,BatchStatus:"Batch Created & Accepted by Distributor"}),
           }).then((response)=>response.json())
-          .then((data)=>{
-            // console.log('ID',id)
+          .then((data)=>{         
             console.log(batchid)
-            console.log(orderid)     
-            // var Orderid = orderid;  
-            // this.props.history.push({pathname:'/createbatch', state:Orderid}) 
-            var e = document.getElementById('status_' + batchid).innerHTML = "Order Routed to ServiceProvider"   
-            var acceptBtn = document.getElementById('accept_' + batchid).disabled = true   
-            // var trackBtn = document.createElement("p");
-            // trackBtn.innerHTML = "Accepted"
-            // document.getElementById('action_'+ batchid).innerHTML=""
-            // document.getElementById('action_'+ batchid).appendChild(trackBtn);
-          // window.location.reload(false)
-          //   document.getElementById('action_'+ batchid).onclick = function()
-          //   {   
-          //     window.location.href = "http://localhost:3000/#/trackorder"
-          //   }
+            console.log(orderid)   
+            var e = document.getElementById('status_' + orderid).innerHTML = "Order Routed to Service Provider"   
+            var acceptBtn = document.getElementById('accept_' + batchid).disabled = true  
+            // forceUpdate();
           })
           .catch((error)=>{
             console.log('Error:',error)
           });     
-    }
-   
-  
-    const rejectOrder=(e, batchid,orderid)=> {
-      console.log(batchid)
-      console.log(orderid)
-      e.preventDefault();
-      fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json',
-            },
-            body:JSON.stringify({OrderStatus: "Order Rejected By Distributor", OrderID: orderid, BatchID:batchid,BatchStatus:"Batch Rejected"}),
-          }).then((response)=>response.json())
-            .then((data)=>{
-            console.log(data)
-            var e = document.getElementById('status_' + batchid).innerHTML = "Order Rejected By Distributor" 
-            // var trackBtn = document.createElement("p");
-            // trackBtn.innerHTML = "Rejected"
-            // document.getElementById('action_'+ batchid).innerHTML=""
-            // document.getElementById('action_'+ batchid).appendChild(trackBtn);
-            // window.location.reload(false)
-            // document.getElementById('action_'+ batchid).onclick = function()
-            // {   
-            //   window.location.href = "http://localhost:3000/#/traceorder"
-            // }
-          })
-          .catch((error)=>{
-            console.log('Error:',error)
-          }); 
-    }
+    }    
+  console.log("orderid",selected.toString()) 
+  console.log('batchid',selecteds.toString())
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+      <Paper className={classes.paper}>      
         <TableContainer>
           <Table
             className={classes.table}
@@ -341,81 +285,79 @@ export default function EnhancedTable(props) {
           >
             <EnhancedTableHead
               classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={[10]}
+              numSelected={selected.length}          
+              onSelectAllClick={handleSelectAllClick}              
+              rowCount={props.rowsss.length}           
             />
             <TableBody>
               {props.rowsss.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.orderid);
+                  const isItemSelected = isSelected(row.orderid);     
                   const labelId = `enhanced-table-checkbox-${index}`;
+             
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.orderid)}
+                      className= "orderclass"
+                      onClick={event => handleClick(event, row.orderid, row.batchid)}  
                       role="checkbox"
                       aria-checked={isItemSelected}
-                      // value={row.orderid}
-                      // onChange={status(row.orderid)}
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox"  id={"status_" + row.orderid} >
-                        <Checkbox
-                          id={"status_" + row.orderid} 
-                          checked={isItemSelected}
-                          value={row.orderid}
-                          onChange={status("status_" + row.orderid)}
-                          inputProps={{ "aria-labelledby": labelId }}/>
+                      <TableCell padding="checkbox" >
+                        <Checkbox      
+                          checked={isItemSelected}      
+                          inputProps={{ "aria-labelledby": labelId }}
+                          />
                       </TableCell>
                       <TableCell
-                        component="th"     
-                        id={"status_" + row.orderid}  
-                        // value={row.orderid}
-                        // onSelect={status("action_" + row.orderid)}
+                        component="th" 
+                        id={labelId}
                         scope="row"
                         padding="none"
                         align="center">
-                        {row.orderid}
+                      <a 
+                     onClick={(e) => {redirectToOrdDetails(e, row.orderid)}} 
+                     target="_blank"
+                     onMouseOver={ function(event) { let target = event.target; target.style.color = 'blue';target.style.cursor='pointer'; }}
+                     onMouseOut={function(event) { let target = event.target; target.style.color = 'black';}}
+                      >                    
+                      {row.orderid}
+                      </a>
                       </TableCell>   
-                      <TableCell align="center">{row.orderstatus}  </TableCell>
+                      <TableCell align="center"
+                         id={"status_" + row.orderid} 
+                         value={statuss} 
+                         onChange={handleChange}>
+                         {row.orderstatus} {row.OrderStatuses}
+                       </TableCell>
                       <TableCell align="center">{row.product}      </TableCell>
                       <TableCell align="center">{row.batchquantity}</TableCell>
                       <TableCell align="center">{row.createdat}    </TableCell>
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
+                
             </TableBody>
           </Table>
         </TableContainer>
         <br/>
         <button 
         className="btn btn-sm btn-primary" 
-        id='accept'
-        value={true}
-        // onClick={(e) => {acceptOrder(e, row.batchid, row.orderid); toggle(e,row.batchid,row.orderid)}}
-        disabled={!toggling}
+        id={ORderid}       
+        onClick={(e) => {acceptOrder(e, selecteds.toString(), selected.toString())}}    
         >
         To Deliver
-       </button>  &nbsp;&nbsp;
-       <button 
-        className="btn btn-sm btn-danger" 
-        id='reject'
-        // onClick={(e) => {acceptOrder(e, row.batchid, row.orderid); toggle(e,row.batchid,row.orderid)}}
-        disabled={toggling}
-        >
-        Delivered
-       </button>  &nbsp;&nbsp;
+       </button>  &nbsp;&nbsp;    
+       <button
+         className="btn btn-sm btn-primary" 
+         id={ORderid}       
+         onClick={(e) => {trackorder(e, selected.toString())}}  
+         >
+         Track
+       </button>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -426,10 +368,13 @@ export default function EnhancedTable(props) {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
       </div>
   );
 }
 
+export default withRouter(EnhancedTable)
 
- // id={labelId}
- // id={"action_" + row.orderid}
