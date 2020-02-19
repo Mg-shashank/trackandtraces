@@ -14,11 +14,11 @@ import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import orderdetails from "./orderdetails";
 import Landingpage from "../orderdetails/orderdetails";
-import SimpleTable from './SimpleTable'
 import NewTable from './NewTable'
 //import DataTable, { createTheme } from 'react-data-table-component';
-import CenteredTabs from './Tabs/CenteredTabs'
-import CenteredTabss from './Tabs/CenteredTabss'
+
+import SimpleTable from './SimpleTable'
+
 import trackorder from "../trackorder/trackorder";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
@@ -90,52 +90,32 @@ class OrderID extends React.Component{
 		});	
 
 /////////////////////TO GET ORDER-INITIATED DATA for service provider
-		var request = https.get("https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit",
-			(response)=>{
-			if (response.statusCode !== 200)
-			{
-				// console.log("Error while getting the data");
-			} 			
-			response.on('data',(data)=> {	
-				// console.log(data)
-				 var jsonData = JSON.parse(data);					
-				 var datas = jsonData.Items;		
-				 const optimizedData = datas.map(data=>({orderid: data.OrderID.S,product:data.Product.S,orderstatus: data.OrderStatus.S,createdat: data.CreatedAt.S}));
-				this.setState({orderDatas: optimizedData})
-				console.log(this.state.orderDatas)
-			});
-		});
-////////////////////////////////////////////////////////
-// 		console.log(name)
-// 		if(name === ttConfig.roleassign.manu.name){
-// const data2={				
-// 		Manufacturer:name
-// 	  };
-// fetch('https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit', {
-// 					method: 'POST',
-// 					headers: {
-// 		 			 'Content-Type': 'application/json',
-// 						},
-// 					body: JSON.stringify(data2),
-// 					})
-// 	 		 .then((response) => response.json())
-// 	 		 .then((data2) => {
-// 			console.log('Success:', data2.Items);
-// 			let details = data2.Items;
-// 			// this.props.history.push({pathname:'/orderdetails',state:details})
-// 			const optimizedData = details.map(data=>({orderid: data.OrderID.S,product:data.Product.S,orderstatus: data.OrderStatus.S,createdat: data.CreatedAt.S}));
-// 		//distributor:data.Distributor.S,createdat:data.CreatedAt.S,transactionid:data.TransactionId.S}));
-// 		console.log('optiminzed data',optimizedData);
-// 		this.setState({orderDatass: optimizedData})
-// 		console.log(this.state.orderDatass)
-// 	 		 })
-// 	 		 .catch((error) => {
-// 			console.error('Error:', error);
-// 	 		 })	  
-// 	  .catch((error) => {
-// 		console.error('Error:', error);
-// 	  });
-// 	}
+		// var request = https.get("https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit",
+		// 	(response)=>{
+		// 	if (response.statusCode !== 200)
+		// 	{
+		// 		// console.log("Error while getting the data");
+		// 	} 			
+		// 	response.on('data',(data)=> {	
+		// 		// console.log(data)
+		// 		 var jsonData = JSON.parse(data);					
+		// 		 var datas = jsonData.Items;		
+		// 		 const optimizedData = datas.map(data=>({orderid: data.OrderID.S,product:data.Product.S,orderstatus: data.OrderStatus.S,createdat: data.CreatedAt.S}));
+		// 		this.setState({orderDatas: optimizedData})
+		// 		console.log(this.state.orderDatas)
+		// 	});
+		// });
+
+		fetch('https://82aru5m82k.execute-api.us-east-1.amazonaws.com/prod/entries1')
+ 	 		.then((resp) => resp.json()) // Transform the data into json
+  	 		.then((data)=> {
+				var jsonData = JSON.parse(JSON.stringify(data));					
+				var datas = jsonData.data.Items;	
+				const optimizedData = datas.map(data =>({orderid:data.OrderID.S,orderstatus:data.OrderStatus.S,product:data.Product.S,createdat:data.CreatedAt.S}));
+			this.setState({orderData: optimizedData})
+			console.log('this...',this.state.orderData)
+    		})
+
 ///////////////////////// TO GET ORDER-ACCEPTED DATA for distributor
 	var request = https.get("https://c6ppd96od0.execute-api.us-east-1.amazonaws.com/prod/orderstatus",
 	(response) => {
@@ -156,38 +136,8 @@ class OrderID extends React.Component{
 		console.log(this.state.orderDatass)
 	});
 });
-////////////////////////////////////////////////////
-// console.log(name)
-// if(name === ttConfig.roleassign.dist.name){
-// const data1={				
-// 		Distributor:name
-// 	  };
-// 	  fetch('https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit', {
-// // fetch('https://c6ppd96od0.execute-api.us-east-1.amazonaws.com/prod/orderstatus', {
-// 					method: 'POST',
-// 					headers: {
-// 		 			 'Content-Type': 'application/json',
-// 						},
-// 					body: JSON.stringify(data1),
-// 					})
-// 	 		 .then((response) => response.json())
-// 	 		 .then((data1) => {
-// 			console.log('Success:', data1.Items);
-// 			let details = data1.Items;
-// 			// this.props.history.push({pathname:'/orderdetails',state:details})
-// 			const optimizedData = details.map(data=>({batchid: data.BatchID.S,orderstatus: data.OrderStatus.S,orderid: data.OrderID.S,batchquantity: data.BatchQuantity.S,product: data.Product.S,createdat:data.CreatedAt.S}));
-// 		//distributor:data.Distributor.S,createdat:data.CreatedAt.S,transactionid:data.TransactionId.S}));
-// 		console.log('optiminzed data',optimizedData);
-// 		this.setState({orderDatass: optimizedData})
-// 		console.log(this.state.orderDatass)
-// 	 		 })
-// 	 		 .catch((error) => {
-// 			console.error('Error:', error);
-// 	 		 })	  
-// 	  .catch((error) => {
-// 		console.error('Error:', error);
-// 	  });
-// 	}
+			
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 		// TO GET ORDER_REJECTED DATA
 		var request = https.get("https://uoa7pzzm4b.execute-api.us-east-1.amazonaws.com/prod/rejectbymanufacturer",
@@ -360,28 +310,14 @@ class OrderID extends React.Component{
 			else if(localStorage.getItem('role') === ttConfig.roleassign.dist.role)
 			{
 			
-			display1=<CenteredTabss
-			rows={this.state.orderDatas} 
-			roww={this.state.orderDatassss}
-			row={this.state.orderDatass} 
-			rowss={this.state.orderDatasss}	
-			rowsss={this.state.orderDatass}
-			ordPlace={this.state.ordPlaced}
-			ordAccepted={this.state.ordAccept}	
-			ordRecieve={this.state.ordRec}	
+			display1=<NewTable				
+			rowsss={this.state.orderDatass}				
 			/>	
 		}
 		else if( localStorage.getItem('role') === ttConfig.roleassign.manu.role ){
 			
-			display1=<CenteredTabs
-			rows={this.state.orderDatas} 
-			roww={this.state.orderDatassss}
-			row={this.state.orderDatass} 
-			rowss={this.state.orderDatasss}	
-			rowsss={this.state.orderDatass}	
-			ordPlace={this.state.ordPlaced}
-			ordAccepted={this.state.ordAccept}	
-			ordRecieve={this.state.ordRec}
+			display1=<SimpleTable
+			rows={this.state.orderData} 				
 			/>	
 		}
 			return(			
@@ -389,35 +325,8 @@ class OrderID extends React.Component{
 			<div className="container-fluid padding0">		
       		<Logout/>				
 			<section class="content">
-			<div className="container">
-		<div className="col-lg-9 col-md-9 padding0">
-		<div className="col-lg-9 col-md-9">
-		<div className="col-lg-12 col-md-12">
-		<h3 className="section-header">Track Orders</h3>
-		</div>
-		<div className="col-lg-12 col-md-12 padding0">
-		<div className="col-lg-4 col-md-4">
-		<div className="track-order">
-		<h3>Order Placed</h3>
-		<p className="order-number"><b>{this.state.ordPlaced}</b></p>
-		</div>
-		</div>
-		<div className="col-lg-4 col-md-4">
-		<div className="track-order">
-		<h3>Order Accepted</h3>
-		<p className="order-number"><b>{this.state.ordAccept}</b></p>
-		</div>
-		</div>
-		<div className="col-lg-4 col-md-4">
-		<div className="track-order">
-		<h3>Order Completed</h3>
-		<p className="order-number"><b>{this.state.ordRec}</b></p>
-		</div>
-		</div>
-		</div>		
-		</div>
-		</div>
-  	  </div>
+			<div className="container">		
+  	  		</div>
 			{display1}
 			<br/>	
 			<br/>			
