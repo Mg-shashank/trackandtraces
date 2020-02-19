@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import PropTypes from "prop-types";
@@ -9,32 +8,17 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import $ from 'jquery'
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 import ttConfig from '../../config.js'
 import trackorder from "../trackorder/trackorder";
-var e=localStorage.getItem('initiated')
-var transactionid=localStorage.getItem("transactionid")
-var createdat=localStorage.getItem("createdat")
 var id,url,ORderid;
-var Batchid;
 let isSelected;
-var cbResults="";
 
 function EnhancedTableHead(props) {
   const {
@@ -147,7 +131,6 @@ function EnhancedTable(props) {
   const [oRderid,setoRderid]=React.useState('');
   const [statuss,setstatuss]=React.useState('');
   const [checked,setChecked]=React.useState(false)
-
  
   const toggle=(event,batchid,orderid)=>{
     setToggling(!toggling)
@@ -210,10 +193,10 @@ function EnhancedTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, 10 - page * rowsPerPage);
 
-   const redirectToOrdDetails=(e,orderid)=>{ 
-      var url = `/orders?ordid=${orderid}`;
-      props.history.push(`${url}`);    
-    }
+const redirectToOrdDetails=(e,orderid)=>{ 
+   var url = `/orders?ordid=${orderid}`;
+   props.history.push(`${url}`);    
+}
 
   
   const trackOrder=(e,orderid)=>{ 
@@ -243,8 +226,7 @@ function EnhancedTable(props) {
       console.log(orderid)
       const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Accepted By Distributor" }
       e.preventDefault();
-      console.log('Accept Batch Id :', batchid);        
-                
+      console.log('Accept Batch Id :', batchid);         
           // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
           //   method: 'POST',
           //   headers: {
@@ -275,7 +257,7 @@ function EnhancedTable(props) {
             console.log(orderid)   
             var e = document.getElementById('status_' + orderid).innerHTML = "Order Routed to Service Provider"   
             var acceptBtn = document.getElementById('accept_' + batchid).disabled = true  
-            // forceUpdate();
+            window.location.reload(false) 
           })
           .catch((error)=>{
             console.log('Error:',error)
@@ -340,8 +322,7 @@ function EnhancedTable(props) {
                       </TableCell>   
                       <TableCell align="center"
                          id={"status_" + row.orderid} 
-                         value={statuss} 
-                        //  onChange={handleChange}
+                         value={statuss}    
                          >
                          {row.orderstatus} 
                        </TableCell>
