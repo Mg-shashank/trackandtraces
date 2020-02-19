@@ -6,14 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-// import SimpleTable from '../SimpleTable'
 import NewTable from '../NewTable'
-// import Newtable1 from '../Newtable1'
-// import PrevOrderTable from '../PrevOrderTable'
-// import RejectTable from '../RejectTable'
-// import Completed from '../Completed'
-// import InProgress from '../InProgress'
-// import DisAcc from '../DisAcc'
 import { HashRouter, Route, Switch, Redirect, Link } from "react-router-dom";
 import trackorder from "../../trackorder/trackorder";
 import $ from 'jquery';
@@ -68,13 +61,7 @@ export default function CenteredTabss(props) {
     setValue(newValue);
   };
   
-//   if(role === "distributor" && name === "Steve"){
-//      display = <NewTable rowsss={props.rowsss}/>
-//      }
-//   else if(role === "manufacturer" && name === "Joe") {
-//      display1 = <SimpleTable rows={props.rows} />
-//    }
- 
+
   return (
     <React.Fragment>     
         <br/><br/>
