@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
+// import { withRouter, Link, Route } from "react-router-dom";
 import rect from "./images/rect.svg"
 import router from "./images/router.png"
 import "./dashboard.scss";
@@ -17,10 +18,12 @@ import SimpleTable from './SimpleTable'
 import NewTable from './NewTable'
 //import DataTable, { createTheme } from 'react-data-table-component';
 import CenteredTabs from './Tabs/CenteredTabs'
+import CenteredTabss from './Tabs/CenteredTabss'
 import trackorder from "../trackorder/trackorder";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import Logout from '../login/Logout';
+import ttConfig from '../../config.js'
 //import DataTable, { createTheme } from 'react-data-table-component';
 //import {DataTable} from 'primereact/datatable';
 var orderid=[];
@@ -30,11 +33,13 @@ var image=localStorage.getItem('profile-picture');
 var roles = localStorage.getItem('role')
 const request = require('request');
 var https = require("https");
-
+var name = localStorage.getItem('name')
+var refreshs;
 class OrderID extends React.Component{  
 	constructor(props){
 		super(props);
-		this.toggle= this.toggle.bind(this);
+		// this.toggle= this.toggle.bind(this);
+		// this.refresh=this.refresh.bind(this);
 		this.state = {
 			dropdownOpen:false,
 			disabled : false,
@@ -47,8 +52,21 @@ class OrderID extends React.Component{
 			orderDatass:[],
 			orderDatasss:[],
 			orderDatassss:[],
-			disAcc:[]
-			}; 
+			disAcc:[],
+			orderDataa:[],
+			isLoading: true,
+			ordPlaced:'',
+			ordAccept:'',
+			ordRec: '',
+			recAct:'',
+			e:'',		
+			orders:[],
+			inprogress:[],
+			completedtables:[],
+			Product:[]
+		}; 
+		// this.refresh=this.refresh.bind(this);
+		// this.toggleHidden=this.toggleHidden.bind(this)
 	}
 	componentDidMount(){
 		// TO GET COMPLETE DATA
@@ -58,19 +76,20 @@ class OrderID extends React.Component{
 			{
 				// console.log("Error while getting the data");
 			} 			
-			response.on('data',(data)=> {	
-				var jsonData = JSON.parse(data);					
-				var datas = jsonData.data.Items;		
+			response.on('data',(data)=> {		
+				// var jsonData = JSON.parse(data);					
+				// var datas = jsonData.data.Items;	
+				// // console.log(datas)	
 				// console.log('first data res',datas)
-				const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
-				//distributor:data.Distributor.S,createdat:data.CreatedAt.S,orderdetails:data.OrderDetails.S}));
-				// console.log('optiminzed data',optimizedData);
-				this.setState({orderData: optimizedData})
-				// console.log(this.state.orderData)
+				// const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
+				// 	//distributor:data.Distributor.S,createdat:data.CreatedAt.S,orderdetails:data.OrderDetails.S}));
+				//  console.log('optiminzed data',optimizedData);
+				// this.setState({orderData: optimizedData})
+				//   console.log(this.state.orderData)
 			});
 		});	
 
-		//TO GET ORDER-INITIATED DATA
+/////////////////////TO GET ORDER-INITIATED DATA for service provider
 		var request = https.get("https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit",
 			(response)=>{
 			if (response.statusCode !== 200)
@@ -78,40 +97,100 @@ class OrderID extends React.Component{
 				// console.log("Error while getting the data");
 			} 			
 			response.on('data',(data)=> {	
+				// console.log(data)
 				 var jsonData = JSON.parse(data);					
 				 var datas = jsonData.Items;		
-				//  console.log('second data res',datas)
-				 const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
-				//distributor:data.Distributor.S,createdat:data.CreatedAt.S,orderdetails:data.OrderDetails.S}));
-				// console.log('optiminzed data',optimizedData);
+				 const optimizedData = datas.map(data=>({orderid: data.OrderID.S,product:data.Product.S,orderstatus: data.OrderStatus.S,createdat: data.CreatedAt.S}));
 				this.setState({orderDatas: optimizedData})
-				// console.log(this.state.orderDatas)
-				var d=localStorage.setItem('initiated',JSON.stringify(this.state.orderDatas))
+				console.log(this.state.orderDatas)
 			});
 		});
-
-		// TO GET ORDER-ACCEPTED DATA
-		var request = https.get("https://c6ppd96od0.execute-api.us-east-1.amazonaws.com/prod/orderstatus",
-			(response) => {
-			if (response.statusCode !== 200)
-			{
-				// console.log("Error while getting the data");
-			} 			
-			response.on('data',(data)=> {	
-				 var jsonData = JSON.parse(data);					
-				 var datas = jsonData.Items;		
-				//  console.log('third data res',datas)
-				 const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
-				// distributor:data.Distributor.S,createdat:data.CreatedAt.S,orderdetails:data.OrderDetails.S,
-				// transactionid:data.TransactionID.S}));
-				// console.log('optiminzed data',optimizedData);
-				this.setState({orderDatass: optimizedData})
-				// console.log(this.state.orderDatass)
-			});
-		});
-
+////////////////////////////////////////////////////////
+// 		console.log(name)
+// 		if(name === ttConfig.roleassign.manu.name){
+// const data2={				
+// 		Manufacturer:name
+// 	  };
+// fetch('https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit', {
+// 					method: 'POST',
+// 					headers: {
+// 		 			 'Content-Type': 'application/json',
+// 						},
+// 					body: JSON.stringify(data2),
+// 					})
+// 	 		 .then((response) => response.json())
+// 	 		 .then((data2) => {
+// 			console.log('Success:', data2.Items);
+// 			let details = data2.Items;
+// 			// this.props.history.push({pathname:'/orderdetails',state:details})
+// 			const optimizedData = details.map(data=>({orderid: data.OrderID.S,product:data.Product.S,orderstatus: data.OrderStatus.S,createdat: data.CreatedAt.S}));
+// 		//distributor:data.Distributor.S,createdat:data.CreatedAt.S,transactionid:data.TransactionId.S}));
+// 		console.log('optiminzed data',optimizedData);
+// 		this.setState({orderDatass: optimizedData})
+// 		console.log(this.state.orderDatass)
+// 	 		 })
+// 	 		 .catch((error) => {
+// 			console.error('Error:', error);
+// 	 		 })	  
+// 	  .catch((error) => {
+// 		console.error('Error:', error);
+// 	  });
+// 	}
+///////////////////////// TO GET ORDER-ACCEPTED DATA for distributor
+	var request = https.get("https://c6ppd96od0.execute-api.us-east-1.amazonaws.com/prod/orderstatus",
+	(response) => {
+	if (response.statusCode !== 200)
+	{
+		// console.log("Error while getting the data");
+	} 			
+	response.on('data',(data)=> {	
+		var jsonData = JSON.parse(data);					
+		var datas = jsonData.Items;	
+		let orders= datas;
+		//this.props.history.push({pathname:'/createbatch',state:orders})	
+		console.log('third data res',datas)
+		const optimizedData = datas.map(data=>({batchid: data.BatchID.S,orderstatus: data.OrderStatus.S,orderid: data.OrderID.S,batchquantity: data.BatchQuantity.S,product: data.Product.S,createdat:data.CreatedAt.S}));
+		//distributor:data.Distributor.S,createdat:data.CreatedAt.S,transactionid:data.TransactionId.S}));
+		console.log('optiminzed data',optimizedData);
+		this.setState({orderDatass: optimizedData})
+		console.log(this.state.orderDatass)
+	});
+});
+////////////////////////////////////////////////////
+// console.log(name)
+// if(name === ttConfig.roleassign.dist.name){
+// const data1={				
+// 		Distributor:name
+// 	  };
+// 	  fetch('https://9fsnk4xvv6.execute-api.us-east-1.amazonaws.com/prod/fetchinit', {
+// // fetch('https://c6ppd96od0.execute-api.us-east-1.amazonaws.com/prod/orderstatus', {
+// 					method: 'POST',
+// 					headers: {
+// 		 			 'Content-Type': 'application/json',
+// 						},
+// 					body: JSON.stringify(data1),
+// 					})
+// 	 		 .then((response) => response.json())
+// 	 		 .then((data1) => {
+// 			console.log('Success:', data1.Items);
+// 			let details = data1.Items;
+// 			// this.props.history.push({pathname:'/orderdetails',state:details})
+// 			const optimizedData = details.map(data=>({batchid: data.BatchID.S,orderstatus: data.OrderStatus.S,orderid: data.OrderID.S,batchquantity: data.BatchQuantity.S,product: data.Product.S,createdat:data.CreatedAt.S}));
+// 		//distributor:data.Distributor.S,createdat:data.CreatedAt.S,transactionid:data.TransactionId.S}));
+// 		console.log('optiminzed data',optimizedData);
+// 		this.setState({orderDatass: optimizedData})
+// 		console.log(this.state.orderDatass)
+// 	 		 })
+// 	 		 .catch((error) => {
+// 			console.error('Error:', error);
+// 	 		 })	  
+// 	  .catch((error) => {
+// 		console.error('Error:', error);
+// 	  });
+// 	}
+/////////////////////////////////////////////////////////////////////////////////////////////////
 		// TO GET ORDER_REJECTED DATA
-		var request = https.get("https://5c8cb0fop0.execute-api.us-east-1.amazonaws.com/prod/entries1",
+		var request = https.get("https://uoa7pzzm4b.execute-api.us-east-1.amazonaws.com/prod/rejectbymanufacturer",
 			(response)=>{
 			if (response.statusCode !== 200)
 			{
@@ -121,7 +200,7 @@ class OrderID extends React.Component{
 				var jsonData = JSON.parse(data);					
 				var datas = jsonData.Items;		
 				// console.log('third data res',datas)
-				const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
+				const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S,product:data.Product.S,batchcreatedat:data.BatchCreatedOn.S}));
 				// console.log('optiminzed data',optimizedData);
 				this.setState({orderDatasss: optimizedData})
 				// console.log(this.state.orderDatasss)
@@ -140,71 +219,205 @@ class OrderID extends React.Component{
             var jsonData = JSON.parse(data);
             var datas = jsonData.Items;
             // console.log('fourth data res', datas)
-			const optimizedData = datas.map(data =>({orderid:data.OrderID.S,orderstatus:data.OrderStatus.S}));
+			// const optimizedData = datas.map(data =>({OrderStatus:data.OrderStatus.S,OrderID:data.OrderID.S,BatchID:data.BatchID.S,BatchStatus:data.BatchStatus.S,Distributor:data.Distributor.S,Manufacturer:data.Manufacturer,Product:data.Product,Category:data.Category,Quantity:data.Quantity,Upgradeto5G:data.Upgradeto5G,TransactionID1:data.TransactionID1,CreatedAt:data.CreatedAt}));
+			const optimizedData = datas.map(data =>({OrderStatus:data.OrderStatus.S,OrderID:data.OrderID.S,BatchID:data.BatchID.S,BatchStatus:data.BatchStatus.S,Distributor:data.Distributor.S,Manufacturer:data.Manufacturer.S,Product:data.Product.S,Category:data.Category.S,Quantity:data.Quantity.S,Upgradeto5G:data.Upgradeto5G.S,TransactionID1:data.TransactionID1.S,CreatedAt:data.CreatedAt.S,Manufacturer1:data.Manufacturer,Product1:data.Product,Category1:data.Category,Quantity1:data.Quantity,Upgradeto5G1:data.Upgradeto5G,TransactionIDD:data.TransactionID1,CreatedAt1:data.CreatedAt}));
             // console.log('optimized data', optimizedData);
-            this.setState({disAcc: optimizedData})
+			this.setState({disAcc: optimizedData})
+			console.log(this.state.disAcc)
             // console.log(this.state.disAcc)
           });
 	  });
-	  
-	//   var request = https.get("https://njm54jxya2.execute-api.us-east-1.amazonaws.com/prod/entries?OrderID=order_181320665",
-	// 		(response)=>{
-	// 		if (response.statusCode !== 200)
-	// 		{
-	// 			console.log("Error while getting the data");
-	// 		} 			
-	// 		response.on('data',(data)=> {	
-	// 			var jsonData = JSON.parse(data);	
-	// 			console.log(jsonData)				
-	// 			// var datas = jsonData.data.Items;		
-	// 			// console.log('fifth data res',datas)
-	// 			// const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
-	// 			// //distributor:data.Distributor.S,createdat:data.CreatedAt.S,orderdetails:data.OrderDetails.S}));
-	// 			// console.log('optiminzed data',optimizedData);
-	// 			// this.setState({orderData: optimizedData})
-	// 			// console.log(this.state.orderData)
-	// 		});
-	// 	});	
 
-	toast.success("Order is placed successfully!")
-  }
+	  // TO GET ORDER Rejected By Distributor
+	  var request = https.get("https://k1ha90rw8c.execute-api.us-east-1.amazonaws.com/prod/rejectorderdist",
+            (response)=>{
+            if (response.statusCode !== 200)
+            {
+                // console.log("Error while getting the data");
+            }           
+            response.on('data',(data)=> {   
+                var jsonData = JSON.parse(data);                    
+                var datas = jsonData.Items;     
+                // console.log('third data res',datas)
+                const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S}));
+                // console.log('optiminzed data',optimizedData);
+                this.setState({orderDatassss: optimizedData})
+                // console.log(this.state.orderDatasss)
+            });
+		})
+		
+		//Completed Table
+		var request = https.get("https://rvpkp45prc.execute-api.us-east-1.amazonaws.com/prod/completedtable",                
+		(response) => {
+			if(response.statusCode !==200)
+			{
+				// console.log("Error while getting the data");
+			}
+		response.on('data',(data) => {
+		 	var jsonData = JSON.parse(data);
+			var datas = jsonData.Items;
+		  	const optimizedData = datas.map(data =>({OrderStatus:data.OrderStatus.S,OrderID:data.OrderID.S,BatchID:data.BatchID.S,BatchStatus:data.BatchStatus.S,Distributor:data.Distributor.S,Manufacturer:data.Manufacturer.S,Product:data.Product.S,Category:data.Category.S,Quantity:data.Quantity.S,Upgradeto5G:data.Upgradeto5G.S,TransactionID1:data.TransactionID1.S,CreatedAt:data.CreatedAt.S,Manufacturer1:data.Manufacturer,Product1:data.Product,Category1:data.Category,Quantity1:data.Quantity,Upgradeto5G1:data.Upgradeto5G,TransactionIDD:data.TransactionID1,CreatedAt1:data.CreatedAt,OrderStatuses:data.OrderStatuses}));
+			this.setState({completedtable: optimizedData})
+			console.log(this.state.completedtable)
+		  });
+	  });
+	  //Inprogress
+	  var request = https.get("https://uzruordqzd.execute-api.us-east-1.amazonaws.com/prod/inprogress",                
+		(response) => {
+			if(response.statusCode !==200)
+			{
+				// console.log("Error while getting the data");
+			}
+		response.on('data',(data) => {
+			var jsonData = JSON.parse(data);
+			var datas = jsonData.Items;
+		  	const optimizedData = datas.map(data =>({BatchQuantity:data.BatchQuantity.S,BatchCreatedOn:data.BatchCreatedOn.S,BatchOrderStatus:data.OrderStatus.S,OrderID:data.OrderID.S,BatchID:data.BatchID.S,BatchStatus:data.BatchStatus.S,Distributor:data.Distributor.S,Manufacturer:data.Manufacturer.S,Product:data.Product.S,Category:data.Category.S,Quantity:data.Quantity.S,Upgradeto5G:data.Upgradeto5G.S,TransactionID1:data.TransactionID1.S,CreatedAt:data.CreatedAt.S}));
+			this.setState({inprogresstable: optimizedData})
+			console.log(this.state.inprogresstable)
+		  });
+	  });
+	  // Order Placed Tile
+	  fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchordercount', {
+		method:'GET',
+		headers: {
+		'Content-Type':'application/json',
+						},
+					})
+		
+			  .then((response) =>response.json())
+					 .then((data) => {
+			//console.log(data);
+				this.setState({
+				ordPlaced:data,
+				isLoading:false,
+				});
+			 })
+			  .catch((error) => {
+			console.error('Error:', error);
+			  });
+		
+			// Order Accepted
+			fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchcountaccept', {
+			method:'GET',
+			headers: {
+			'Content-Type':'application/json',
+							},
+						})			
+			.then((response) =>response.json())
+			.then((data) => {
+			//console.log(data);
+			this.setState({
+			ordAccept: data,
+			isLoading:false,
+			});
+						 })
+			.catch((error) => {
+			console.error('Error:', error);
+				  });
+
+			// Order Recieved
+			fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchcountrec', {
+			method:'GET',
+			headers: {
+			'Content-Type':'application/json',
+							},
+						})			
+			.then((response) =>response.json())
+			.then((data) => {
+			//console.log(data);
+			this.setState({
+			ordRec: data,
+			isLoading:false,
+			});
+			console.log('FETCHCOUNTREC',this.state.ordRec)
+						 })
+				  .catch((error) => {
+			console.error('Error:', error);
+				  });	  
+
+	  		fetch('https://82aru5m82k.execute-api.us-east-1.amazonaws.com/prod/entries1')
+ 	 		.then((resp) => resp.json()) // Transform the data into json
+  	 		.then('Data',function(data) {
+			console.log(data)
+			var datas = data.Items;
+			console.log(datas)
+			const optimizedData = datas.map(data =>({orderid:data.OrderID.S,orderstatus:data.OrderStatus.S}));
+			console.log(optimizedData)
+			this.setState({orderDataa: optimizedData})
+			console.log(this.state.orderDataa)
+    		})
+    //    toast.success("Order is placed successfully!")		  
+  	}
 	
-	toggle=()=>{
-		this.setState((prevState)=>{
-			return{dropdownOpen:!prevState.dropdownOpen};
-		});
-	}
-	handleClick = (event) => {
-		if (this.state.disabled) {
-			return;
-		}
-		this.setState({disabled: true});
-		}		 
+		 
     render(){
-		// console.log(this.state.orderData)
-		// 	console.log(this.state.details)
-		// 	console.log('=-=-=-=-', this.props.location.state);
-		// console.log('=-=-=-=-', this.props.location.state.TransactionID);
 			let Orders= this.props.location.state;
 			var display1, display2;
-			if(roles==="serviceprovider"){
+			console.log(localStorage.getItem('role'))
+			if(localStorage.getItem('role') === ttConfig.roleassign.serv.role ){
 			display1=<Landingpage/>
 			}
-			else if(roles === "distributor"|| roles === "manufacturer")
+			else if(localStorage.getItem('role') === ttConfig.roleassign.dist.role)
 			{
+			
+			display1=<CenteredTabss
+			rows={this.state.orderDatas} 
+			roww={this.state.orderDatassss}
+			row={this.state.orderDatass} 
+			rowss={this.state.orderDatasss}	
+			rowsss={this.state.orderDatass}
+			ordPlace={this.state.ordPlaced}
+			ordAccepted={this.state.ordAccept}	
+			ordRecieve={this.state.ordRec}	
+			/>	
+		}
+		else if( localStorage.getItem('role') === ttConfig.roleassign.manu.role ){
+			
 			display1=<CenteredTabs
-				rows={this.state.orderDatas} 
-				row={this.state.orderDatass} 
-				rowss={this.state.orderDatasss}	
-				rowsss={this.state.orderDatass}
-				dis={this.state.disAcc}			
-			/>
-		}			
+			rows={this.state.orderDatas} 
+			roww={this.state.orderDatassss}
+			row={this.state.orderDatass} 
+			rowss={this.state.orderDatasss}	
+			rowsss={this.state.orderDatass}	
+			ordPlace={this.state.ordPlaced}
+			ordAccepted={this.state.ordAccept}	
+			ordRecieve={this.state.ordRec}
+			/>	
+		}
 			return(			
 			<React.Fragment>	
 			<div className="container-fluid padding0">		
-      			<Logout/>				
+      		<Logout/>				
 			<section class="content">
+			<div className="container">
+		<div className="col-lg-9 col-md-9 padding0">
+		<div className="col-lg-9 col-md-9">
+		<div className="col-lg-12 col-md-12">
+		<h3 className="section-header">Track Orders</h3>
+		</div>
+		<div className="col-lg-12 col-md-12 padding0">
+		<div className="col-lg-4 col-md-4">
+		<div className="track-order">
+		<h3>Order Placed</h3>
+		<p className="order-number"><b>{this.state.ordPlaced}</b></p>
+		</div>
+		</div>
+		<div className="col-lg-4 col-md-4">
+		<div className="track-order">
+		<h3>Order Accepted</h3>
+		<p className="order-number"><b>{this.state.ordAccept}</b></p>
+		</div>
+		</div>
+		<div className="col-lg-4 col-md-4">
+		<div className="track-order">
+		<h3>Order Completed</h3>
+		<p className="order-number"><b>{this.state.ordRec}</b></p>
+		</div>
+		</div>
+		</div>		
+		</div>
+		</div>
+  	  </div>
 			{display1}
 			<br/>	
 			<br/>			
@@ -216,4 +429,4 @@ class OrderID extends React.Component{
     }
 } 
 
-export default OrderID;
+export default withRouter(OrderID);
