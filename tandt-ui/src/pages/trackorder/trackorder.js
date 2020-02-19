@@ -1,13 +1,20 @@
 import React, {} from "react";
 import { withRouter,Link } from "react-router-dom";
-import Logout from '../login/Logout';
+import LoadingOverlay from 'react-loading-overlay';
 import {GoogleLogin,GoogleLogout} from 'react-google-login';
 import { GoogleApiWrapper, InfoWindow, Map, Marker ,Polyline} from 'google-maps-react';
 import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 import back from "./images/arrow-right.svg"
+import map from "./images/map.svg"
+import router from "./images/router.png"
 import "./dashboard.scss";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import Logout from '../login/Logout';
+import Table from 'react-bootstrap/Table';
+var orderid;
+var quantity;
+var role = localStorage.getItem('role')
 // import { ReceiptTwoTone } from "@material-ui/icons";
 
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
@@ -15,7 +22,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap
 var image=localStorage.getItem('profile-picture');
 var name=localStorage.getItem('name');
 		
-class Landingpage extends React.Component {
+class Trackorder extends React.Component {
 	
 	path = [
 	
@@ -33,12 +40,43 @@ class Landingpage extends React.Component {
 			showingPolyine: false,
 			activeMarker: {},
 			activeMarker1: {},
-			selectedPlace: {}
+			selectedPlace: {},
+			isActive:true,
+			posts: {},
+            isLoading: true,
+			orderdetails:[],
+			Orderid:{},
+			Quantity:{}
 		}; 
 		this.onMarkerClick1 = this.onMarkerClick1.bind(this);
 		this.onMarkerClick= this.onMarkerClick.bind(this);
 		
 	}
+
+	componentDidMount(){
+		
+		console.log('debug search value',this.props.location.search.split('=')[1])
+		orderid = this.props.location.search.split('=')[1];  
+		console.log(orderid) 	
+			
+        fetch('https://t6kpja3x80.execute-api.us-east-1.amazonaws.com/prod/singleorderdetails',{
+            method:'POST',
+            body: JSON.stringify({OrderID:orderid }),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+            }).then((response)=>{
+                return response.json();
+            }).then((jsonRes)=>{
+                this.setState({
+                    isLoading: false,
+                    posts: {...jsonRes}
+				})
+				document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
+            }).catch((error)=>{
+                console.log('order error',error);
+            })      
+		}
 	onMarkerClick = (props, marker, e) => {
 		this.setState({
 		  selectedPlace: props,
@@ -55,22 +93,22 @@ class Landingpage extends React.Component {
 		});
 	  }
 
+	  componentWillUnmount(){
+		if (this.timerHandle) {
+		  clearTimeout(this.timerHandle);
+		  this.timerHandle = 0;
+		}
+	  }
+
 	toggle=()=>{
 		this.setState((prevState)=>{
 			return{dropdownOpen:!prevState.dropdownOpen};
 		});
 	}   
+
 	render(){
-		console.log('=-=-=-=-', this.props.location.state);
-		let Orderid = this.props.location.state.OrderID;
-		let OrderStatus = this.props.location.state.OrderStatus;
-		let Createdat = this.props.location.state.CreatedAt;
-		let Transactionid = this.props.location.state.TransactionID;
-		let Manufacturer = this.props.location.state.Manufacturer;
-		let Product = this.props.location.state.Product;
-		let Category = this.props.location.state.Category;
-		let Quantity = this.props.location.state.Quantity;
-		let Upgrade = this.props.location.state.Upgradeto5G;
+		const { isLoading, posts } = this.state;
+
 	const style = {
 		width: '60vw',
 		height: '50vh',
@@ -79,10 +117,28 @@ class Landingpage extends React.Component {
 	  }
       return( 
         <div class="container-fluid padding0">
+			<LoadingOverlay
+				active={true}
+				spinner
+				text='Loading the content...' 
+				styles={{
+					spinner: (base) => ({
+					  ...base,
+					  width: '50px',
+					  '& svg circle': {
+						stroke: 'rgba(255, 0, 0, 0.5)'
+					  }
+					})
+				  }}
+				>				
+				<p>Loading...</p>
+	 		</LoadingOverlay>
+
         <Logout/>
-		  <section class="">
+		  <section class="content">
 			<div class="col-lg-8 col-md-8 content">
-				<h3 class="section-header"><Link to="/orderdetails"><img src={back} alt="back" class="back" /></Link><br/><br/></h3>
+				<h3 class="section-header"><Link to="/dashboard"><div className="btn btn-prim pull-right">Go to Dashboard</div></Link><br/><br/></h3>
+				
 				<p>Track Current Order</p><div class="col-lg-3 col-md-3">
 				
 				<Map
@@ -108,9 +164,7 @@ class Landingpage extends React.Component {
           position = {{ lat: 35.0078, lng: -97.0929 }}
           name = { 'Service Provider Enterprise' }
         />
-
-<Polyline path={this.path} options={{ strokeColor: "#000000 " },  {strokeOpacity: 1},
- { strokeWeight: 2}} />
+	<Polyline path={this.path} options={{ strokeColor: "#000000 " }}/>
 <InfoWindow
           marker = { this.state.activeMarker }
           visible = { this.state.showingInfoWindow }
@@ -133,33 +187,57 @@ class Landingpage extends React.Component {
 				<div class="place-order">
 					<div class="col-lg-8 col-md-8">
 					<div class="padding-bottom20">
-					<h3><b>Order ID</b> : {Orderid}</h3>
-					<h3><b>Order Status:</b> {OrderStatus}</h3>
-					<h3><b>Order placed on: </b>{Createdat}</h3>
-				    </div>
-
-					<h3><b>Transaction ID :</b> {Transactionid}</h3>
-					<h3><b>Manufacturer : </b>{Manufacturer}</h3>
-					<h3><b>Product : </b>{Product}</h3>
-					<h3><b>Product Category : </b>{Category}</h3>
-					<h3><b>Quantity : </b>{Quantity}</h3>
-					<h3><b>Upgrade Product to 5G : </b>{Upgrade}</h3>
-						
-						{/* {/* <ul>
-					{Object.entries(Orders).map(([key, value])=>{
-					return <li key={key}>{key}: {value}</li>
-					})}
-				</ul>  */}
+						<Table striped bordered hover>
+						<tbody>
+						<tr>
+						<th><b>Order ID</b></th>
+						<td>{posts.OrderID}</td>
+						</tr>
+						<tr>
+						<th><b>Order Status</b></th>
+						<td>{posts.OrderStatus}</td>
+						</tr>
+						<tr>
+						<th><b>Order placed on</b></th>
+						<td>{posts.CreatedAt}</td>
+						</tr>
+						<tr>
+						<th><b>Transaction ID</b></th>
+						<td>{posts.TransactionID1}</td>
+						</tr>
+						<tr>
+						<th><b>Service Provider</b></th>
+						<td>{posts.ServiceProvider}</td>
+						</tr>
+						<tr>
+						<th><b>Product</b></th>
+						<td>{posts.Product}</td>
+						</tr>
+						<tr>
+						<th><b>Product Category</b></th>
+						<td>{posts.Category}</td>
+						</tr>
+						<tr>
+						<th><b>Quantity</b></th>
+						<td>{posts.Quantity}</td>
+						</tr>
+						<tr>
+						<th><b>Upgrade Product to 5G</b></th>
+						<td>{posts.Upgradeto5G}</td>
+						</tr>
+						</tbody>
+						</Table>
+						</div>
 					</div>
 				</div>
 			</div>		
-	    <Link to="/dashboard"><div className="btn btn-prim pull-right">Go to Dashboard</div></Link>
+	 
 			<div class="col-lg-3 col-md-3 activity-log">
 				<h2 class="section-header">Track Details</h2>
 				<div class="timeline-wrapper">
 					<div class="node finished">
 					<h6>Order Initiated</h6>
-				<p class="sub-title">{Createdat}</p>
+				<p class="sub-title">{posts.CreatedAt}</p>
 				  </div>
 				  <div class="node progressing">
 					<h6>Order Accepted</h6>
@@ -167,7 +245,7 @@ class Landingpage extends React.Component {
 				  </div>
 				  <div class="node">
 					<h6>Order Shipped</h6>
-					
+		
 				  </div>
 				  <div class="node">
 					<h6>Order Delivered</h6>
@@ -181,4 +259,4 @@ class Landingpage extends React.Component {
 }
 export default GoogleApiWrapper({
 	apiKey: 'AIzaSyCBBI-PWfzZgdt_ssWRdibMuju_RH2BD8M'
-  })(Landingpage);
+  })(Trackorder);
