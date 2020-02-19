@@ -9,29 +9,17 @@ import back from "./images/arrow-right.svg"
 import map from "./images/map.svg"
 import router from "./images/router.png"
 import "./dashboard.scss";
+import ttConfig from '../../config.js'
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Logout from '../login/Logout';
 import Table from 'react-bootstrap/Table';
+import TrackDetails from './TrackDetails'
 var orderid;
 var quantity;
 var role = localStorage.getItem('role')
-// import { ReceiptTwoTone } from "@material-ui/icons";
-
-// import { useUserDispatch, loginUser } from "../../context/UserContext";
-
-var image=localStorage.getItem('profile-picture');
-var name=localStorage.getItem('name');
 		
-class Trackorder extends React.Component {
-	
-	path = [
-	
-		{ lat: 35.5175, lng: -86.5804 },
-		{ lat: 35.0078, lng: -97.0929 }
-	  ];
-	
-	constructor(props){
-		
+class Trackorder extends React.Component {	
+	constructor(props){		
 		super(props);
 		this.toggle= this.toggle.bind(this);
 		this.state = {
@@ -43,15 +31,14 @@ class Trackorder extends React.Component {
 			selectedPlace: {},
 			isActive:true,
 			posts: {},
-            isLoading: true,
+      isLoading: true,
 			orderdetails:[],
 			Orderid:{},
 			Quantity:{}
 		}; 
 		this.onMarkerClick1 = this.onMarkerClick1.bind(this);
-		this.onMarkerClick= this.onMarkerClick.bind(this);
-		
-	}
+		this.onMarkerClick= this.onMarkerClick.bind(this);		
+}
 
 	componentDidMount(){
 		
@@ -108,7 +95,42 @@ class Trackorder extends React.Component {
 
 	render(){
 		const { isLoading, posts } = this.state;
+		var latt,lngg,latt1,lngg1,path,display;
+		var Name, Name1;
+		if(localStorage.getItem('role') === ttConfig.roleassign.dist.role){
+			latt = ttConfig.roleassign.dcoordinates.lat;
+			lngg = ttConfig.roleassign.dcoordinates.lng;
+			latt1 = ttConfig.roleassign.dcoordinates.lat1;	
+			lngg1 = ttConfig.roleassign.dcoordinates.lng1;
+			Name = "ServiceProvider";
+			Name1 = "Distributor";
+			path = [{ lat: ttConfig.roleassign.dcoordinates.lat, lng: ttConfig.roleassign.dcoordinates.lng },
+							{ lat: ttConfig.roleassign.dcoordinates.lat1, lng: ttConfig.roleassign.dcoordinates.lng1 }];
+			display =<TrackDetails create={posts.CreatedAt}/>
+		}
+		if(localStorage.getItem('role') === ttConfig.roleassign.manu.role){
+			latt = ttConfig.roleassign.mcoordinates.lat;
+			lngg = ttConfig.roleassign.mcoordinates.lng;
+			latt1 = ttConfig.roleassign.mcoordinates.lat1;	
+			lngg1 = ttConfig.roleassign.mcoordinates.lng1;
+			Name = "Manufacturer";
+			Name1 = "Service Provider";
+			path =  [{ lat: ttConfig.roleassign.mcoordinates.lat, lng: ttConfig.roleassign.mcoordinates.lng },
+							 { lat: ttConfig.roleassign.mcoordinates.lat1, lng: ttConfig.roleassign.mcoordinates.lng1 }];
+			display =<TrackDetails create={posts.CreatedAt}/>
+		}
+		if(localStorage.getItem('role') === ttConfig.roleassign.serv.role){
+			latt = ttConfig.roleassign.scoordinates.lat;
+			lngg = ttConfig.roleassign.scoordinates.lng;
+			latt1 = ttConfig.roleassign.scoordinates.lat1;	
+			lngg1 = ttConfig.roleassign.scoordinates.lng1;
+			Name = "Manufacturer";
+			Name1 = "Service Provider";
+			path =  [{ lat: ttConfig.roleassign.scoordinates.lat, lng: ttConfig.roleassign.scoordinates.lng },
+							 { lat: ttConfig.roleassign.scoordinates.lat1, lng: ttConfig.roleassign.scoordinates.lng1 }];
+			display =<TrackDetails create={posts.CreatedAt}/>
 
+		}
 	const style = {
 		width: '60vw',
 		height: '50vh',
@@ -116,7 +138,7 @@ class Trackorder extends React.Component {
 		'marginRight': 'auto'
 	  }
       return( 
-        <div class="container-fluid padding0">
+    	 <div class="container-fluid padding0">
 			<LoadingOverlay
 				active={true}
 				spinner
@@ -148,28 +170,27 @@ class Trackorder extends React.Component {
 				google = { this.props.google }
 				onClick = { this.onMapClick }
 				zoom = {4}
-				initialCenter = {{ lat: 39.648209, lng: -75.711185 }}
+				initialCenter = {{ lat: ttConfig.roleassign.initialCenter.lat, lng: ttConfig.roleassign.initialCenter.lng }}
       >
 
 		<Marker
           onClick = { this.onMarkerClick1}
-          title = { 'Manufacturer' }
-          position = {{ lat: 35.5175, lng: -86.5804 }}
-		  name = { 'Manufacturer' }
-		  
+          title =  {Name} 
+          position = {{ lat: latt, lng: lngg }}
+		  name = {Name}  
         />
+
 		<Marker
           onClick = { this.onMarkerClick }
-          title = { 'Service provider' }
-          position = {{ lat: 35.0078, lng: -97.0929 }}
-          name = { 'Service Provider Enterprise' }
+          title = { Name1 }
+          position = {{ lat: latt1, lng: lngg1 }}
+          name = { Name1 }
         />
-	<Polyline path={this.path} options={{ strokeColor: "#000000 " }}/>
+	<Polyline path={path} options={{ strokeColor: "#000000 " }}/>
 <InfoWindow
           marker = { this.state.activeMarker }
           visible = { this.state.showingInfoWindow }
-        >
-          
+        >       
               Order Initiated <br />
               Oklahoma, USA
         </InfoWindow>
@@ -231,28 +252,8 @@ class Trackorder extends React.Component {
 					</div>
 				</div>
 			</div>		
-	 
-			<div class="col-lg-3 col-md-3 activity-log">
-				<h2 class="section-header">Track Details</h2>
-				<div class="timeline-wrapper">
-					<div class="node finished">
-					<h6>Order Initiated</h6>
-				<p class="sub-title">{posts.CreatedAt}</p>
-				  </div>
-				  <div class="node progressing">
-					<h6>Order Accepted</h6>
-					
-				  </div>
-				  <div class="node">
-					<h6>Order Shipped</h6>
-		
-				  </div>
-				  <div class="node">
-					<h6>Order Delivered</h6>
-					
-				  </div>
-				</div>
-			</div>
+					{display}
+			
 		</section>
         </div>          
 );}
