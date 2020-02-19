@@ -214,15 +214,26 @@ function EnhancedTable(props) {
       var url = `/orders?ordid=${orderid}`;
       props.history.push(`${url}`);    
     }
-   const trackOrder=(e,orderid)=>{ 
-    console.log(orderid)
-    var url = `/trackorder?ordid=${orderid}`;
-    this.props.history.push(`${url}`);   
+
+  
+  const trackOrder=(e,orderid)=>{ 
+    var c = orderid.length;
+    console.log(c)
+    var a="error";
+    console.log(c);
+    var url = `/trackorder?ordid=${orderid[0]}`;
+    console.log(url)
+    if(c>1){
+      alert("Please select only one order to Track!!");
+    }
+    else if(c==1){
+      props.history.push(`${url}`);  
+     }
+    else{
+     alert("Invalid selection. Please select an order to Track");
+    }
   }
    const handleChange=(e)=>{
-      // this.setState({
-      //   status: e.target.value,
-      // });
       setstatuss(e.target.value)
       console.log("SETSTATUS",setstatuss)
     }
@@ -232,25 +243,26 @@ function EnhancedTable(props) {
       console.log(orderid)
       const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Accepted By Distributor" }
       e.preventDefault();
-      console.log('Accept Batch Id :', batchid);                        
-          fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then((response) => response.json())
-          .then((data) => {
-                console.log('Success:', data.transactionId);
-                id=JSON.stringify(data.transactionId);
-                console.log('TRANSID',id)
-                var name=localStorage.getItem('name');
-                //var day=dateFormat(new Date(), "yyyy-mm-dd");
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-          });      
+      console.log('Accept Batch Id :', batchid);        
+                
+          // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
+          //   method: 'POST',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify(data),
+          // })
+          // .then((response) => response.json())
+          // .then((data) => {
+          //       console.log('Success:', data.transactionId);
+          //       id=JSON.stringify(data.transactionId);
+          //       console.log('TRANSID',id)
+          //       var name=localStorage.getItem('name');
+          //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
+          //     })
+          //     .catch((error) => {
+          //       console.error('Error:', error);
+          // });      
             fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
             method:'POST',
             headers:{
@@ -329,8 +341,9 @@ function EnhancedTable(props) {
                       <TableCell align="center"
                          id={"status_" + row.orderid} 
                          value={statuss} 
-                         onChange={handleChange}>
-                         {row.orderstatus} {row.OrderStatuses}
+                        //  onChange={handleChange}
+                         >
+                         {row.orderstatus} 
                        </TableCell>
                       <TableCell align="center">{row.product}      </TableCell>
                       <TableCell align="center">{row.batchquantity}</TableCell>
@@ -352,8 +365,8 @@ function EnhancedTable(props) {
        </button>  &nbsp;&nbsp;    
        <button
          className="btn btn-sm btn-primary" 
-        id = 'track'      
-         onClick={(e) => {trackorder(e, selected.toString())}}  
+         id ='track'
+         onClick={(e) => {trackOrder(e, selected)}}  
          >
          Track
        </button>
