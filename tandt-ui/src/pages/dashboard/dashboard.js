@@ -195,6 +195,10 @@ constructor(props){
 		this.props.history.push("/OrderRec");
 	}
 
+	gotoRecAccept =() => {
+		this.props.history.push()
+	}
+
   	render(){	
 		const { isLoading,ordPlaced,ordAccept,ordRec,recAct} = this.state;
       return( 
@@ -254,10 +258,10 @@ constructor(props){
 		</div>
 	
 			<div className="col-lg-3 col-mt-3  float-right  recent-activities">
-			<div className="col-lg-12 col-mt-12 col-mt-5 padding0">
+			<div className="col-lg-12 col-mt-12 col-mt-5 padding0" onClick={this.gotoRecAccept}>
 			<h3 className="section-header">Recent Activities</h3>
-
-			<div className="activity-card">
+			</div>	
+			<div className="activity-card  float-right col-lg-12 col-mt-12 col-mt-5 padding0">
 			<p className="act-head">Order Initiated</p>
 			<p className="act-content"><div>
           {!isLoading ? recAct : (
@@ -267,7 +271,7 @@ constructor(props){
 			{/* <p className="text-right"><Link to="/trackorder"><div className="view-more">View more</div></Link></p> */}
 			</div>
 		    </div>
-            </div>			
+           		
 			
 			<div className="col-lg-9 col-md-9 padding0">
 			<div className="col-lg-4 col-md-4">
