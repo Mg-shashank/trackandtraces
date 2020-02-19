@@ -21,6 +21,7 @@ import disTrack from "../pages/trackorder/disTrack";
 import traceorder from "../pages/traceorder/traceorder";
 import Orders from '../pages/orderdetails/Orders';
 import OrdersforSP from '../pages/orderdetails/OrdersforSP';
+import OrdersforRec from '../pages/orderdetails/OrdersforRec';
 import { useLedgerDispatch, fetchContracts } from "../context/LedgerContext";
 import config from "../config";
 import Options from "../pages/login/Dialogbox";
@@ -84,10 +85,12 @@ export default function App() {
         {/* <PublicRoute path="/orderss" component={Orders}/> */}
         <PublicRoute path="/orders" component={Orders} exact/>
         <PublicRoute path="/ordersforsp" component={OrdersforSP} exact/>
+        <PublicRoute path="/ordersforRec" component={OrdersforRec} exact/>
         <PublicRoute path="/createbatch" component={CreateBatch} exact/>
         <PublicRoute path="/batchdetails" component={BatchDetails} exact/>
         <PublicRoute path="/orders?ordid=" render={(props) => <Orders {...props}/>}exact/>
         <PublicRoute path ="/ordersforsp?ordid=" render={(props) => <OrdersforSP {...props}/>} exact/>
+        <PublicRoute path ="/ordersforRec?ordid=" render={(props) => <OrdersforRec {...props}/>} exact/>
         <Route component={Error} />
       </Switch>
     </HashRouter>
@@ -118,11 +121,6 @@ export default function App() {
          );
       }
 
-// function PrivateRoute ({component: Component, ...rest}){
-  //   return(
-  //     <Route {...rest} render={props =>(Options() ?<Component {...props}/>:<Redirect to="/login"/>)} />
-  //   )
-  // }
 
   function PublicRoute({ component, restricted, ...rest }) {  
      return (
@@ -141,18 +139,6 @@ export default function App() {
         }
       />
     );
-  
 
-//   const PublicRoute = ({component: Component, restricted, ...rest}) => {
-//     return (
-//         // restricted = false meaning public route
-//         // restricted = true meaning restricted route
-//         <Route {...rest} render={props => (
-//             isLogin() && restricted ?
-//                 <Redirect to="/dashboard" />
-//             : <Component {...props} />
-//         )} />
-//     );
-// };
   }
 }
