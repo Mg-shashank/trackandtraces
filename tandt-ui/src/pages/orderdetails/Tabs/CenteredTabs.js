@@ -7,13 +7,6 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import SimpleTable from '../SimpleTable'
-import NewTable from '../NewTable'
-import Newtable1 from '../Newtable1'
-import PrevOrderTable from '../PrevOrderTable'
-import RejectTable from '../RejectTable'
-import Completed from '../Completed'
-import InProgress from '../InProgress'
-import DisAcc from '../DisAcc'
 import { HashRouter, Route, Switch, Redirect, Link } from "react-router-dom";
 import trackorder from "../../trackorder/trackorder";
 import $ from 'jquery';
@@ -25,59 +18,6 @@ var name = localStorage.getItem('name')
 var display,display1,display2,display3,display4,display5,display6,display7,display8;
 var ordercount,ordercount1,ordercount2,refreshs;
 
-$.ajax({
-  url:"https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchordercount",
-	type: 'GET',
-	mode :'no-cors',
-	cache: false,
-	success: function(data) {
-  // Success..			 
-    ordercount=JSON.parse(data)
-	//  console.log('success',ordercount);	 
-	}.bind(this),
-	// Fail..
-	error: function(xhr, status, err,data) {
-	  // console.log(xhr, status);
-	  // console.log(err);
-	  console.log(data);			
-	}.bind(this)
-  });
-  $.ajax({
-    url:"https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchcountaccept",
-    type: 'GET',
-    mode :'no-cors',
-    cache: false,
-    success: function(data) {
-    // Success..			 
-      ordercount1=JSON.parse(data)
-      //console.log('success',ordercount);	 
-    }.bind(this),
-    // Fail..
-    error: function(xhr, status, err,data) {
-      // console.log(xhr, status);
-      // console.log(err);
-      // console.log(data);			
-    }.bind(this)
-    });
-    $.ajax({
-      url:"https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchcountrec",
-      type: 'GET',
-      mode :'no-cors',
-      cache: false,
-      success: function(data) {
-      // Success..			 
-        ordercount2=JSON.parse(data)
-       // console.log('success',ordercount);	 
-      }.bind(this),
-      // Fail..
-      error: function(xhr, status, err,data) {
-        // console.log(xhr, status);
-        // console.log(err);
-        // console.log(data);			
-      }.bind(this)
-      });
-      
-       
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
    return (
@@ -120,53 +60,10 @@ export default function CenteredTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  if(role === "distributor" && name==="Steve"){
-     display = <NewTable rowsss={props.rowsss}/>
-    //  display = <Newtable1 rowsss={props.rowsss}/>
-    //  display8 = <Tab label="Order Details Table" {...a11yProps(0)} />
-    }
-  else if(role === "manufacturer" && name==="Joe") {
-     display1 = <SimpleTable rowss={props.rows} />
-    //  display2= <PrevOrderTable rowses={props.row}/>
-    //  display3= <RejectTable rowsess={props.rowss}/>
-    //  display4= <InProgress rowsesss={props.inpr}/>
-    //  display5= <Completed comps={props.comp} />
-    //  display6= <Tab label="InProgress" {...a11yProps(3)} />
-    //  display7= <Tab label="Completed" {...a11yProps(4)} />  
-  }
-  return (
-    <React.Fragment>
-    <div className="container">
-		<div className="col-lg-9 col-md-9 padding0">
-		<div className="col-lg-9 col-md-9">
-		<div className="col-lg-12 col-md-12">
-		<h3 className="section-header">Track Orders</h3>
-		</div>
-		<div className="col-lg-12 col-md-12 padding0">
-		<div className="col-lg-4 col-md-4">
-		<div className="track-order">
-		<h3>Order Placed</h3>
-		<p className="order-number"><b>{props.ordPlace}</b></p>
-		</div>
-		</div>
-		<div className="col-lg-4 col-md-4">
-		<div className="track-order">
-		<h3>Order Accepted</h3>
-		<p className="order-number"><b>{props.ordAccepted}</b></p>
-		</div>
-		</div>
-		<div className="col-lg-4 col-md-4">
-		<div className="track-order">
-		<h3>Order Completed</h3>
-		<p className="order-number"><b>{props.ordRecieve}</b></p>
-		</div>
-		</div>
-		</div>		
-		</div>
-		</div>
-    </div>
-    <br/><br/>
-       
+  
+   return (
+    <React.Fragment>    
+       <br/><br/>
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
@@ -181,9 +78,7 @@ export default function CenteredTabs(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        {/* <SimpleTable rowss={props.rows}/> */}
-        {display}
-        {display1}
+          <SimpleTable rows={props.rows} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         {/* <PrevOrderTable rowses={props.row}/> */}
