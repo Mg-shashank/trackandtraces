@@ -59,15 +59,28 @@ class Orders extends React.Component {
 
 		gotoCreateBatch=()=>{
 			var data2= this.state.posts;	
-			this.props.history.push({pathname:'/createbatch', state:data2})
-			console.log(this.state.posts)
+		 this.props.history.push({pathname:'/createbatch', state:data2})
+			//console.log(this.state.posts.OrderID)
+			//var oid=this.
 		}
 
 	render() {
 		
 		var button1,button2;
 		if(role==="manufacturer"){
-			button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Create Batch</button>
+			 var status=JSON.stringify(this.state.posts.OrderStatus)
+		//	console.log(JSON.stringify(this.state.posts.OrderStatus))
+			console.log(status)
+			if(status==="\"Order Rejected by Manufacturer\""){
+			}
+			if(status==="\"Order Initiated\""){
+
+				button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Accept Order and Create Batch</button>
+				}
+				if(status==="\"Order Accepted by Manufacturer\""){
+
+					button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Create Batch</button>
+					}
 		}
 		else if(role==="distributor"){
 			button2=<h6></h6>
