@@ -290,13 +290,13 @@ console.log(completedtable)
             headers:{
               'Content-Type':'application/json',
             },
-            body:JSON.stringify({OrderID:orderid, OrderStatus:"Order Received"}),
+            body:JSON.stringify({OrderID:orderid, OrderStatus:"Order Completed"}),
           }).then((response)=>response.json())
           .then((data)=>{         
             var myarray= orderid.split(',');
             for(var i = 0;  i < myarray.length; i++)
             {              
-              document.getElementById(myarray[i]).innerHTML="Order Received";
+              document.getElementById(myarray[i]).innerHTML="Order Completed";
             }         
           })
           .catch((error)=>{
@@ -314,6 +314,7 @@ console.log(completedtable)
       setTimeout(function(){document.getElementById("reject").innerHTML="Reject Order"},5000);
       setTimeout(function(){document.getElementById("reject").disabled = false},5000);
       console.log(orderid)
+      
       e.preventDefault();                      
             fetch("https://onwm832w2h.execute-api.us-east-1.amazonaws.com/dev/updates",{
             method:'POST',
@@ -427,7 +428,8 @@ console.log(completedtable)
           </Table>
         </TableContainer>
          <div class="col-lg-12 col-md-12 text-right">
-				<Link to="/dashboard"><div class="btn btn-cancel">Go back to Dashboard</div></Link>
+				{/* <Link to="/dashboard"><div class="btn btn-cancel">Go back to Dashboard</div></Link> */}
+        <Link to="/dashboard"><input type="submit" value="Go back to Dashboard" id="btn-submit" className="btn btn-prim" ></input></Link>
 				{/* <input type="submit" value="Create Batch"  className="btn btn-prim" align="center" float="right" id="btn-submit" disabled={this.state.loading}></input> */}
 			</div> 
         <br/>&nbsp;&nbsp; 
