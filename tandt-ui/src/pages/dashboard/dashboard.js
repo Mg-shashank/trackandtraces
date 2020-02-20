@@ -15,6 +15,18 @@ import Logout from '../login/Logout';
 var https = require("https");
 var image = localStorage.getItem('profile-picture');
 var name = localStorage.getItem('name');
+const mappeddata = {
+
+	DeviceSerialNo: '', 	
+	warranty:'',	
+	NetworkDevicesStatus:'',
+	IPv6Compatible:'',
+	FrequencyBand:'',
+	DataTransferRate:'',
+	chipset:'',
+	EthernetPort:'',
+	WirelessSpecification:''
+}
 
 class Landingpage extends React.Component {
 constructor(props){
@@ -31,14 +43,14 @@ constructor(props){
 		recAct:'',
 		selectedProduct: '',
 		createOrder:'',
+		completedtable:[]
 		}; 
-
 	}
 	
 		componentDidMount() {
 			
 		fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/fetchordercount', {
-		method:'GET',
+	method:'GET',
 		headers: {
 		'Content-Type':'application/json',
 						},
@@ -96,6 +108,23 @@ constructor(props){
 			console.error('Error:', error);
 				  });
 		
+		var request = https.get("https://rvpkp45prc.execute-api.us-east-1.amazonaws.com/prod/completedtable",                
+(response) => {
+    if(response.statusCode !==200)
+    {
+        // console.log("Error while getting the data");
+    }
+response.on('data',(data) => {
+     var jsonData = JSON.parse(data);
+    var datas = jsonData.Items;
+      const optimizedData = datas.map(data =>({OrderStatus:data.OrderStatus.S,OrderID:data.OrderID.S,BatchID:data.BatchID.S,BatchStatus:data.BatchStatus.S,Distributor:data.Distributor.S,Manufacturer:data.Manufacturer.S,Product:data.Product.S,Category:data.Category.S,Quantity:data.Quantity.S,Upgradeto5G:data.Upgradeto5G.S,TransactionID1:data.TransactionID1.S,CreatedAt:data.CreatedAt.S,Manufacturer1:data.Manufacturer,Product1:data.Product,Category1:data.Category,Quantity1:data.Quantity,Upgradeto5G1:data.Upgradeto5G,TransactionIDD:data.TransactionID1,CreatedAt1:data.CreatedAt,OrderStatuses:data.OrderStatuses}));
+   console.log(optimizedData)
+    this.setState({completedtable: optimizedData})
+    console.log(this.state.completedtable)
+  });
+});
+
+
 		fetch('https://pf1g1lmjel.execute-api.us-east-1.amazonaws.com/dev/recentact', {
 			method:'GET',
 			headers: {
@@ -115,33 +144,137 @@ constructor(props){
 			console.error('Error:', error);
 				  });
 		
-				  fetch('https://av7avhrl4e.execute-api.us-east-1.amazonaws.com/prod/iontojsondevicedata', {
-					method:'GET',
-					headers: {
-					'Content-Type':'application/json',
-							},
-					})			
-					.then((response) =>response.json()).then((data) => {
+				 
+			fetch('https://av7avhrl4e.execute-api.us-east-1.amazonaws.com/prod/iontojsondevicedata', {
+				method:'GET',
+				headers: {
+				'Content-Type':'application/json',
+				},
+				})			
+				.then((response) =>response.json()).then((mappeddata) => {						
+					var Result=mappeddata;	
+					console.log("data2",Result);
+					Result.forEach(element => {
+					// console.log(element);
+					});	
+														
+					// let details = mappeddata;
+					// this.state=  {state:details} 
+					// console.log(mappeddata);
 						
-						var Result=data;	
-						console.log(Result);					
-						//var productData=JSON.parse(Result.body);
-						 console.log(typeof(Result));
-						 console.log(typeof(Result.toString()));						
-						// console.log(data.body);
-						 var productData =(data.toString())
-						 var Result = (productData.body)					
-						var a = (data.body)
-						console.log(a);
+						//  var operation=(Result.toString());	
+						//  console.log(typeof(operation));	
+						// console.log('Displaying!!!!', operation)	
+						// 
+				
+						//  var op = (productData.body)					
+						// var a = (data.body)
+						// console.log(a);
 						// var Result = JSON.parse(productData.body)
 						//  	console.log(Result)
 						//  Result.forEach(element => {
 						// 	console.log(element);											
 						//  	});	
 					 })
-					.catch((error) => {
-						console.error('Error:', error);
-					 });
+					
+			// 		 const tableData = filteredServiceData.map((item, index)=>{
+			// 			return {...item, ...filteredQldbData[index]}
+			// 		})
+			// 		console.log('!!!!!',tableData);
+			// 		 let dataSource = tableData;
+
+			// 		 //
+			// 		 const renderContent = (value, row, index) => {
+			// 		   const obj = {
+			// 			 children:value ,
+			// 			 props: {},
+			// 		   };
+			// 		   //console.log(row);
+			// 		   obj.props.style={background:'#88ff4d'}
+					 
+					 
+			// 		   return obj;
+					  
+			// 		 };
+					   
+			// 		 let  columns = [
+			// 		   {
+			// 			 title: 'Device_Serial_No',
+			// 			 dataIndex: 'DeviceSerialNo',
+			// 			 render: renderContent,
+			// 		   },
+			// 		   {
+			// 			   title: 'Network_Device_Condition',
+			// 			   dataIndex: 'NetworkDeviceCondition',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Maintenance_Schedule',
+			// 			   dataIndex: 'MaintenanceSchedule',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Warranty',
+			// 			   dataIndex: 'warranty',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Deman_Flag',
+			// 			   dataIndex: 'DemandFlag',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Network_Devices_Status',
+			// 			   dataIndex: 'NetworkDevicesStatus',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Service_Start_Date',
+			// 			   dataIndex: 'CreatedDate',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Last_Modified_Date',
+			// 			   dataIndex: 'LastModifiedDate',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'IPv6_Compatible',
+			// 			   dataIndex: 'IPv6Compatible',
+			// 			   //render: renderContent,  
+			// 			 },
+			// 			 {
+			// 			   title: 'Frequency_Band',
+			// 			   dataIndex: 'FrequencyBand',
+			// 			   //render: renderContent,
+			// 			 },
+			// 			 {
+			// 			   title: 'Data_Transfer_Rate',
+			// 			   dataIndex: 'DataTransferRate',
+			// 			   //render: renderContent,
+			// 			 },
+			// 			 {
+			// 			   title: 'Chipset',
+			// 			   dataIndex: 'chipset',
+			// 			   //render: renderContent,
+			// 			 },
+			// 			 {
+			// 			   title: 'Ethernet_Port',
+			// 			   dataIndex: 'EthernetPort',
+						   
+			// 			 },
+			// 			 {
+			// 			   title: 'Wireless_Specification',
+			// 			   dataIndex: 'WirelessSpecification',
+						   
+			// 			 },
+			 
+			// 		 ];
+			 
+			// 		 this.setState({
+			// 			 dataSource,columns
+			// 		 })
+			//  
 
 	}
  	
@@ -192,11 +325,13 @@ constructor(props){
 	}		 
 	
 	gotoOrderReceived = () => {
+		var Order = this.state.completedtable;
+		console.log(Order)
 		this.props.history.push("/OrderRec");
 	}
 
-	gotoRecAccept =() => {
-		this.props.history.push()
+	gotoRecAct =() => {
+		this.props.history.push("/dashboard");
 	}
 
   	render(){	
@@ -257,11 +392,11 @@ constructor(props){
 		</div>
 		</div>
 	
-			<div className="col-lg-3 col-mt-3  float-right  recent-activities">
-			<div className="col-lg-12 col-mt-12 col-mt-5 padding0" onClick={this.gotoRecAccept}>
+			<div className="col-lg-3 col-mt-3  float-center  recent-activities">
+			<div className="col-lg-9 col-mt-9 col-mt-5 " onClick={this.gotoRecAct}>
 			<h3 className="section-header">Recent Activities</h3>
 			</div>	
-			<div className="activity-card  float-right col-lg-12 col-mt-12 col-mt-5 padding0">
+			<div className="activity-card  float-center col-lg-9 col-mt-9 col-mt-5 ">
 			<p className="act-head">Order Initiated</p>
 			<p className="act-content"><div>
           {!isLoading ? recAct : (
@@ -271,8 +406,7 @@ constructor(props){
 			{/* <p className="text-right"><Link to="/trackorder"><div className="view-more">View more</div></Link></p> */}
 			</div>
 		    </div>
-           		
-			
+						
 			<div className="col-lg-9 col-md-9 padding0">
 			<div className="col-lg-4 col-md-4">
 			<div className="device-card" data-name="Asus ROG Rapture GT-AC5300" onClick={this.selectProductTile.bind(this)}>
