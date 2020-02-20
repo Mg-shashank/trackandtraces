@@ -110,8 +110,8 @@ class Landingpage extends React.Component {
 	 		 .then((response) => response.json())
 	 		 .then((data2) => {
 			console.log('Success:', data2);
-			let details = data2;
-			this.props.history.push({pathname:'/orderdetails',state:details})
+		        var url = `/orders?ordid=${orderid}`;
+			this.props.history.push(`${url}`);   
 	 		 })
 	 		 .catch((error) => {
 			console.error('Error:', error);
