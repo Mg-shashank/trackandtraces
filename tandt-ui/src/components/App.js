@@ -71,7 +71,7 @@ export default function App() {
         <PublicRoute path="/dashboard" component={dashboard} />
         {/* <PublicRoute path="/trackorderUI" component={trackorderUI} exact /> */}
         <PublicRoute path="/OrderPlaced" component={OrderPlaced} exact />
-        <PublicRoute path="/OrderAccepted" component={OrderAccepted} exact/>
+        {/* <PublicRoute path="/OrderAccepted" component={OrderAccepted} exact/> */}
         <PublicRoute path="/OrderRec" component={OrderRec} exact />
         <PublicRoute path="/createorder"  component={createorder} exact/>
         <PublicRoute path="/createneworder"  component={createneworder} exact/>
