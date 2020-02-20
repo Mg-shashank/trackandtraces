@@ -21,9 +21,10 @@ class CreateBatch extends React.Component {
 		batchquantity:'',
         details: {},
         loading:false,
+        posts: {},
 	  };
-    this._handleSubmit = this._handleSubmit.bind(this)    
-    this._handleChangeq = this._handleChangeq.bind(this);
+	  this._handleSubmit = this._handleSubmit.bind(this);
+      this._handleChangeq = this._handleChangeq.bind(this);
 	}
 
 	// Change state of input field so text is updated while typing
@@ -31,29 +32,48 @@ class CreateBatch extends React.Component {
 		  this.setState({
 			batchquantity: e.target.value,
 		  });
-		}
+    }
+    componentDidMount(){
+      var orderid = this.props.location.search.split('=')[1];  
+      console.log(orderid) 	
+        
+          fetch('https://t6kpja3x80.execute-api.us-east-1.amazonaws.com/prod/singleorderdetails',{
+              method:'POST',
+              body: JSON.stringify({OrderID:orderid }),
+              headers:{
+                  'Content-Type': 'application/json'
+              }
+              }).then((response)=>{
+                  return response.json();
+              }).then((jsonRes)=>{
+                  this.setState({
+                      isLoading: false,
+                      posts: {...jsonRes}
+          })
+          document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
+              }).catch((error)=>{
+                  console.log('order error',error);
+              })      
+      }
 	_handleSubmit(e) {
-    var OrderID=this.props.location.state;
-    var Quantity= this.props.location.state;
-
+    
+    var OrderID=this.state.posts.OrderID;
 	  e.preventDefault();
 	  this.setState({
-    batchquantity:this.state.batchquantity,    
+		batchquantity:this.state.batchquantity,
 		loading:true,
     });
-    
     var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
     usaTime = new Date(usaTime);
-    var time=usaTime.toLocaleString()	
-    var batchid="batch_"+Math.random().toString().slice(2,11);
-
+    var time=usaTime.toLocaleString()
+    var batchid="batch_"+Math.random().toString().slice(2,11); 
 	const data = { 	
-    BatchID:batchid,
-    BatchQuantity: this.state.batchquantity,      
-    Distributor: $("#distributor").val(), 
-    BatchCreatedOn: time,
-      
-
+       OrderID:OrderID,
+       BatchID:batchid,
+       BatchCreatedOn:time,
+       OrderStatus:'Batch created and Routed to Distributor',
+       BatchQuantity: this.state.batchquantity,      
+       Distributor: $("#distributor").val(), 
     };
     console.log(data)
         fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
@@ -69,16 +89,14 @@ class CreateBatch extends React.Component {
                 console.log('Success:', data.transactionId);
                 id=JSON.stringify(data.transactionId);
                 var name=localStorage.getItem('name');
-                    const data2 = {
+                const data2 = { 	
                     OrderID:OrderID,
                     BatchID:batchid,
-                    Quantity: Quantity,
-                    OrderStatus:'Order Accepted By Manufacturer',
+                    BatchCreatedOn:time,   
+                    OrderStatus:'Batch created and Routed to Distributor',
                     BatchQuantity: this.state.batchquantity,      
                     Distributor: $("#distributor").val(), 
-                    TransactionID2: id,
-                    BatchStatus:"Batch Created but Not Accepted by Distributor",
-                    BatchCreatedOn: time
+                    TransactionID2: id
                  };
                  console.log(id)
                  console.log(data2.TransactionID)
@@ -93,8 +111,11 @@ class CreateBatch extends React.Component {
                   .then((data2) => {
                         console.log('Success:', data2);
                     let details = data2;
-                    let id = this.props.location.state;
-                    this.props.history.push({pathname:'/batchdetails',state:details})
+                    // let id = this.props.location.state;
+                    // this.props.history.push({pathname:'/batchdetails',state:details})
+                    var url = `/batchdetails?ordid=${OrderID}`;
+                    this.props.history.push(`${url}`);  
+                  
                         })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -107,14 +128,8 @@ class CreateBatch extends React.Component {
     }
 	
 	render() { 
-    console.log('Quantity',this.props.location.state)
-    var orderid = this.props.location.state.OrderID;
-    var quantity= this.props.location.state.Quantity;
-    console.log(quantity);
-    
-        console.log('data', this.props.location.state);
-
-       console.log(orderid)
+         const {posts} = this.state;
+           
 	  return (
 		<div class="container-fluid padding0">
         <Logout/>	
@@ -123,18 +138,16 @@ class CreateBatch extends React.Component {
 			<h3 class="section-header">Create Batch</h3>
 			<div class="col-lg-12 col-md-12 place-order">
 			<div class="padding-bottom20">
-
+			{/* <div><h2><b>{routers}</b></h2><br/></div> */}
 			</div>
 				
 			<form class="form-horizontal" onSubmit={this._handleSubmit} id="formContact">
 			<div class="col-lg-7 col-md-7">
 			<div class="form-group col-md-8" >
-
             <div>
             <label class="form-label"><b>Order ID : </b></label>
-            <p style={{backgroundColor:'white'}}>{orderid}</p>
+            <p style={{backgroundColor:'white'}}>{posts.OrderID}</p>
             </div>
-
 			<div class="padding-bottom20">
             <label class="form-label"><b>Distributor : </b></label>
 				<select class="form-control" id="distributor">
@@ -143,22 +156,21 @@ class CreateBatch extends React.Component {
 					<option>Joshua Williams </option>
 				</select>
 			</div>
-
-			<div class="form-group col-md-8" >
+      <div class="form-group col-md-8" >
 				<label class="form-label"><b>Product Quantity : </b></label>
-        <p style={{backgroundColor:'white'}}>{quantity}</p>        
-        </div>
+        <p style={{backgroundColor:'white'}}>{posts.Quantity}</p>
 
+				</div>
+			
 			<div class="form-group col-md-8" >
 				<label class="form-label"><b>Batch Quantity : </b></label>
-				<input type="number" name="num" pattern="[1-9]" title="Numbers only" class="form-control" value={this.state.Quantity}  required/>				
-        
+				<input type="number"  min="1" max="99999" maxLength="5"  class="form-control" value={this.state.batchquantity} onChange={this._handleChangeq} required/>					
 			</div>
             </div>		
 			
 		    <div class="col-lg-12 col-md-12 text-right">
 				<Link to="/orderdetails"><div class="btn btn-cancel">Cancel</div></Link>&nbsp;&nbsp;&nbsp;
-				<input type="submit" value="Create Batch"  className="btn btn-prim" align="center" float="right" id="btn-submit" disabled={this.state.loading}></input>
+				<input type="submit" value="Create Batch" className="btn btn-prim" id="btn-submit"></input>
 			</div>
 			</div>
 			</form>
