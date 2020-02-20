@@ -271,6 +271,7 @@ const redirectToOrdDetails=(e,orderid)=>{
             for(var i = 0;  i < myarray.length; i++)
             {              
               document.getElementById(myarray[i]).innerHTML="Order Routed to Service Provider";
+               window.location.reload(false)
             }         
           } )
           
