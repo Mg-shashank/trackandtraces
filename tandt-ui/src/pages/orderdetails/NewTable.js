@@ -16,6 +16,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 import ttConfig from '../../config.js'
+import LoadingOverlay from 'react-loading-overlay';
 import trackorder from "../trackorder/trackorder";
 var id,url,ORderid;
 let isSelected;
@@ -274,22 +275,83 @@ const redirectToOrdDetails=(e,orderid)=>{
             for(var i = 0;  i < myarray.length; i++)
             {              
               document.getElementById(myarray[i]).innerHTML="Order Routed to Service Provider";
-               window.location.reload(false)
+              // window.location.reload(false)
             }         
-          } )
-          
-            .catch((error)=>{
+          } 
+        ).catch((error)=>{
             console.log('Error:',error)
           });     
     }    
+  }
+  const rejectOrder = (e,batchid,orderid) => {    
+    var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
+    usaTime = new Date(usaTime);
+    var time=usaTime.toLocaleString()
+    if(orderid==""){
+      alert("Select an Orderid")
+    }   
+    else{
+      document.getElementById("reject").disabled = true;
+     document.getElementById("reject").innerHTML="processing..."
+ 
+    setTimeout(function(){document.getElementById("reject").innerHTML="Reject"},5000);
+    setTimeout(function(){document.getElementById("reject").disabled = false},5000);
+    
+    console.log(batchid)
+    console.log(orderid)
+    const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Rejected" }
+    e.preventDefault();
+    console.log('Accept Batch Id :', batchid);         
+        // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(data),
+        // })
+        // .then((response) => response.json())
+        // .then((data) => {
+        //       console.log('Success:', data.transactionId);
+        //       id=JSON.stringify(data.transactionId);
+        //       console.log('TRANSID',id)
+        //       var name=localStorage.getItem('name');
+        //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
+        //     })
+        //     .catch((error) => {
+        //       console.error('Error:', error);
+        // });      
+          fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
+            
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json',
+          },
+          body:JSON.stringify({ OrderID:orderid,OrderStatus:"Order Rejected"}),
+          
+        }).then((response)=>response.json())
+        
+        .then((data)=>{         
+          var myarray= orderid.split(',');
+          console.log(myarray)
+          for(var i = 0;  i < myarray.length; i++)
+          {              
+            document.getElementById(myarray[i]).innerHTML="Order Rejected";
+            // window.location.reload(false)
+          }         
+        } 
+      ).catch((error)=>{
+          console.log('Error:',error)
+        });     
   }    
+}
   console.log("orderid",selected.toString()) 
   console.log('batchid',selecteds.toString())
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root}>  
       <Paper className={classes.paper}>      
         <TableContainer>
+        
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -303,6 +365,7 @@ const redirectToOrdDetails=(e,orderid)=>{
               rowCount={props.rowsss.length}           
             />
             <TableBody>
+          
               {props.rowsss.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.orderid);     
@@ -341,7 +404,7 @@ const redirectToOrdDetails=(e,orderid)=>{
                       </a>
                       </TableCell>   
                       <TableCell align="center"
-                         id={"status_" + row.orderid} 
+                         id={row.orderid} 
                          value={statuss}    
                          >
                          {row.orderstatus} 
@@ -359,10 +422,17 @@ const redirectToOrdDetails=(e,orderid)=>{
         <br/>
         <button 
         className="btn btn-sm btn-primary" 
-        id={ORderid}       
+        id='accept'       
         onClick={(e) => {acceptOrder(e, selecteds.toString(), selected.toString())}}    
         >
         To Deliver
+       </button>  &nbsp;&nbsp; 
+       <button 
+        className="btn btn-sm btn-primary" 
+        id='reject'       
+        onClick={(e) => {rejectOrder(e, selecteds.toString(), selected.toString())}}    
+        >
+        Reject
        </button>  &nbsp;&nbsp;    
        <button
          className="btn btn-sm btn-primary" 
