@@ -222,6 +222,9 @@ const redirectToOrdDetails=(e,orderid)=>{
     }
     
     const acceptOrder = (e,batchid,orderid) => {    
+      var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
+      usaTime = new Date(usaTime);
+      var time=usaTime.toLocaleString()
       if(orderid==""){
         alert("Select an Orderid")
       }   
@@ -261,7 +264,7 @@ const redirectToOrdDetails=(e,orderid)=>{
             headers:{
               'Content-Type':'application/json',
             },
-            body:JSON.stringify({ OrderID:orderid, OrderShipped:Date(),OrderStatus:"Order Routed to Service Provider"}),
+            body:JSON.stringify({ OrderID:orderid, OrderShipped:time,OrderStatus:"Order Routed to Service Provider"}),
             
           }).then((response)=>response.json())
           
