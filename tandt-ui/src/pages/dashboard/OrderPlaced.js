@@ -181,9 +181,10 @@ var https = require("https");
         onChangePage={this.handleChangePage}
         onChangeRowsPerPage={this.handleChangeRowsPerPage} />   
          <div class="col-lg-12 col-md-12 text-right">
-				<Link to="/dashboard"><div class="btn btn-cancel">Go back to Dashboard</div></Link>
+				{/* <Link to="/dashboard"><div class="btn btn-cancel">Go back to Dashboard</div></Link> */}
 				{/* <input type="submit" value="Create Batch"  className="btn btn-prim" align="center" float="right" id="btn-submit" disabled={this.state.loading}></input> */}
-			</div>   
+        <Link to="/dashboard"><input type="submit" value="Go back to Dashboard" id="btn-submit" className="btn btn-prim" ></input></Link>
+		</div>   
        </Paper>
       </form>    
     );
