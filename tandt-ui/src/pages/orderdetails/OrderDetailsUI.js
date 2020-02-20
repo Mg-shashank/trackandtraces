@@ -6,6 +6,7 @@ import logo from "./images/brillio-logo.png";
 import usericon from "./images/user-icon.svg";
 // import { withRouter, Link, Route } from "react-router-dom";
 import rect from "./images/rect.svg"
+import LoadingOverlay from 'react-loading-overlay';
 import router from "./images/router.png"
 import "./dashboard.scss";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
@@ -114,6 +115,7 @@ class OrderID extends React.Component{
 				const optimizedData = datas.map(data =>({orderid:data.OrderID.S,orderstatus:data.OrderStatus.S,product:data.Product.S,createdat:data.CreatedAt.S}));
 			this.setState({orderData: optimizedData})
 			console.log('this...',this.state.orderData)
+			document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
     		})
 
 ///////////////////////// TO GET ORDER-ACCEPTED DATA for distributor
@@ -134,6 +136,7 @@ class OrderID extends React.Component{
 		console.log('optiminzed data',optimizedData);
 		this.setState({orderDatass: optimizedData})
 		console.log(this.state.orderDatass)
+		document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
 	});
 });
 			
@@ -332,6 +335,21 @@ class OrderID extends React.Component{
 			<br/>			
 			</section>					
 			<br/>
+		<LoadingOverlay
+        		active={true}
+       			 spinner
+       		 text='Loading the content...' 
+       		 styles={{
+       		   spinner: (base) => ({
+       		     ...base,
+       		     width: '35px',
+       		     '& svg circle': {
+        	    stroke: 'rgba(255, 0, 0, 0.5)'
+           	}
+         	 })
+          }}>       
+        <p>Loading...</p>
+      </LoadingOverlay>	
 			</div>		
 			</React.Fragment>		
 		)
