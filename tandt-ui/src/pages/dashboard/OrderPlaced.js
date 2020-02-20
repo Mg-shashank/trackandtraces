@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
+import LoadingOverlay from 'react-loading-overlay';
 import $ from 'jquery'
 import Logout from '../login/Logout';
 import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
@@ -22,6 +23,7 @@ var https = require("https");
     super(props);
     this.state = {
       status:'',
+      isLoading: true,
       isHidden: true, 
       idOrder:'',
       page:0,
@@ -39,24 +41,17 @@ var https = require("https");
   }
 
   componentDidMount(){
-  var request = https.get("https://82aru5m82k.execute-api.us-east-1.amazonaws.com/prod/entries1",
-  (response)=>{
-  if (response.statusCode !== 200)
-  {
-      console.log("Error while getting the data");
-  } 			
-  response.on('data',(data)=> {		
-      var jsonData = JSON.parse(data);	
-      console.log(jsonData);				
-      var datas = jsonData.data.Items;          
-      console.log('first data response!!!',datas)
-      
-      const optimizedData = datas.map(data=>({orderid: data.OrderID.S,orderstatus: data.OrderStatus.S,Product:data.Product.S,Quantity:data.Quantity.S,distributor:data.Distributor.S,createdat:data.CreatedAt.S}));
-     this.setState({orderData:optimizedData})
-      // this.setState({orderData: datas})
-        console.log(this.state.orderData)
-  });
-});
+   fetch('https://82aru5m82k.execute-api.us-east-1.amazonaws.com/prod/entries1')
+            .then((resp) => resp.json()) // Transform the data into json
+            .then((data)=> {
+                var jsonData = JSON.parse(JSON.stringify(data));                    
+                var datas = jsonData.data.Items;    
+                const optimizedData = datas.map(data =>({orderid:data.OrderID.S,orderstatus:data.OrderStatus.S,product:data.Product.S,createdat:data.CreatedAt.S, quantity:data.Quantity.S}));
+            this.setState({orderData: optimizedData})
+            console.log('this...',this.state.orderData)
+            document.getElementsByClassName('_loading_overlay_wrapper--active')[0].style.display = 'none';
+            })
+          
 }
 
   handleChange=(e)=>{
@@ -96,6 +91,23 @@ var https = require("https");
         <div className="container-fluid padding0">       
        <Logout/> 
         </div>
+        <LoadingOverlay
+				active={true}
+				spinner
+				text='Loading the content...' 
+				styles={{
+					spinner: (base) => ({
+					  ...base,
+					  width: '50px',
+					  '& svg circle': {
+						stroke: 'rgba(255, 0, 0, 0.5)'
+					  }
+					})
+				  }}
+				>				
+				<p>Loading...</p>
+	 		</LoadingOverlay>		
+			 	
       <Paper>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -123,10 +135,10 @@ var https = require("https");
                  </a> </TableCell>
               
                 <TableCell align="center">               
-                {row.Product}       
+                {row.product}       
                 </TableCell>   
                 <TableCell align="center">
-                {row.Quantity}       
+                {row.quantity}       
                 </TableCell>    
                   <TableCell align="center">{row.createdat}</TableCell>  
                  <TableCell align="center" 
