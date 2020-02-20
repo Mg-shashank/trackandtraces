@@ -67,19 +67,25 @@ class Orders extends React.Component {
 	render() {
 		
 		var button1,button2;
-		if(role==="manufacturer"){
+		if(role==="serviceprovider"){
+			button2=<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
+		}
+		else if(role==="manufacturer"){
 			 var status=JSON.stringify(this.state.posts.OrderStatus)
 		//	console.log(JSON.stringify(this.state.posts.OrderStatus))
 			console.log(status)
 			if(status==="\"Order Rejected by Manufacturer\""){
+				button1=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>   
 			}
 			if(status==="\"Order Initiated\""){
 
 				button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Accept Order and Create Batch</button>
+				button2=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>   
 				}
 				if(status==="\"Order Accepted by Manufacturer\""){
 
 					button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Create Batch</button>
+					button2=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>
 					}
 		}
 		else if(role==="distributor"){
@@ -164,11 +170,7 @@ class Orders extends React.Component {
 							{!isLoading ? (
 						    <div style={{float: "right"}}>  
 							{button1}    {button2}
-							< Link to="/orderdetails">
-														
-								<button  className="btn btn-primary"> Go Back to Orders List</button>
-								{/* <div style="display:flex; justify-content:flex-end; width:100%; padding:0;">Go Back to Orders List</div> */}
-						</Link>                        
+                     
                              </div> 
                              ) : (
 							<p>Loading...</p>
