@@ -6,8 +6,9 @@ import Login1 from "../pages/login/Login1";
 import { useUserState } from "../context/UserContext";
 import landingPage from "../pages/landingPage/landingPage";
 import dashboard from "../pages/dashboard/dashboard";
+// import trackorderUI from "../pages/dashboard/trackorderUI"
 import OrderPlaced from '../pages/dashboard/OrderPlaced';
-import OrderAccepted from '../pages/dashboard/OrderAccepted';
+// import OrderAccepted from '../pages/dashboard/OrderAccepted';
 import OrderRec from '../pages/dashboard/OrderRec';
 import createneworder from "../pages/createorder/createneworder";
 import LandingPage from "../pages/dashboard/dashboard";
@@ -68,6 +69,7 @@ export default function App() {
         <PublicRoute path="/landingPage"  component={landingPage} exact/>
         {/* <PrivateRoute path="/dashboard"  component={dashboarddisplay} exact/> */}
         <PublicRoute path="/dashboard" component={dashboard} />
+        {/* <PublicRoute path="/trackorderUI" component={trackorderUI} exact /> */}
         <PublicRoute path="/OrderPlaced" component={OrderPlaced} exact />
         <PublicRoute path="/OrderAccepted" component={OrderAccepted} exact/>
         <PublicRoute path="/OrderRec" component={OrderRec} exact />
