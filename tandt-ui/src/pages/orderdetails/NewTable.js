@@ -221,10 +221,20 @@ const redirectToOrdDetails=(e,orderid)=>{
       console.log("SETSTATUS",setstatuss)
     }
     
-    const acceptOrder = (e,batchid,orderid) => {       
+    const acceptOrder = (e,batchid,orderid) => {    
+      if(orderid==""){
+        alert("Select an Orderid")
+      }   
+      else{
+        document.getElementById("accept").disabled = true;
+       document.getElementById("accept").innerHTML="processing..."
+   
+      setTimeout(function(){document.getElementById("accept").innerHTML="To Deliver"},5000);
+      setTimeout(function(){document.getElementById("accept").disabled = false},5000);
+      
       console.log(batchid)
       console.log(orderid)
-      const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Accepted By Distributor" }
+      const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Routed to Service Provider" }
       e.preventDefault();
       console.log('Accept Batch Id :', batchid);         
           // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
@@ -246,23 +256,29 @@ const redirectToOrdDetails=(e,orderid)=>{
           //       console.error('Error:', error);
           // });      
             fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
+              
             method:'POST',
             headers:{
               'Content-Type':'application/json',
             },
-            body:JSON.stringify({BatchID:batchid, OrderID:orderid, OrderStatus:"Order Routed to Service Provider",OrderShipped:Date(),TransactionID2:id,BatchStatus:"Batch Created & Accepted by Distributor"}),
+            body:JSON.stringify({ OrderID:orderid, OrderShipped:Date(),OrderStatus:"Order Routed to Service Provider"}),
+            
           }).then((response)=>response.json())
+          
           .then((data)=>{         
-            console.log(batchid)
-            console.log(orderid)   
-            var e = document.getElementById('status_' + orderid).innerHTML = "Order Routed to Service Provider"   
-            var acceptBtn = document.getElementById('accept_' + batchid).disabled = true  
-            window.location.reload(false) 
-          })
-          .catch((error)=>{
+            var myarray= orderid.split(',');
+            console.log(myarray)
+            for(var i = 0;  i < myarray.length; i++)
+            {              
+              document.getElementById(myarray[i]).innerHTML="Order Routed to Service Provider";
+            }         
+          } )
+          
+            .catch((error)=>{
             console.log('Error:',error)
           });     
     }    
+  }    
   console.log("orderid",selected.toString()) 
   console.log('batchid',selecteds.toString())
 
