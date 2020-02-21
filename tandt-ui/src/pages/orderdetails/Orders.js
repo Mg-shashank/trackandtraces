@@ -58,10 +58,13 @@ class Orders extends React.Component {
 		  }
 
 		gotoCreateBatch=()=>{
-			var data2= this.state.posts;	
-		 this.props.history.push({pathname:'/createbatch', state:data2})
-			//console.log(this.state.posts.OrderID)
+		// 	var data2= this.state.posts;	
+		//  this.props.history.push({pathname:'/createbatch', state:data2})
+		// 	//console.log(this.state.posts.OrderID)
 			//var oid=this.
+			var url = `/createbatch?ordid=${orderid}`;
+			this.props.history.push(`${url}`);  
+			console.log(orderid); 
 		}
 
 	render() {
@@ -74,9 +77,7 @@ class Orders extends React.Component {
 			 var status=JSON.stringify(this.state.posts.OrderStatus)
 		//	console.log(JSON.stringify(this.state.posts.OrderStatus))
 			console.log(status)
-			if(status==="\"Order Rejected by Manufacturer\""){
-				button1=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>   
-			}
+			
 			if(status==="\"Order Initiated\""){
 
 				button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Accept Order and Create Batch</button>
@@ -87,6 +88,11 @@ class Orders extends React.Component {
 					button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Create Batch</button>
 					button2=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>
 					}
+				
+							else{
+								button2=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>
+							
+							}
 		}
 		else if(role==="distributor"){
 			button2=<h6></h6>
@@ -95,12 +101,7 @@ class Orders extends React.Component {
 	 
         return (
 			<div class="container-fluid padding0">
-			<Logout/>			
-				<section class="content">
-					<h3 class="section-header">Product Details</h3>					
-					<div class="col-lg-12 col-md-12 place-order">
-					
-			<LoadingOverlay
+				<LoadingOverlay
 				active={true}
 				spinner
 				text='Loading the content...' 
@@ -115,14 +116,12 @@ class Orders extends React.Component {
 				  }}
 				>				
 				<p>Loading...</p>
-	 		</LoadingOverlay>		
-
-		{/* <div>
-        <BallBeat
-          color={'#000000'}
-          loading={this.state.loading}
-        />
-      	</div> */}
+	 		</LoadingOverlay>
+			<Logout/>			
+				<section class="content">
+					<h3 class="section-header">Product Details</h3>					
+					<div class="col-lg-12 col-md-12 place-order">
+			
 			 	
 						<div class="padding-bottom20">
 						<Table striped bordered hover>
