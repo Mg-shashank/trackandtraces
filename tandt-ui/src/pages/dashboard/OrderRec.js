@@ -28,28 +28,6 @@ let isSelected;
 var cbResults="";
 
 function EnhancedTableHead(props) {
-//  let Orders= this.props.location.state;
-//  console.log(Orders)
-  
-//   useEffect( () => 
-//   {
-//     var request = https.get("https://rvpkp45prc.execute-api.us-east-1.amazonaws.com/prod/completedtable",                
-// (response) => {
-//     if(response.statusCode !==200)
-//     {
-//         // console.log("Error while getting the data");
-//     }
-// response.on('data',(data) => {
-//      var jsonData = JSON.parse(data);
-//     var datas = jsonData.data.Items;
-//       const optimizedData = datas.map(data =>({OrderStatus:data.OrderStatus.S,OrderID:data.OrderID.S,BatchID:data.BatchID.S,BatchStatus:data.BatchStatus.S,Distributor:data.Distributor.S,Manufacturer:data.Manufacturer.S,Product:data.Product.S,Category:data.Category.S,Quantity:data.Quantity.S,Upgradeto5G:data.Upgradeto5G.S,TransactionID1:data.TransactionID1.S,CreatedAt:data.CreatedAt.S,Manufacturer1:data.Manufacturer,Product1:data.Product,Category1:data.Category,Quantity1:data.Quantity,Upgradeto5G1:data.Upgradeto5G,TransactionIDD:data.TransactionID1,CreatedAt1:data.CreatedAt,OrderStatuses:data.OrderStatuses}));
-//    console.log(optimizedData)
-//     this.setState({completedtable: optimizedData})
-//     console.log(this.state.completedtable)
-//   });
-// });
-// })
-// }
 
   const {
     onSelectAllClick,
@@ -338,10 +316,12 @@ console.log(completedtable)
   console.log("orderid",selected.toString()) 
 
   return (
-    <div className={classes.root}>
-    <div className="container-fluid padding0">       
+    <div className={classes.root}>      
+    <div className="container-fluid padding0">  
        <Logout/> 
-        </div>
+       <section class="content">
+       <h3 className="section-header"> Completed Orders</h3>
+        
     <LoadingOverlay
         active={true}
         spinner
@@ -470,7 +450,8 @@ console.log(completedtable)
         control={<Switch checked={dense} color="primary" onChange={handleChangeDense} />}
         label="Dense padding"
       /> */}
-    
+    </section>
+      </div>
       </div>
   );
 }
