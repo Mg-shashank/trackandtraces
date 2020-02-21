@@ -305,7 +305,8 @@ p{
 .recent-activities{
 	background: #FFFFFF;
 	height: calc(100vh - 65px);
-	float: right;
+	float:left;
+	border-radius: 6px;
 	font-size: 14px;
 	margin-top: 15px;
 	padding-top: 20px;
@@ -350,9 +351,9 @@ a.view-more{
 	font-size: 12px;
 	min-height: 100px;
 	padding: 10px;
-	cursor: pointer;
 	box-shadow: 0px 3px 6px #00000029;
 	border-top: 7px solid #4B95E9;
+	cursor: pointer;
 }
 .device-card{
 	background: #FFFFFF 0% 0% no-repeat padding-box;
