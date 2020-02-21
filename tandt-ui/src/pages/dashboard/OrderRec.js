@@ -11,7 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 import trackorder from "../trackorder/trackorder";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -60,12 +60,12 @@ function EnhancedTableHead(props) {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
+          {/* <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}        
-            />
+            /> */}
         </TableCell>
         <TableCell align="center" style={{fontWeight:'bold'}}>Order ID </TableCell>
         <TableCell align="center" style={{fontWeight:'bold'}}>Order Status</TableCell>
@@ -151,7 +151,7 @@ function EnhancedTable(props) {
   const [selected, setSelected] = React.useState([]);
   const [selecteds, setSelecteds] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  // const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [toggling,setToggling] = React.useState(true);
   const [oRderid,setoRderid]=React.useState('');
@@ -230,9 +230,9 @@ console.log(completedtable)
 
  const isSelected = name => selected.indexOf(name) !== -1;
  
- const handleChangeDense = event => {
-  setDense(event.target.checked);
-};
+//  const handleChangeDense = event => {
+//   setDense(event.target.checked);
+// };
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, 10 - page * rowsPerPage);
 
@@ -363,7 +363,7 @@ console.log(completedtable)
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            // size={dense ? "small" : "medium"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -375,31 +375,31 @@ console.log(completedtable)
             <TableBody>
               {completedtable.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.OrderID);     
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  // const isItemSelected = isSelected(row.OrderID);     
+                  // const labelId = `enhanced-table-checkbox-${index}`;
              
                   return (
                     <TableRow
                       hover
                       className= "orderclass"
                       onClick={event => handleClick(event, row.OrderID)}  
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
+                      // role="checkbox"
+                      // aria-checked={isItemSelected}
+                      // tabIndex={-1}
+                      // key={row.id}
+                      // selected={isItemSelected}
                     >
                       <TableCell padding="checkbox" >
-                        <Checkbox     
+                        {/* <Checkbox     
                           color="primary" 
                           checked={isItemSelected}      
-                          inputProps={{ "aria-labelledby": labelId }}
-                          />
+                          inputProps={{ "aria-labelledby": labelId }} */}
+                          {/* /> */}
                       </TableCell>
                       <TableCell
                         component="th" 
-                        id={labelId}
-                        scope="row"
+                        // id={labelId}
+                        // scope="row"
                         padding="none"
                         align="center">
                       <a 
@@ -433,7 +433,7 @@ console.log(completedtable)
 				{/* <input type="submit" value="Create Batch"  className="btn btn-prim" align="center" float="right" id="btn-submit" disabled={this.state.loading}></input> */}
 			</div> 
         <br/>&nbsp;&nbsp; 
-        <button 
+        {/* <button 
         className="btn btn-sm btn-primary " 
         id="accept"      
         onClick={(e) => {acceptOrder(e, selected.toString())}}   
@@ -455,7 +455,7 @@ console.log(completedtable)
          onClick={(e) => {trackOrder(e, selected)}}  
          >
          Track Order
-       </button>
+       </button> */}
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -466,10 +466,10 @@ console.log(completedtable)
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
+      {/* <FormControlLabel
         control={<Switch checked={dense} color="primary" onChange={handleChangeDense} />}
         label="Dense padding"
-      />
+      /> */}
     
       </div>
   );
