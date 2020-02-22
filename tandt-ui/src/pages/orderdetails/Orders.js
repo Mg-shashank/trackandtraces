@@ -66,12 +66,17 @@ class Orders extends React.Component {
 			this.props.history.push(`${url}`);  
 			console.log(orderid); 
 		}
+		gotoOrderReceived = () => {
+		var Order = this.state.completedtable;
+		console.log(Order)
+		this.props.history.push("/OrderRec");
+	}
 
 	render() {
 		
 		var button1,button2;
 		if(role==="serviceprovider"){
-			button2=<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
+			button2=<Link to="/dashboard"><button class="btn btn-prim pull right">Go to Dashboard</button></Link>
 		}
 		else if(role==="manufacturer"){
 			 var status=JSON.stringify(this.state.posts.OrderStatus)
@@ -81,7 +86,7 @@ class Orders extends React.Component {
 			if(status==="\"Order Initiated\""){
 
 				button1=<button className="btn btn-primary" align="left" onClick={this.gotoCreateBatch}>Accept Order and Create Batch</button>
-				button2=< Link to="/orderdetails"><button  className="btn btn-primary"> Go Back to Orders List</button></Link>   
+				button2=< Link to="/orderdetails"><button  className="btn btn-prim pull right"> Go Back to Orders List</button></Link>   
 				}
 				if(status==="\"Order Accepted by Manufacturer\""){
 
@@ -166,14 +171,12 @@ class Orders extends React.Component {
 						</Table>
 						</div>
 						<div class="form-group col-md-20">
-							{!isLoading ? (
+							
 						    <div style={{float: "right"}}>  
 							{button1}    {button2}
                      
                              </div> 
-                             ) : (
-							<p>Loading...</p>
-							)}
+                             
 							</div>
 																			
 							</div>							
