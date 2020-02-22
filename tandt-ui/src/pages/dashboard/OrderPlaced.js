@@ -405,7 +405,7 @@ console.log(completedtable)
           </Table>
         </TableContainer>
         <br/>&nbsp;&nbsp; 
-        
+        <Link to="/dashboard"><input type="submit" value="Go back to Dashboard" id="btn-submit" className="btn btn-prim pull-right" ></input></Link>
         {/* <button 
         className="btn btn-sm btn-primary " 
         id="accept"      
