@@ -20,7 +20,8 @@ class LandingPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			    orders: {},
+				orders: {},
+				posts: {},
 			};
 			this.track = this.track.bind(this);
 	
@@ -47,6 +48,8 @@ componentDidMount(){
 		let Quantity = this.props.location.state.Quantity;
 		let Upgrade = this.props.location.state.Upgradeto5G;
 		let DeliveryAddress=this.props.location.state.DeliveryAddress;
+
+		const { isLoading, posts } = this.state;
 
 		return (
 			<div class="container-fluid padding0">
@@ -103,7 +106,8 @@ componentDidMount(){
 </Table>
 </div>
 				<div class="col-lg-12 col-md-12 text-right">
-				<Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link>
+				{/* <Link to="/dashboard"><div class="btn btn-cancel">Go to Dashboard</div></Link> */}
+				<Link to="/dashboard"><input type="submit" value="Go back to Dashboard" id="btn-submit" className="btn btn-prim" ></input></Link>
 			    </div>
 					</section>
 			</div>
