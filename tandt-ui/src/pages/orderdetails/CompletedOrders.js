@@ -25,29 +25,28 @@ const classes = makeStyles(theme => ({
   }));
 
 
-export default class CompletedOrders extends React.Component{
-    
+export default class CompletedOrders extends React.Component{    
     constructor(props){
         super(props)
         this.state={
-            orderData:[],
-            status:'',
-      isHidden: true,
-      idOrder:'',
-      page:0,
-      rowsPerPage:5,
-      newPage:'',
-      details:{},
-      visibility: false
-        }
+        orderData:[],
+        status:'',
+        isHidden: true,
+        idOrder:'',
+        page:0,
+        rowsPerPage:5,
+        newPage:'',
+        details:{},
+        visibility: false
+      }
         this.toggleVisibility=this.toggleVisibility.bind(this)
-    this.handleChange=this.handleChange.bind(this)
-    this.toggleHidden=this.toggleHidden.bind(this)
-    this.handleChangePage=this.handleChangePage.bind(this)
-    this.handleChangeRowsPerPage=this.handleChangeRowsPerPage.bind(this)
+        this.handleChange=this.handleChange.bind(this)
+        this.toggleHidden=this.toggleHidden.bind(this)
+        this.handleChangePage=this.handleChangePage.bind(this)
+        this.handleChangeRowsPerPage=this.handleChangeRowsPerPage.bind(this)
     }
     componentDidMount(){
-        fetch('https://rvpkp45prc.execute-api.us-east-1.amazonaws.com/prod/orderfinisheddata', {
+        fetch('https://rvpkp45prc.execute-api.us-east-1.amazonaws.com/prod/OrderFinishedData', {
             method:'GET',
             headers: {
             'Content-Type':'application/json',},
@@ -55,7 +54,7 @@ export default class CompletedOrders extends React.Component{
                   .then((response) =>response.json())
                          .then((data) => {
                             console.log(data);
-                            const optimizedData = data.map(data=>({orderid: data.OrderID.S,batchid: data.BatchID.S,orderstatus: data.OrderStatus.S}));
+                            const optimizedData = data.map(data=>({OrderID: data.OrderID.S,BatchID: data.BatchID.S,OrderStatus: data.OrderStatus.S,Product:data.Product.S,BatchQuantity:data.BatchQuantity.S,CreatedAt:data.CreatedAt.S}));
                             console.log('optiminzed data',optimizedData);
                             this.setState({orderData: optimizedData})
                               console.log(this.state.orderData)
@@ -93,39 +92,14 @@ export default class CompletedOrders extends React.Component{
     })
   } 
 
-  acceptOrder(e,orderid) {  
-    e.preventDefault();
-    // const data={ "OrderStatus":"Order Recieved", OrderID: orderid }
-    console.log(orderid)
-    // console.log(data.OrderID)
-    var e = document.getElementById('status_' + orderid).innerHTML = "Order Recieved";
-    fetch("https://hscx60zx1c.execute-api.us-east-1.amazonaws.com/prod/entries1",{
-        method:'POST',
-        headers:{
-          'Content-Type':'application/json',
-        },
-        body: JSON.stringify({OrderStatus: "Order Recieved", OrderID: orderid,}),
-      }).then((response)=>response.json())
-        .then((data)=>{
-            // console.log(data)
-            // console.log(data.OrderStatus)
-           console.log(orderid)     
-           var e = document.getElementById('status_' + orderid).innerHTML = "Order Recieved";    
-           var trackBtn = document.createElement("button");
-       })
-       .catch((error)=>{
-          console.log('Error:',error)
-       });     
-  }
-      render(){  
+        render(){  
            console.log(this.state.orderData)
               return (      
                 <React.Fragment>
                 <div className={classes.root}>
                 <div className="container-fluid padding0">		
-                <Logout/>
                 <section class="content">
-                Order Details
+                Completed Order Details
                 <br/>
                 <br/>
               <form class="form-horizontal" id="confirm">
@@ -137,37 +111,31 @@ export default class CompletedOrders extends React.Component{
                     <TableCell style={{fontWeight:'bold'}}>Order Id </TableCell>
                       <TableCell style={{fontWeight:'bold'}}>Batch Id </TableCell>
                       <TableCell style={{fontWeight:'bold'}}>Order Status</TableCell>
-                      <TableCell align="left" style={{fontWeight:'bold'}}>Accept/Reject</TableCell>
+                      <TableCell style={{fontWeight:'bold'}}>Product</TableCell>
+                      <TableCell style={{fontWeight:'bold'}}>Batch Quantity</TableCell>
+                      <TableCell style={{fontWeight:'bold'}}>Created At</TableCell>
                       </TableRow>
                   </TableHead>
                   <TableBody>          
                   {this.state.orderData.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map(row =>  (          
                       <TableRow key={row.id}>
                       <TableCell component="th" scope="row">                          
-                           {row.orderid}
+                           {row.OrderID}
                          </TableCell> 
-                        <TableCell component="th" scope="row">                        
-                           {row.batchid}
-                      </TableCell>                
+                        {/* <TableCell component="th" scope="row">                        
+                           {row.BatchID}
+                      </TableCell>                 */}
                         <TableCell align="left" 
-                           id={"status_" + row.orderid} 
+                           id={"status_" + row.OrderID} 
                            value={this.state.status} 
-                           onChange={this.handleChange}>
-                           {row.orderstatus}
-                        </TableCell>                
-                        <TableCell align="left">
-                          <span id={"action_" + row.batchid}>       
-                          <button 
-                          className="btn btn-sm btn-primary"                
-                          onClick={(e) => {this.acceptOrder(e, row.orderid)}}                                                    
-                          id='accept'>                
-                         Completed                               
-                          </button>
-                         {/* {createbatch}{accept} */}
-                         &nbsp;&nbsp;
-                          <br/> <br/>  
-                          </span>
-                        </TableCell>                                
+                           onChange={this.handleChange}
+                          >
+                           {row.OrderStatus}
+                           </TableCell>
+                           <TableCell>{row.Product}</TableCell>
+                           <TableCell>{row.BatchQuantity}</TableCell>
+                           <TableCell>{row.CreatedAt}</TableCell>
+
                         </TableRow>
                     ))}
                   </TableBody>
@@ -185,15 +153,12 @@ export default class CompletedOrders extends React.Component{
                </Paper>  
               </form> 
               <br/><br/>
-              <Link to="/dashboard">
+              {/* <Link to="/dashboard">
                     <button className="btn btn-primary pull-right">Go To Dashboard</button>
-              </Link>   
-              </section>  
-              
-              </div>
-              
-              </div>
-              
+              </Link>    */}
+              </section>      
+              </div>  
+              </div>  
               </React.Fragment>
             );
       }
