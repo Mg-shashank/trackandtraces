@@ -6,55 +6,141 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
+import Landingpage from '../trackorder/trackorder'
+import Paper from '@material-ui/core/Paper';
+import ReactDataTablePagination from 'react-datatable-pagination'
+import $ from 'jquery'
+import Logout from '../login/Logout';
+import trackorder from "../trackorder/trackorder";
+import { BrowserRouter as Router, Route, Link, Switch, Redirect, withRouter } from "react-router-dom";
+const request = require('request');
+var https = require("https");
 
-const useStyles = makeStyles({table: { minWidth: 650,},});
+const classes = makeStyles(theme => ({
+    root: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background.paper
+    }
+  }));
 
-export default function RejectTable(props) {
-  const classes = useStyles();
-  const {rowsess} = props;
-  // const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+export default class CompletedOrders extends React.Component{    
+    constructor(props){
+        super(props)
+        this.state={
+        orderData:[],
+        status:'',
+        isHidden: true,
+        idOrder:'',
+        page:0,
+        rowsPerPage:5,
+        newPage:'',
+        details:{},
+        visibility: false
+      }
+      
+        this.handleChange=this.handleChange.bind(this)
+        
+        this.handleChangePage=this.handleChangePage.bind(this)
+        this.handleChangeRowsPerPage=this.handleChangeRowsPerPage.bind(this)
+    }
+    componentDidMount(){
+        fetch('https://uzruordqzd.execute-api.us-east-1.amazonaws.com/prod/inprogress', {
+            method:'GET',
+            // mode:'no-cors',
+            headers: {
+            'Content-Type':'application/json',},
+                })   
+                  .then((response) =>response.json())
+                         .then((data) => {
+                            console.log(data);
+                            const optimizedData = data.Items.map(data=>({orderid: data.OrderID.S, batchid: data.BatchID.S, orderstatus: data.OrderStatus.S, product:data.Product.S, batchquantity:data.BatchQuantity.S, createdat:data.CreatedAt.S}));
+                            console.log('optiminzed data',optimizedData);
+                            this.setState({orderData: optimizedData})
+                              console.log(this.state.orderData)
+                         })
+                  .catch((error) => {
+                  console.error('Error:', error);
+                  });
+      }
+            
+
+   handleChangePage = (event, newPage) => {
+    this.setState({page:newPage})
   };
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+   handleChangeRowsPerPage = event => {
+     this.setState({ rowsPerPage:+event.target.value,  page:0
+     })    
   };
-  return (
-    <Paper>
-    <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell style={{fontWeight:'bold'}}>Order Id</TableCell>
-              <TableCell style={{fontWeight:'bold'}}>Order Status</TableCell>
-              </TableRow>
-          </TableHead>
-          <TableBody>
-          {props.rowsess.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>  (      
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">{row.orderid}</TableCell>                
-                <TableCell>{row.orderstatus}</TableCell>
-                </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 7]}
-        component="div"
-        count={[10]}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-      </Paper>
-  );
+
+  handleChange=(e)=>{
+    this.setState({
+		  status: e.target.value,
+    });
+  }
+
+        render(){  
+           console.log(this.state.orderData)
+              return (      
+                <React.Fragment>
+                <div className={classes.root}>
+                <div className="container-fluid padding0">		
+                <section class="content">
+                Delivered Order Details
+                <br/>
+                <br/>
+              <form class="form-horizontal" id="confirm">
+               <Paper>    
+              <TableContainer>
+                <Table aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                    <TableCell style={{fontWeight:'bold'}}>Order Id </TableCell>     
+                      <TableCell style={{fontWeight:'bold'}}>Order Status</TableCell>
+                      <TableCell style={{fontWeight:'bold'}}>Product </TableCell>
+                      <TableCell style={{fontWeight:'bold'}}>Batch Quantity </TableCell>
+                      <TableCell style={{fontWeight:'bold'}}>Created At </TableCell>
+                      </TableRow>
+                  </TableHead>
+                  <TableBody>          
+                  {this.state.orderData.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage).map(row =>  (          
+                      <TableRow key={row.id}>
+                      <TableCell component="th" scope="row">                          
+                           {row.orderid}
+                         </TableCell> 
+                         <TableCell align="left" 
+                           id={"status_" + row.orderidID} 
+                           value={this.state.status} 
+                           onChange={this.handleChange}>
+                           {row.orderstatus}
+                           </TableCell>
+                           <TableCell>{row.product}</TableCell>
+                           <TableCell>{row.batchquantity}</TableCell>
+                           <TableCell>{row.createdat}</TableCell>
+                        </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer> 
+              <TablePagination
+                rowsPerPageOptions={[5,10,15]}
+                component="div"
+                count={[10]}
+                rowsPerPage={this.state.rowsPerPage}
+                page={this.state.page}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
+               </Paper>  
+              </form> 
+              <br/><br/>
+              </section>      
+              </div>  
+              </div>  
+              </React.Fragment>
+            );
+      }
 }
+
