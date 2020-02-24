@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
+import clsx from 'clsx';
 import PropTypes from "prop-types";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,12 +14,18 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import Switch from '@material-ui/core/Switch';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FilterListIcon from '@material-ui/icons/FilterList'; 
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
 import ttConfig from '../../config.js'
 import LoadingOverlay from 'react-loading-overlay';
 import trackorder from "../trackorder/trackorder";
-var id,url,ORderid;
+import CompletedOrders from './CompletedOrders'
+import RejectTable from './RejectTable'
+var id,url,ORderid,display;
 let isSelected;
 
 function EnhancedTableHead(props) {
@@ -83,11 +90,8 @@ const EnhancedTableToolbar = props => {
   const { numSelected } = props;
 
   return (
-    <Toolbar>
-     <Typography className={classes.title} variant="h6" id="tableTitle">
-        Order Details
-    </Typography>
-     </Toolbar>
+    <React.Fragment></React.Fragment>
+    
   );
 };
 
@@ -131,7 +135,11 @@ function EnhancedTable(props) {
   const [toggling,setToggling] = React.useState(true);
   const [oRderid,setoRderid]=React.useState('');
   const [statuss,setstatuss]=React.useState('');
-  const [checked,setChecked]=React.useState(false)
+  const [checked,setChecked]=React.useState(false);
+  const [value,setValue]=React.useState('Order Routed');
+  const [toggles,setToggles]=React.useState(false);
+  const [toggless,setToggless]=React.useState(false);
+  const [togglesss,setTogglesss]=React.useState(false);
  
   const toggle=(event,batchid,orderid)=>{
     setToggling(!toggling)
@@ -150,8 +158,8 @@ function EnhancedTable(props) {
     setSelected([]);
     setSelecteds([]);
   };
-  console.log(checked)
-  console.log(props.rowsss.length)
+  // console.log(checked)
+  // console.log(props.rowsss.length)
 
   const handleClick = (event, orderid, batchid) => {
     console.log(orderid)
@@ -217,11 +225,76 @@ const redirectToOrdDetails=(e,orderid)=>{
      alert("Invalid selection. Please select an order to Track");
     }
   }
+
+  const traceOrder=(e,orderid)=>{ 
+    var c=orderid.length;
+    var a="error";
+    console.log(c);
+    var url = `/trackorder?ordid=${orderid[0]}`;
+    console.log(url)
+    if(c>1){
+      alert("Please select only one order to Track!!");
+    }
+    else if(c===1){
+      props.history.push(`${url}`);  
+        }
+    else{
+     alert("Invalid selection. Please select an order to Track");
+    }
+  }
+
    const handleChange=(e)=>{
       setstatuss(e.target.value)
       console.log("SETSTATUS",setstatuss)
     }
-    
+
+    const Routes=(e)=>{
+      setValue(e.target.value)
+      e.preventDefault();
+      console.log(e.target.value)
+      if(e.target.value === "Order Routed to Service Provider"){
+        // setToggless(true)
+        setToggles(false)
+        // setTogglesss(false) 
+        // console.log("VALUE1","Order Routed to Service Provider") 
+        // if(toggless===true){
+        display = <CompletedOrders/>
+        // }
+        // else{
+        //   setToggles(true) 
+        // }    
+        // document.getElementsByClassName
+      }
+      else if(e.target.value === "Order Delivered"){  
+        setToggles(false)
+        // setToggless(false)
+        // setTogglesss(true)
+        console.log(togglesss)
+        // debugger
+        // if(togglesss===true){
+          console.log("VALUE2","Order Delivered") 
+        display = <RejectTable/>
+        // }
+        // else{
+        //   setToggles(true) 
+        // }
+        
+      }
+      else if(e.target.value === "Distributor Data"){
+        setToggles(true)
+        setToggless(false)
+        setTogglesss(false)        
+        console.log("VALUE3","Distributor Data") 
+      }
+      else{
+        setToggles(true) 
+      }  
+    }
+
+    const handleSubmit=(e)=>{
+
+    }
+
     const acceptOrder = (e,batchid,orderid) => {    
       var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
       usaTime = new Date(usaTime);
@@ -230,6 +303,13 @@ const redirectToOrdDetails=(e,orderid)=>{
         alert("Select an Orderid")
       }   
       else{
+        console.log("control entered1")
+      var myarray= orderid.split(',');
+      console.log(myarray)    
+      for(var i = 0;  i < myarray.length; i++)
+      {              
+        console.log(document.getElementById(myarray[i]).innerHTML)
+        if(document.getElementById(myarray[i]).innerHTML==="Batch created and Routed to Distributor"){
         document.getElementById("accept").disabled = true;
        document.getElementById("accept").innerHTML="processing..."
    
@@ -241,26 +321,25 @@ const redirectToOrdDetails=(e,orderid)=>{
       const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Routed to Service Provider" }
       e.preventDefault();
       console.log('Accept Batch Id :', batchid);         
-          // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify(data),
-          // })
-          // .then((response) => response.json())
-          // .then((data) => {
-          //       console.log('Success:', data.transactionId);
-          //       id=JSON.stringify(data.transactionId);
-          //       console.log('TRANSID',id)
-          //       var name=localStorage.getItem('name');
-          //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
-          //     })
-          //     .catch((error) => {
-          //       console.error('Error:', error);
-          // });      
-            fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
-              
+          fetch('http://trackandt-Blockcha-AN9BPL0Z2ZRW-49401935.us-east-1.elb.amazonaws.com/batch', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          .then((response) => response.json())
+          .then((data) => {
+                console.log('Success:', data.transactionId);
+                id=JSON.stringify(data.transactionId);
+                console.log('TRANSID',id)
+                var name=localStorage.getItem('name');
+                //var day=dateFormat(new Date(), "yyyy-mm-dd");
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+          });      
+            fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{   
             method:'POST',
             headers:{
               'Content-Type':'application/json',
@@ -282,51 +361,66 @@ const redirectToOrdDetails=(e,orderid)=>{
             console.log('Error:',error)
           });     
     }    
+    else{
+      alert("Order already routed to service provider")
+    }
   }
-  const rejectOrder = (e,batchid,orderid) => {    
+  }
+  }
+  const Delivered = (e,batchid,orderid) => { 
     var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
     usaTime = new Date(usaTime);
-    var time=usaTime.toLocaleString()
+    var time=usaTime.toLocaleString()    
     if(orderid==""){
       alert("Select an Orderid")
     }   
     else{
-      document.getElementById("reject").disabled = true;
-     document.getElementById("reject").innerHTML="processing..."
+      console.log("control entered1")
+      // console.log(document.getElementById(orderid).value)
+      var myarray= orderid.split(',');
+      console.log(myarray)
+      for(var i = 0;  i < myarray.length; i++)
+      {              
+        console.log(document.getElementById(myarray[i]).innerHTML)
+        // window.location.reload(false)
+      if(document.getElementById(myarray[i]).innerHTML==="Order Routed to Service Provider"){
+      // debugger
+        console.log("control entered2")
+      document.getElementById("delivered").disabled = true;
+     document.getElementById("delivered").innerHTML="processing..."
  
-    setTimeout(function(){document.getElementById("reject").innerHTML="Reject"},5000);
-    setTimeout(function(){document.getElementById("reject").disabled = false},5000);
+    setTimeout(function(){document.getElementById("delivered").innerHTML="Delivered"},5000);
+    setTimeout(function(){document.getElementById("delivered").disabled = false},5000);
     
     console.log(batchid)
     console.log(orderid)
-    const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Rejected" }
+    const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Delivered" }
     e.preventDefault();
     console.log('Accept Batch Id :', batchid);         
-        // fetch('http://trackandt-Blockcha-10MS595TSQEZ6-1475584145.us-east-1.elb.amazonaws.com/batch', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(data),
-        // })
-        // .then((response) => response.json())
-        // .then((data) => {
-        //       console.log('Success:', data.transactionId);
-        //       id=JSON.stringify(data.transactionId);
-        //       console.log('TRANSID',id)
-        //       var name=localStorage.getItem('name');
-        //       //var day=dateFormat(new Date(), "yyyy-mm-dd");
-        //     })
-        //     .catch((error) => {
-        //       console.error('Error:', error);
-        // });      
-          fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{
-            
+    fetch('http://trackandt-Blockcha-AN9BPL0Z2ZRW-49401935.us-east-1.elb.amazonaws.com/batch', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+          console.log('Success:', data.transactionId);
+          id=JSON.stringify(data.transactionId);
+          console.log('TRANSID',id)
+          var name=localStorage.getItem('name');
+          //var day=dateFormat(new Date(), "yyyy-mm-dd");
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+    });      
+          fetch("https://flshq1ib66.execute-api.us-east-1.amazonaws.com/prod/batchupdate",{    
           method:'POST',
           headers:{
             'Content-Type':'application/json',
           },
-          body:JSON.stringify({ OrderID:orderid,OrderStatus:"Order Rejected"}),
+          body:JSON.stringify({ OrderID:orderid,OrderStatus:"Order Delivered"}),
           
         }).then((response)=>response.json())
         
@@ -335,42 +429,101 @@ const redirectToOrdDetails=(e,orderid)=>{
           console.log(myarray)
           for(var i = 0;  i < myarray.length; i++)
           {              
-            document.getElementById(myarray[i]).innerHTML="Order Rejected";
+            document.getElementById(myarray[i]).innerHTML="Order Delivered";
             // window.location.reload(false)
           }         
         } 
       ).catch((error)=>{
-          console.log('Error:',error)
-        });     
-  }    
+        console.log('Error:',error)
+    });     
+  }
+  else{
+    alert("Order not yet routed to service provider")
+  }
+  }}
 }
-  console.log("orderid",selected.toString()) 
-  console.log('batchid',selecteds.toString())
+  // console.log("orderid",selected.toString()) 
+  // console.log('batchid',selecteds.toString())
+  
 
   return (
-    <div className={classes.root}>  
-      <Paper className={classes.paper}>      
-        <TableContainer>
+    <div className={classes.root} >  
+    <br/>
+    <form>    
         
+        <br/>
+      <button className="btn btn-sm btn-primary">  
+      <select className="form-control" id="filter" value={value} onChange={Routes}>         
+        <option selected value='Order Routed to Service Provider'>Order Routed to Service Provider</option>
+        <option value='Order Delivered'>Order Delivered</option>
+        <option value='Distributor Data'>Distributor Data</option>
+      </select>     
+
+     </button>
+     <br/><br/>
+     
+      <Paper className={classes.paper}>    
+     
+        <TableContainer>
+        <EnhancedTableToolbar numSelected={selected.length} />    
+        <div align="right">
+      &nbsp;&nbsp;
+        <button 
+        className="btn btn-sm btn-primary"       
+        id='accept'       
+        onClick={(e) => {acceptOrder(e, selecteds.toString(), selected.toString())}}    
+        >
+        To Deliver
+       </button>  
+       &nbsp;&nbsp;
+       <button 
+        className="btn btn-sm btn-primary"       
+        id='delivered'       
+        onClick={(e) => {Delivered(e, selecteds.toString(), selected.toString())}}    
+        >
+        Delivered
+       </button>  
+       &nbsp;&nbsp;
+       <button
+         className="btn btn-sm btn-primary "      
+         id ='track'
+         onClick={(e) => {trackOrder(e, selected)}}  
+         >
+         Track Order
+       </button>
+       &nbsp;&nbsp; 
+       <button 
+         className="btn btn-sm btn-primary " 
+        id = 'trace'      
+         onClick={(e) => {traceOrder(e, selected)}}  
+         >
+         Trace Order        
+       </button> 
+       &nbsp;&nbsp;           
+       </div>    
+    
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
             aria-label="enhanced table"
+            style={{backgroundColor:'white'}}
           >
+          
             <EnhancedTableHead
               classes={classes}
               numSelected={selected.length}          
               onSelectAllClick={handleSelectAllClick}              
               rowCount={props.rowsss.length}           
             />
-            <TableBody>
           
+            <TableBody style={{backgroundColor:'white'}}>
+            
               {props.rowsss.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.orderid);     
                   const labelId = `enhanced-table-checkbox-${index}`;
-             
+                  if(toggles===true ){ 
                   return (
                     <TableRow
                       hover
@@ -381,6 +534,7 @@ const redirectToOrdDetails=(e,orderid)=>{
                       tabIndex={-1}
                       key={row.id}
                       selected={isItemSelected}
+                      style={{backgroundColor:'white'}}
                     >
                       <TableCell padding="checkbox" >
                         <Checkbox      
@@ -397,50 +551,34 @@ const redirectToOrdDetails=(e,orderid)=>{
                       <a 
                      onClick={(e) => {redirectToOrdDetails(e, row.orderid)}} 
                      target="_blank"
-                     onMouseOver={ function(event) { let target = event.target; target.style.color = 'blue';target.style.cursor='pointer'; }}
+                     onMouseOver={function(event) { let target = event.target; target.style.color = 'blue';target.style.cursor='pointer'; }}
                      onMouseOut={function(event) { let target = event.target; target.style.color = 'black';}}
                       >                    
                       {row.orderid}
                       </a>
                       </TableCell>   
-                      <TableCell align="center"
-                         id={row.orderid} 
-                         value={statuss}    
-                         >
-                         {row.orderstatus} 
-                       </TableCell>
+                      <TableCell align="center" id={row.orderid}>{row.orderstatus}</TableCell>
                       <TableCell align="center">{row.product}      </TableCell>
                       <TableCell align="center">{row.batchquantity}</TableCell>
                       <TableCell align="center">{row.createdat}    </TableCell>
                     </TableRow>
-                  );
-                })}
-                
+                    
+                  )
+                  
+                }
+              
+               }               
+             )  
+           }
+              {display}   
+         
             </TableBody>
+          
           </Table>
+           
         </TableContainer>
         <br/>
-        <button 
-        className="btn btn-sm btn-primary" 
-        id='accept'       
-        onClick={(e) => {acceptOrder(e, selecteds.toString(), selected.toString())}}    
-        >
-        To Deliver
-       </button>  &nbsp;&nbsp; 
-       <button 
-        className="btn btn-sm btn-primary" 
-        id='reject'       
-        onClick={(e) => {rejectOrder(e, selecteds.toString(), selected.toString())}}    
-        >
-        Reject
-       </button>  &nbsp;&nbsp;    
-       <button
-         className="btn btn-sm btn-primary" 
-         id ='track'
-         onClick={(e) => {trackOrder(e, selected)}}  
-         >
-         Track
-       </button>
+       
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -450,14 +588,18 @@ const redirectToOrdDetails=(e,orderid)=>{
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+          
       </Paper>
-      <FormControlLabel
+      </form>
+      {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
-      />
+      /> */}
+     
       </div>
   );
 }
+  
 
 export default withRouter(EnhancedTable)
 
