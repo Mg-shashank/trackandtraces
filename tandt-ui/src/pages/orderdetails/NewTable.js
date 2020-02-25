@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
-import clsx from 'clsx';
 import PropTypes from "prop-types";
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,24 +8,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList'; 
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from "react-router-dom";
-import ttConfig from '../../config.js'
-import LoadingOverlay from 'react-loading-overlay';
-import trackorder from "../trackorder/trackorder";
-import CompletedOrders from './CompletedOrders'
-import RejectTable from './RejectTable'
-var id,url,ORderid,display;
-let isSelected;
+var id,url;
 
 function EnhancedTableHead(props) {
   const {
@@ -43,6 +28,7 @@ function EnhancedTableHead(props) {
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
+          color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}        
@@ -90,8 +76,7 @@ const EnhancedTableToolbar = props => {
   const { numSelected } = props;
 
   return (
-    <React.Fragment></React.Fragment>
-    
+    <React.Fragment></React.Fragment>  
   );
 };
 
@@ -135,12 +120,8 @@ function EnhancedTable(props) {
   const [toggling,setToggling] = React.useState(true);
   const [oRderid,setoRderid]=React.useState('');
   const [statuss,setstatuss]=React.useState('');
-  const [checked,setChecked]=React.useState(false);
   const [value,setValue]=React.useState('Order Routed');
-  const [toggles,setToggles]=React.useState(false);
-  const [toggless,setToggless]=React.useState(false);
-  const [togglesss,setTogglesss]=React.useState(false);
- 
+
   const toggle=(event,batchid,orderid)=>{
     setToggling(!toggling)
   }
@@ -149,8 +130,8 @@ function EnhancedTable(props) {
     if (event.target.checked) {
       const newSelecteds = props.rowsss.map(n =>n.orderid);
       const batcSelecteds = props.rowsss.map(n=>n.batchid);
-      console.log("NEW SELECTEDS",newSelecteds)
-      console.log("NEW SELECTEDS",batcSelecteds)
+      // console.log("NEW SELECTEDS",newSelecteds)
+      // console.log("NEW SELECTEDS",batcSelecteds)
       setSelected(newSelecteds);
       setSelecteds(batcSelecteds);
       return;
@@ -158,12 +139,10 @@ function EnhancedTable(props) {
     setSelected([]);
     setSelecteds([]);
   };
-  // console.log(checked)
-  // console.log(props.rowsss.length)
-
+ 
   const handleClick = (event, orderid, batchid) => {
-    console.log(orderid)
-    console.log(batchid)
+    // console.log(orderid)
+    // console.log(batchid)
     const selectedIndex = selected.indexOf(orderid);
     const selectedIndexs = selecteds.indexOf(batchid);
     let newSelected = [];
@@ -210,11 +189,11 @@ const redirectToOrdDetails=(e,orderid)=>{
   
   const trackOrder=(e,orderid)=>{ 
     var c = orderid.length;
-    console.log(c)
+    // console.log(c)
     var a="error";
-    console.log(c);
+    // console.log(c);
     var url = `/trackorder?ordid=${orderid[0]}`;
-    console.log(url)
+    // console.log(url)
     if(c>1){
       alert("Please select only one order to Track!!");
     }
@@ -229,9 +208,9 @@ const redirectToOrdDetails=(e,orderid)=>{
   const traceOrder=(e,orderid)=>{ 
     var c=orderid.length;
     var a="error";
-    console.log(c);
-    var url = `/trackorder?ordid=${orderid[0]}`;
-    console.log(url)
+    // console.log(c);
+    var url = `/traceorder?ordid=${orderid[0]}`;
+    // console.log(url)
     if(c>1){
       alert("Please select only one order to Track!!");
     }
@@ -245,55 +224,8 @@ const redirectToOrdDetails=(e,orderid)=>{
 
    const handleChange=(e)=>{
       setstatuss(e.target.value)
-      console.log("SETSTATUS",setstatuss)
-    }
-
-    const Routes=(e)=>{
-      setValue(e.target.value)
-      e.preventDefault();
-      console.log(e.target.value)
-      if(e.target.value === "Order Routed to Service Provider"){
-        // setToggless(true)
-        setToggles(false)
-        // setTogglesss(false) 
-        // console.log("VALUE1","Order Routed to Service Provider") 
-        // if(toggless===true){
-        display = <CompletedOrders/>
-        // }
-        // else{
-        //   setToggles(true) 
-        // }    
-        // document.getElementsByClassName
-      }
-      else if(e.target.value === "Order Delivered"){  
-        setToggles(false)
-        // setToggless(false)
-        // setTogglesss(true)
-        console.log(togglesss)
-        // debugger
-        // if(togglesss===true){
-          console.log("VALUE2","Order Delivered") 
-        display = <RejectTable/>
-        // }
-        // else{
-        //   setToggles(true) 
-        // }
-        
-      }
-      else if(e.target.value === "Distributor Data"){
-        setToggles(true)
-        setToggless(false)
-        setTogglesss(false)        
-        console.log("VALUE3","Distributor Data") 
-      }
-      else{
-        setToggles(true) 
-      }  
-    }
-
-    const handleSubmit=(e)=>{
-
-    }
+      // console.log("SETSTATUS",setstatuss)
+    }   
 
     const acceptOrder = (e,batchid,orderid) => {    
       var usaTime = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
@@ -303,24 +235,24 @@ const redirectToOrdDetails=(e,orderid)=>{
         alert("Select an Orderid")
       }   
       else{
-        console.log("control entered1")
+        // console.log("control entered1")
       var myarray= orderid.split(',');
-      console.log(myarray)    
+      // console.log(myarray)    
       for(var i = 0;  i < myarray.length; i++)
       {              
-        console.log(document.getElementById(myarray[i]).innerHTML)
+        // console.log(document.getElementById(myarray[i]).innerHTML)
         if(document.getElementById(myarray[i]).innerHTML==="Batch created and Routed to Distributor"){
         document.getElementById("accept").disabled = true;
-       document.getElementById("accept").innerHTML="processing..."
+        document.getElementById("accept").innerHTML="processing..."
    
       setTimeout(function(){document.getElementById("accept").innerHTML="To Deliver"},5000);
       setTimeout(function(){document.getElementById("accept").disabled = false},5000);
       
-      console.log(batchid)
-      console.log(orderid)
+      // console.log(batchid)
+      // console.log(orderid)
       const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Routed to Service Provider" }
       e.preventDefault();
-      console.log('Accept Batch Id :', batchid);         
+      // console.log('Accept Batch Id :', batchid);         
           fetch('http://trackandt-Blockcha-AN9BPL0Z2ZRW-49401935.us-east-1.elb.amazonaws.com/batch', {
             method: 'POST',
             headers: {
@@ -330,9 +262,9 @@ const redirectToOrdDetails=(e,orderid)=>{
           })
           .then((response) => response.json())
           .then((data) => {
-                console.log('Success:', data.transactionId);
+                // console.log('Success:', data.transactionId);
                 id=JSON.stringify(data.transactionId);
-                console.log('TRANSID',id)
+                // console.log('TRANSID',id)
                 var name=localStorage.getItem('name');
                 //var day=dateFormat(new Date(), "yyyy-mm-dd");
               })
@@ -350,7 +282,7 @@ const redirectToOrdDetails=(e,orderid)=>{
           
           .then((data)=>{         
             var myarray= orderid.split(',');
-            console.log(myarray)
+            // console.log(myarray)
             for(var i = 0;  i < myarray.length; i++)
             {              
               document.getElementById(myarray[i]).innerHTML="Order Routed to Service Provider";
@@ -375,28 +307,25 @@ const redirectToOrdDetails=(e,orderid)=>{
       alert("Select an Orderid")
     }   
     else{
-      console.log("control entered1")
-      // console.log(document.getElementById(orderid).value)
+      // console.log("control entered1")
       var myarray= orderid.split(',');
-      console.log(myarray)
+      // console.log(myarray)
       for(var i = 0;  i < myarray.length; i++)
       {              
-        console.log(document.getElementById(myarray[i]).innerHTML)
-        // window.location.reload(false)
-      if(document.getElementById(myarray[i]).innerHTML==="Order Routed to Service Provider"){
-      // debugger
-        console.log("control entered2")
-      document.getElementById("delivered").disabled = true;
-     document.getElementById("delivered").innerHTML="processing..."
+        // console.log(document.getElementById(myarray[i]).innerHTML)
+        if(document.getElementById(myarray[i]).innerHTML==="Order Routed to Service Provider"){
+        // console.log("control entered2")
+        document.getElementById("delivered").disabled = true;
+        document.getElementById("delivered").innerHTML="processing..."
  
     setTimeout(function(){document.getElementById("delivered").innerHTML="Delivered"},5000);
     setTimeout(function(){document.getElementById("delivered").disabled = false},5000);
     
-    console.log(batchid)
-    console.log(orderid)
+    // console.log(batchid)
+    // console.log(orderid)
     const data={"TransactionID":"1234abcd", "CreatedAt":"", "OrderStatus":"Order Delivered" }
     e.preventDefault();
-    console.log('Accept Batch Id :', batchid);         
+    // console.log('Accept Batch Id :', batchid);         
     fetch('http://trackandt-Blockcha-AN9BPL0Z2ZRW-49401935.us-east-1.elb.amazonaws.com/batch', {
       method: 'POST',
       headers: {
@@ -406,11 +335,10 @@ const redirectToOrdDetails=(e,orderid)=>{
     })
     .then((response) => response.json())
     .then((data) => {
-          console.log('Success:', data.transactionId);
+          // console.log('Success:', data.transactionId);
           id=JSON.stringify(data.transactionId);
-          console.log('TRANSID',id)
-          var name=localStorage.getItem('name');
-          //var day=dateFormat(new Date(), "yyyy-mm-dd");
+          // console.log('TRANSID',id)
+          var name=localStorage.getItem('name');     
         })
         .catch((error) => {
           console.error('Error:', error);
@@ -426,11 +354,10 @@ const redirectToOrdDetails=(e,orderid)=>{
         
         .then((data)=>{         
           var myarray= orderid.split(',');
-          console.log(myarray)
+          // console.log(myarray)
           for(var i = 0;  i < myarray.length; i++)
           {              
             document.getElementById(myarray[i]).innerHTML="Order Delivered";
-            // window.location.reload(false)
           }         
         } 
       ).catch((error)=>{
@@ -447,27 +374,10 @@ const redirectToOrdDetails=(e,orderid)=>{
   
 
   return (
-    <div className={classes.root} >  
-    <br/>
-    <form>    
-        
-        <br/>
-      <button className="btn btn-sm btn-primary">  
-      <select className="form-control" id="filter" value={value} onChange={Routes}>         
-        <option selected value='Order Routed to Service Provider'>Order Routed to Service Provider</option>
-        <option value='Order Delivered'>Order Delivered</option>
-        <option value='Distributor Data'>Distributor Data</option>
-      </select>     
-
-     </button>
-     <br/><br/>
-     
-      <Paper className={classes.paper}>    
-     
-        <TableContainer>
-        <EnhancedTableToolbar numSelected={selected.length} />    
-        <div align="right">
+    <div className={classes.root} >    
+    <div align="right">
       &nbsp;&nbsp;
+      <br/>
         <button 
         className="btn btn-sm btn-primary"       
         id='accept'       
@@ -500,30 +410,31 @@ const redirectToOrdDetails=(e,orderid)=>{
          Trace Order        
        </button> 
        &nbsp;&nbsp;           
-       </div>    
-    
+       </div>
+        <br/>
+       
+     <section className="content">
+      <Paper className={classes.paper}>       
+        <TableContainer>
+        <EnhancedTableToolbar numSelected={selected.length} /> 
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
             aria-label="enhanced table"
             style={{backgroundColor:'white'}}
-          >
-          
+          >        
             <EnhancedTableHead
               classes={classes}
               numSelected={selected.length}          
               onSelectAllClick={handleSelectAllClick}              
               rowCount={props.rowsss.length}           
-            />
-          
-            <TableBody style={{backgroundColor:'white'}}>
-            
+            />        
+            <TableBody>          
               {props.rowsss.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.orderid);     
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  if(toggles===true ){ 
+                  const labelId = `enhanced-table-checkbox-${index}`; 
                   return (
                     <TableRow
                       hover
@@ -538,6 +449,7 @@ const redirectToOrdDetails=(e,orderid)=>{
                     >
                       <TableCell padding="checkbox" >
                         <Checkbox      
+                        color="primary"
                           checked={isItemSelected}      
                           inputProps={{ "aria-labelledby": labelId }}
                           />
@@ -561,24 +473,15 @@ const redirectToOrdDetails=(e,orderid)=>{
                       <TableCell align="center">{row.product}      </TableCell>
                       <TableCell align="center">{row.batchquantity}</TableCell>
                       <TableCell align="center">{row.createdat}    </TableCell>
-                    </TableRow>
-                    
-                  )
-                  
-                }
-              
+                    </TableRow>  
+                  )           
                }               
              )  
-           }
-              {display}   
-         
-            </TableBody>
-          
-          </Table>
-           
+           }            
+            </TableBody>        
+          </Table>         
         </TableContainer>
-        <br/>
-       
+        <br/>     
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -587,15 +490,9 @@ const redirectToOrdDetails=(e,orderid)=>{
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-          
+        />        
       </Paper>
-      </form>
-      {/* <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      /> */}
-     
+      </section>
       </div>
   );
 }
