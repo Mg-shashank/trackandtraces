@@ -25,7 +25,7 @@ class Landingpage extends React.Component {
 			ordPlaced: '',
 			ordAccept: '',
 			ordRec: '',
-			recAct: '',
+			RecAct:'',
 			filteredQldbData: '',
 			selectedProduct: '',
 			createOrder: '',
@@ -116,18 +116,25 @@ class Landingpage extends React.Component {
 				'Content-Type': 'application/json',
 			},
 		})
-
 			.then((response) => response.json())
 			.then((data) => {
 			console.log(data);
+			const RecAct=data.map((data)=>({
+			Product:data.Product,
+			CreatedAt:data.CreatedAt
+		}))
+			
+		console.log('recAct',RecAct)
 
 				data.forEach(element => {
-					console.log(element)
+				console.log(element)
 				});
+
 				this.setState({
-					recAct: data,
+					RecAct,
 					isLoading: false,
 				});
+				
 			})
 			.catch((error) => {
 				console.error('Error:', error);
@@ -150,7 +157,7 @@ class Landingpage extends React.Component {
           IPv6Compatible: data.IPv6_Compatible,
           FrequencyBand: data.Frequency_Band,
           DataTransferRate: data.Data_Transfer_Rate,
-          chipset: data.Chipset,
+          Chipset: data.Chipset,
           EthernetPort: data.Ethernet_Port,
           WirelessSpecification: data.Wireless_Specification 
           
@@ -203,52 +210,34 @@ class Landingpage extends React.Component {
 			tiles[i].classList.remove('selected');
 		}
 		el.classList.add('selected');
-		var selectedProduct = document.getElementsByClassName("selected");
+		// var selectedProduct = document.getElementsByClassName("selected");
 		var details ="";
 		console.log(el);
 
 		if(el.getElementsByTagName("p").length) {
 			details = el.getElementsByTagName("p")[0].getAttribute('data-value');
+			// console.log(details)
+			// return false;
 		}
+
 
 		if(details) {
 			this.props.history.push({ pathname: '/createorder', state: details });
 		} else {
-			console.log("Invalid recommentation. Please contact your administrator.");
+			console.log("Invalid recommendation. Please contact your administrator.");
 			return false;
 		}
-		//else {
-		// 	var tiles = document.getElementsByClassName("selected")
-		// 	for (i = 0; i < tiles.length; i++) {
-		// 		tiles[i].classList.remove('selected');
-		// 	}
-		// 	el.classList.add('selected');
-		// 	var selectedProduct = document.getElementsByClassName("selected");
-		// 	var details = selectedProduct.getElementsByTagName("p")[0].getAttribute('data-value');
-		// 	this.props.history.push({ pathname: '/createorder', state: details });
-		// }
+		
 	};
 
-	// createOrder(e) {
-
-	// 	var selectedProduct = document.getElementsByClassName("selected");
-	// 	var details = selectedProduct[0].getAttribute('data-name')
-	// 	this.props.history.push({pathname:'/createorder',state:details});
-	//  };
-
-	gotoOrderPlace = () => {
-		var Order = this.state.completedtable;
-		console.log(Order)
+		gotoOrderPlace = () => {
+		var Order = this.state.completedtable;		
 		this.props.history.push("/orderdetails");
 	}
 
-	// gotoOrderAcc= () => {		
-	// 	this.props.history.push("/OrderAccepted");
-	// }		 
 
 	gotoOrderReceived = () => {
-		var Order = this.state.completedtable;
-		console.log(Order)
+		var Order = this.state.completedtable;		
 		this.props.history.push("/OrderRec");
 	}
 	
@@ -286,14 +275,11 @@ class Landingpage extends React.Component {
     
     filteredQldbData() {
     console.log('to filter')
-		return this.state.filteredQldbData.map((item, index)=>{
-			// this.modelname=JSON.parse(item);
-			// console.log("------> "+this.modelname.Model_Name)
-			
+	return this.state.filteredQldbData.map((item, index)=>{			
 	console.log('render card=======>',item)
 	
-			return (<div className="col-lg-4 col-md-4" onClick={this.selectProductTile.bind(this)}>
-						<div className="device-card">
+			return (<div className="col-lg-4 col-md-4"  onClick={this.selectProductTile.bind(this)}>
+						<div className="device-card" >
 							<img src={((index % 3) === 0)? router3: ((index % 2 === 0 ) ? router2 : router)} width="100" height="100" alt="s1" className="s1" />
 							{/* <p className="title">{item.Model_No}</p>
 							<p className="sub-title"><label>Category :</label> {item.Product_Type}</p>
@@ -307,15 +293,33 @@ class Landingpage extends React.Component {
 					)
 				})}
         </div>
-			</div>)
+			</div> )
 		})
 
 	}
 
-	
+	RecAct(){		
+		return this.state.RecAct.map((item,index) => {		
+		console.log( item)
+		
+		return(		<div className="recent-activities float-right col-lg-3 col-mt-3">
+						{/* <div className="col-lg-12 col-mt-12 col-mt-5"> */}
+						{/* </div> */}
+						
+						<h3 className="section-header float-center col-lg-12 col-mt-5s ">Recent Activities</h3>
+						<div className="activity-card  float-center col-lg-12 col-mt-12 col-mt-5 ">							
+						<p className="act-head"> Order Initiated</p>				
+						<p className="act-content"> Order placed for {item.Product} on {item.CreatedAt} </p>
+			
+				
+						</div>
+					</div>
+		)	
+			})
+		}
 
 	render() {
-		const { isLoading, ordPlaced, ordRec, recAct, filteredQldbData } = this.state;
+		const { isLoading, ordPlaced, ordRec, filteredQldbData, RecAct } = this.state;
 		
 		return (
 			<div className="wrapper">
@@ -382,23 +386,24 @@ class Landingpage extends React.Component {
 								</div>
 							</div>
 						</div>
-						
+
+
+						{/* {recAct.map(row =>{
 						<div className="col-lg-3 col-mt-3 recent-activities">
-							{/* <div className="col-lg-12 col-mt-12 col-mt-5 pull-right"> */}
+							<div className="col-lg-12 col-mt-12 col-mt-5 pull-right">
 								<h3 className="section-header float-center col-lg-12 col-mt-5s ">Recent Activities</h3>
-							{/* </div> */}
+							</div>
 							
 							<div className="activity-card  float-center col-lg-12 col-mt-12 col-mt-5 ">
 							
-								<p className="act-head"> Order Initiated</p>
-								<p className="act-content"> Order placed for &nbsp;
-          {console.log(recAct.Product)} &nbsp;
-								  on &nbsp;
-		  {console.log(recAct.CreatedAt)} </p>
-		
+				<p className="act-head"> Order Initiated</p>
+				
+<p className="act-content"> Order placed for &nbsp; {row.Product} &nbsp; on &nbsp; {row.CreatedAt} </p>
+				
 							</div>
 							
 						</div>
+	 })} */}
 						
 						{/* <div>
       {
@@ -413,6 +418,7 @@ class Landingpage extends React.Component {
     </div> */}
 
 						{this.state.filteredQldbData && this.filteredQldbData()}
+						{this.state.RecAct && this.RecAct()}
 
 					</div>
 				</section>
