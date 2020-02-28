@@ -34,7 +34,7 @@ var Batchid;
 let isSelected;
 var cbResults="";
 var button1,button2,button3,button4;
-
+// const style1= tables:hover{backgroundColor:'white'}
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
@@ -686,36 +686,37 @@ const rejectOrder = (e,orderid) => {
             type="text"
             value={`${placeholder}`}
             onMouseDown={OrderDelivered}
-            // onKeyPressCapture={OrderDelivered}
             placeholder={`${placeholder}`}         
             endAdornment={
-              <InputAdornment position="center">
+              <InputAdornment>
                 <IconButton
                   aria-label="Select Filter"
                   onClick={handleFilterClicks}>
                   <FilterListIcon isOpen={togglings} toggle={toggle} />
                 </IconButton>
               </InputAdornment>
-            }
-          />
-        </FormControl>
+             }
+           /> 
+        
         <Menu
+          id='orderstatus'
+          type="text"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
-          onClose={handleClose}>
-          {filterOptions.map(option => (
-            <MenuItem onClick={() => handleClose(option)}>
-            <table>
-             <tr style={{ align:'center' }}>
-                <td style={{ width: "66px", align:'center' }} />      
-                  <td>    
-                    {option}
-                  </td>     
-              </tr>
+          >        
+             <MenuItem style={{padding:'0px'}}>
+            <table className="tables" style={{padding:'0px'}} >
+            {filterOptions.map(option => (   
+             <tr style={{ align:'center',backgroundColor:'white',padding:'0px'}}> 
+              <td onClick={() => handleClose(option)} 
+                onMouseOver={function(event) { let target = event.target; target.style.color = 'blue';target.style.cursor='pointer'; }}
+                onMouseOut= {function(event) { let target = event.target; target.style.color = 'black';}}> {option} </td>  
+             </tr>
+             ))} 
             </table>
-            </MenuItem>
-          ))}
-        </Menu>        
+            </MenuItem>          
+        </Menu> 
+        </FormControl>       
       </div>
           <Table
             className={classes.table}
@@ -795,5 +796,6 @@ const rejectOrder = (e,orderid) => {
       </div>
   );
 }
+
 
 export default withRouter(EnhancedTable)
